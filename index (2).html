@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S&M Financing and Pawn Limited</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --gold:#C9A84C;--gold-light:#F0D080;--gold-dark:#8B6914;
+    --navy:#0D1B2A;--navy-mid:#1A2E45;--navy-light:#243B55;
+    --white:#FFFFFF;--off:#F7F5F0;--muted:#6B7280;--border:#D1C9B8;
+    --red:#DC2626;--green:#16A34A;--amber:#D97706;
+    --radius:10px;--shadow:0 2px 12px rgba(0,0,0,0.10);
+  }
+  body{font-family:'Segoe UI',sans-serif;background:var(--off);color:var(--navy);min-height:100vh}
+  .nav{background:var(--navy);padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100}
+  .nav-logo{display:flex;align-items:center;gap:10px}
+  .logo-ring{width:36px;height:36px;border-radius:50%;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--gold);font-size:13px}
+  .nav-title{color:var(--white);font-size:14px;font-weight:600;line-height:1.2}
+  .nav-title span{color:var(--gold);display:block;font-size:11px;font-weight:400}
+  .nav-tabs{display:flex;gap:4px}
+  .nav-tab{background:none;border:none;color:rgba(255,255,255,0.6);padding:8px 14px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:500;transition:.2s}
+  .nav-tab.active,.nav-tab:hover{background:rgba(201,168,76,0.15);color:var(--gold)}
+  .page{display:none;padding:24px 16px;max-width:720px;margin:0 auto}
+  .page.active{display:block}
+  .card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:20px;border:1px solid var(--border)}
+  .card-header{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid var(--gold)}
+  .card-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+  .card-title{font-size:16px;font-weight:700;color:var(--navy)}
+  .card-sub{font-size:12px;color:var(--muted);margin-top:2px}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .field{display:flex;flex-direction:column;gap:5px}
+  .field.span2{grid-column:span 2}
+  label{font-size:12px;font-weight:600;color:var(--navy-light);text-transform:uppercase;letter-spacing:.4px}
+  input,select,textarea{border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-size:14px;color:var(--navy);background:var(--white);transition:.2s;width:100%;font-family:inherit}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,0.12)}
+  textarea{resize:vertical;min-height:70px}
+  .radio-group{display:flex;gap:10px;flex-wrap:wrap}
+  .radio-opt{display:flex;align-items:center;gap:6px;padding:8px 14px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:13px;transition:.2s}
+  .radio-opt:hover{border-color:var(--gold)}
+  .radio-opt input[type=radio]{width:auto;accent-color:var(--gold)}
+  .radio-opt.selected{border-color:var(--gold);background:rgba(201,168,76,0.08)}
+  .loan-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px;margin-top:6px}
+  .loan-chip{border:1.5px solid var(--border);border-radius:8px;padding:10px 6px;text-align:center;cursor:pointer;font-size:12px;font-weight:600;color:var(--navy);transition:.2s;background:var(--white)}
+  .loan-chip:hover{border-color:var(--gold);color:var(--gold-dark)}
+  .loan-chip.selected{border-color:var(--gold);background:var(--navy);color:var(--gold)}
+  .upload-zone{border:2px dashed var(--border);border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:.2s;background:var(--off)}
+  .upload-zone:hover{border-color:var(--gold);background:rgba(201,168,76,0.05)}
+  .upload-zone.has-file{border-color:var(--green);background:rgba(22,163,74,0.05)}
+  .upload-icon{font-size:28px;margin-bottom:6px}
+  .upload-label{font-size:13px;font-weight:600;color:var(--navy)}
+  .upload-sub{font-size:11px;color:var(--muted);margin-top:3px}
+  .upload-file-name{font-size:12px;color:var(--green);font-weight:600;margin-top:6px}
+  .terms-box{background:var(--off);border:1px solid var(--border);border-radius:8px;padding:16px;font-size:12px;color:var(--navy);line-height:1.8;max-height:200px;overflow-y:auto}
+  .terms-box ol{padding-left:18px}
+  .terms-box li{margin-bottom:6px}
+  .terms-accept{display:flex;align-items:flex-start;gap:10px;margin-top:14px;padding:12px;background:rgba(201,168,76,0.07);border-radius:8px;border:1px solid rgba(201,168,76,0.2)}
+  .terms-accept input[type=checkbox]{width:16px;height:16px;margin-top:2px;accent-color:var(--gold);flex-shrink:0}
+  .terms-accept label{font-size:13px;text-transform:none;letter-spacing:0;font-weight:500;cursor:pointer}
+  .btn{padding:12px 24px;border-radius:8px;border:none;cursor:pointer;font-size:14px;font-weight:600;transition:.2s;display:inline-flex;align-items:center;gap:6px}
+  .btn-primary{background:var(--gold);color:var(--navy)}
+  .btn-primary:hover{background:var(--gold-dark);color:var(--white)}
+  .btn-primary:disabled{background:var(--border);color:var(--muted);cursor:not-allowed}
+  .btn-outline{background:none;border:1.5px solid var(--border);color:var(--navy)}
+  .btn-outline:hover{border-color:var(--gold);color:var(--gold-dark)}
+  .btn-danger{background:var(--red);color:var(--white)}
+  .btn-success{background:var(--green);color:var(--white)}
+  .btn-sm{padding:6px 12px;font-size:12px}
+  .btn-row{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:20px}
+  .loan-summary{background:var(--navy);color:var(--white);border-radius:10px;padding:18px;margin:16px 0}
+  .loan-summary-title{color:var(--gold);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px}
+  .loan-summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .loan-sum-item label{color:rgba(255,255,255,0.5);font-size:11px;text-transform:uppercase;letter-spacing:.3px}
+  .loan-sum-item .val{color:var(--white);font-size:15px;font-weight:700;margin-top:2px}
+  .loan-sum-item .val.gold{color:var(--gold)}
+  .stats-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;margin-bottom:20px}
+  .stat-card{background:var(--white);border-radius:var(--radius);padding:16px;border:1px solid var(--border);text-align:center}
+  .stat-num{font-size:26px;font-weight:800;color:var(--navy)}
+  .stat-num.gold{color:var(--gold-dark)}
+  .stat-num.green{color:var(--green)}
+  .stat-num.red{color:var(--red)}
+  .stat-num.amber{color:var(--amber)}
+  .stat-label{font-size:11px;color:var(--muted);margin-top:4px;font-weight:500}
+  .table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  thead{background:var(--navy)}
+  thead th{color:var(--gold);padding:12px 14px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+  tbody tr{border-bottom:1px solid var(--border);transition:.15s}
+  tbody tr:hover{background:rgba(201,168,76,0.04)}
+  tbody td{padding:12px 14px;vertical-align:middle}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+  .badge-pending{background:#FEF3C7;color:#92400E}
+  .badge-approved{background:#DBEAFE;color:#1E40AF}
+  .badge-paid{background:#D1FAE5;color:#065F46}
+  .badge-overdue{background:#FEE2E2;color:#991B1B}
+  .badge-rejected{background:#F3F4F6;color:#374151}
+  .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center;padding:16px}
+  .modal-bg.open{display:flex}
+  .modal{background:var(--white);border-radius:14px;width:100%;max-width:560px;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.25)}
+  .modal-head{background:var(--navy);padding:18px 20px;border-radius:14px 14px 0 0;display:flex;align-items:center;justify-content:space-between}
+  .modal-head h3{color:var(--gold);font-size:15px}
+  .modal-close{background:none;border:none;color:rgba(255,255,255,0.6);font-size:20px;cursor:pointer}
+  .modal-body{padding:20px}
+  .success-screen{text-align:center;padding:40px 20px}
+  .success-icon{font-size:56px;margin-bottom:16px}
+  .success-title{font-size:20px;font-weight:800;color:var(--navy);margin-bottom:8px}
+  .success-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:400px;margin:0 auto 24px}
+  .steps{display:flex;align-items:center;gap:0;margin-bottom:24px;overflow-x:auto;padding-bottom:4px}
+  .step{display:flex;align-items:center;gap:6px;flex-shrink:0}
+  .step-num{width:28px;height:28px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--muted);background:var(--white);transition:.3s}
+  .step-num.done{background:var(--navy);border-color:var(--navy);color:var(--gold)}
+  .step-num.active{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+  .step-name{font-size:11px;color:var(--muted);font-weight:500;white-space:nowrap}
+  .step-name.active{color:var(--navy);font-weight:700}
+  .step-line{width:20px;height:2px;background:var(--border);flex-shrink:0}
+  .step-line.done{background:var(--navy)}
+  .section-step{display:none}
+  .section-step.active{display:block}
+  .search-bar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+  .search-bar input{flex:1;min-width:180px}
+  .filter-tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+  .filter-tab{padding:6px 14px;border-radius:20px;border:1.5px solid var(--border);background:var(--white);font-size:12px;font-weight:600;cursor:pointer;transition:.2s;color:var(--muted)}
+  .filter-tab.active{background:var(--navy);border-color:var(--navy);color:var(--gold)}
+  .info-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--off);font-size:13px}
+  .info-row:last-child{border-bottom:none}
+  .info-row .ik{color:var(--muted);font-weight:500}
+  .info-row .iv{font-weight:600;color:var(--navy);text-align:right;max-width:60%}
+  .alert{padding:12px 16px;border-radius:8px;font-size:13px;font-weight:500;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .alert-warn{background:#FEF3C7;color:#92400E;border:1px solid #FDE68A}
+  .alert-danger{background:#FEE2E2;color:#991B1B;border:1px solid #FECACA}
+  .alert-success{background:#D1FAE5;color:#065F46;border:1px solid #A7F3D0}
+  .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .loading-overlay{position:fixed;inset:0;background:rgba(255,255,255,0.85);z-index:300;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;font-size:15px;font-weight:600;color:var(--navy)}
+  .loading-overlay .big-spin{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
+  @media(max-width:520px){
+    .form-grid{grid-template-columns:1fr}
+    .field.span2{grid-column:span 1}
+    .loan-summary-grid{grid-template-columns:1fr}
+    .stats-row{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="loading-overlay" id="loading-overlay" style="display:none">
+  <div class="big-spin"></div>
+  <div id="loading-msg">Loading...</div>
+</div>
+
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="logo-ring">S&M</div>
+    <div class="nav-title">S&M Financing <span>& Pawn Limited</span></div>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('apply',this)">Apply</button>
+    <button class="nav-tab" onclick="showPage('admin',this)">Admin</button>
+  </div>
+</nav>
+
+<!-- APPLY PAGE -->
+<div id="page-apply" class="page active">
+  <div id="apply-form-wrap">
+    <div class="steps">
+      <div class="step"><div class="step-num active" id="sn1">1</div><div class="step-name active" id="sl1">Personal</div></div>
+      <div class="step-line" id="sl12"></div>
+      <div class="step"><div class="step-num" id="sn2">2</div><div class="step-name" id="sl2">Loan</div></div>
+      <div class="step-line" id="sl23"></div>
+      <div class="step"><div class="step-num" id="sn3">3</div><div class="step-name" id="sl3">References</div></div>
+      <div class="step-line" id="sl34"></div>
+      <div class="step"><div class="step-num" id="sn4">4</div><div class="step-name" id="sl4">Documents</div></div>
+      <div class="step-line" id="sl45"></div>
+      <div class="step"><div class="step-num" id="sn5">5</div><div class="step-name" id="sl5">Review</div></div>
+    </div>
+
+    <div class="section-step active" id="step1">
+      <div class="card">
+        <div class="card-header"><div class="card-icon">👤</div><div><div class="card-title">Personal Information</div><div class="card-sub">Section A</div></div></div>
+        <div class="form-grid">
+          <div class="field span2"><label>Full Name *</label><input type="text" id="f_name" placeholder="e.g. Marcia Brown"></div>
+          <div class="field"><label>Date of Birth *</label><input type="date" id="f_dob"></div>
+          <div class="field"><label>TRN *</label><input type="text" id="f_trn" placeholder="123-456-789"></div>
+          <div class="field"><label>ID Type *</label><select id="f_idtype"><option value="">Select type</option><option>National ID</option><option>Driver's Licence</option><option>Passport</option></select></div>
+          <div class="field"><label>ID Number *</label><input type="text" id="f_idnum"></div>
+          <div class="field span2"><label>Address *</label><input type="text" id="f_address" placeholder="Street, Community, Parish"></div>
+          <div class="field"><label>Phone Number *</label><input type="tel" id="f_phone" placeholder="876-XXX-XXXX"></div>
+          <div class="field"><label>Email Address</label><input type="email" id="f_email" placeholder="optional"></div>
+          <div class="field span2"><label>Employment Status *</label>
+            <div class="radio-group">
+              <label class="radio-opt" onclick="selRadio(this)"><input type="radio" name="empstatus" value="Employed"> Employed</label>
+              <label class="radio-opt" onclick="selRadio(this)"><input type="radio" name="empstatus" value="Self-Employed"> Self-Employed</label>
+              <label class="radio-opt" onclick="selRadio(this)"><input type="radio" name="empstatus" value="Unemployed"> Unemployed</label>
+            </div>
+          </div>
+          <div class="field"><label>Employer / Organization</label><input type="text" id="f_employer" placeholder="if applicable"></div>
+          <div class="field"><label>Job Title</label><input type="text" id="f_jobtitle" placeholder="if applicable"></div>
+          <div class="field span2"><label>Monthly Income (J$)</label><input type="number" id="f_income" placeholder="e.g. 80000"></div>
+        </div>
+        <div class="btn-row"><button class="btn btn-primary" onclick="goStep(2)">Next: Loan Details →</button></div>
+      </div>
+    </div>
+
+    <div class="section-step" id="step2">
+      <div class="card">
+        <div class="card-header"><div class="card-icon">💰</div><div><div class="card-title">Loan Details</div><div class="card-sub">Section B</div></div></div>
+        <div class="field" style="margin-bottom:16px">
+          <label>Select Loan Amount (J$) *</label>
+          <div class="loan-grid" id="loan-chips"></div>
+        </div>
+        <div id="two-month-wrap" style="display:none;margin-bottom:14px">
+          <div class="alert alert-warn">⚠️ J$100,000 can be repaid next payday (30%) or over 2 months (35%).</div>
+          <div class="radio-group">
+            <label class="radio-opt" onclick="selRadio(this);calcLoan()"><input type="radio" name="term100k" value="payday"> Next payday — 30%</label>
+            <label class="radio-opt" onclick="selRadio(this);calcLoan()"><input type="radio" name="term100k" value="2month"> 2 months — 35%</label>
+          </div>
+        </div>
+        <div class="field" style="margin-bottom:14px"><label>Purpose of Loan *</label><input type="text" id="f_purpose" placeholder="e.g. Medical expenses, School fees"></div>
+        <div class="field" style="margin-bottom:14px">
+          <label>Repayment Frequency *</label>
+          <div class="radio-group">
+            <label class="radio-opt" onclick="selRadio(this)"><input type="radio" name="repfreq" value="Weekly"> Weekly</label>
+            <label class="radio-opt" onclick="selRadio(this)"><input type="radio" name="repfreq" value="Biweekly"> Biweekly</label>
+            <label class="radio-opt" onclick="selRadio(this)"><input type="radio" name="repfreq" value="Monthly"> Monthly</label>
+          </div>
+        </div>
+        <div id="loan-summary-wrap" style="display:none">
+          <div class="loan-summary">
+            <div class="loan-summary-title">📋 Loan Summary</div>
+            <div class="loan-summary-grid">
+              <div class="loan-sum-item"><label>Loan Amount</label><div class="val gold" id="sum-amount">—</div></div>
+              <div class="loan-sum-item"><label>Interest Rate</label><div class="val" id="sum-rate">—</div></div>
+              <div class="loan-sum-item"><label>Interest (J$)</label><div class="val" id="sum-interest">—</div></div>
+              <div class="loan-sum-item"><label>Total Repayment</label><div class="val gold" id="sum-total">—</div></div>
+              <div class="loan-sum-item"><label>Loan Term</label><div class="val" id="sum-term">—</div></div>
+              <div class="loan-sum-item"><label>Issued Date</label><div class="val" id="sum-issued">—</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-outline" onclick="goStep(1)">← Back</button>
+          <button class="btn btn-primary" onclick="goStep(3)">Next: References →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-step" id="step3">
+      <div class="card">
+        <div class="card-header"><div class="card-icon">👥</div><div><div class="card-title">References</div><div class="card-sub">Section C — Two required</div></div></div>
+        <div style="margin-bottom:18px">
+          <div style="font-size:12px;font-weight:700;color:var(--gold-dark);text-transform:uppercase;margin-bottom:10px">Reference 1</div>
+          <div class="form-grid">
+            <div class="field"><label>Full Name *</label><input type="text" id="r1name"></div>
+            <div class="field"><label>Relationship *</label><input type="text" id="r1rel" placeholder="e.g. Sister, Friend"></div>
+            <div class="field span2"><label>Phone *</label><input type="tel" id="r1phone" placeholder="876-XXX-XXXX"></div>
+          </div>
+        </div>
+        <div style="margin-bottom:18px">
+          <div style="font-size:12px;font-weight:700;color:var(--gold-dark);text-transform:uppercase;margin-bottom:10px">Reference 2</div>
+          <div class="form-grid">
+            <div class="field"><label>Full Name *</label><input type="text" id="r2name"></div>
+            <div class="field"><label>Relationship *</label><input type="text" id="r2rel" placeholder="e.g. Neighbour, Employer"></div>
+            <div class="field span2"><label>Phone *</label><input type="tel" id="r2phone" placeholder="876-XXX-XXXX"></div>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:18px">
+          <div style="font-size:12px;font-weight:700;color:var(--gold-dark);text-transform:uppercase;margin-bottom:10px">Collateral (Optional) — Section D</div>
+          <div class="form-grid">
+            <div class="field span2"><label>Collateral Offered</label><input type="text" id="col_item" placeholder="e.g. Gold chain, Electronics"></div>
+            <div class="field"><label>Estimated Value (J$)</label><input type="number" id="col_val"></div>
+            <div class="field"><label>Description</label><input type="text" id="col_desc"></div>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-outline" onclick="goStep(2)">← Back</button>
+          <button class="btn btn-primary" onclick="goStep(4)">Next: Documents →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-step" id="step4">
+      <div class="card">
+        <div class="card-header"><div class="card-icon">📎</div><div><div class="card-title">Document Uploads</div><div class="card-sub">All three required</div></div></div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px">1. Payslip <span style="color:var(--red)">*</span></div>
+            <div class="upload-zone" id="uz-payslip" onclick="document.getElementById('up-payslip').click()">
+              <div class="upload-icon">🧾</div><div class="upload-label">Upload your most recent payslip</div>
+              <div class="upload-sub">JPG, PNG or PDF — max 5MB</div><div class="upload-file-name" id="fn-payslip"></div>
+            </div>
+            <input type="file" id="up-payslip" accept=".jpg,.jpeg,.png,.pdf" style="display:none" onchange="handleUpload(this,'uz-payslip','fn-payslip')">
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px">2. Work ID <span style="color:var(--red)">*</span></div>
+            <div class="upload-zone" id="uz-workid" onclick="document.getElementById('up-workid').click()">
+              <div class="upload-icon">🪪</div><div class="upload-label">Upload your work ID</div>
+              <div class="upload-sub">JPG, PNG or PDF — max 5MB</div><div class="upload-file-name" id="fn-workid"></div>
+            </div>
+            <input type="file" id="up-workid" accept=".jpg,.jpeg,.png,.pdf" style="display:none" onchange="handleUpload(this,'uz-workid','fn-workid')">
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px">3. Government-issued ID <span style="color:var(--red)">*</span> <span style="font-weight:400;color:var(--muted)">(National ID, Driver's Licence or Passport)</span></div>
+            <div class="upload-zone" id="uz-govid" onclick="document.getElementById('up-govid').click()">
+              <div class="upload-icon">📄</div><div class="upload-label">Upload your ID document</div>
+              <div class="upload-sub">JPG, PNG or PDF — max 5MB</div><div class="upload-file-name" id="fn-govid"></div>
+            </div>
+            <input type="file" id="up-govid" accept=".jpg,.jpeg,.png,.pdf" style="display:none" onchange="handleUpload(this,'uz-govid','fn-govid')">
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-outline" onclick="goStep(3)">← Back</button>
+          <button class="btn btn-primary" onclick="goStep(5)">Next: Review & Sign →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-step" id="step5">
+      <div class="card">
+        <div class="card-header"><div class="card-icon">✍️</div><div><div class="card-title">Review & Declaration</div><div class="card-sub">Section E & F</div></div></div>
+        <div id="review-summary" style="margin-bottom:20px"></div>
+        <div style="margin-bottom:16px">
+          <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:8px">Terms & Conditions</div>
+          <div class="terms-box"><ol>
+            <li>The borrower agrees to repay the loan according to the agreed schedule.</li>
+            <li>Late payments will attract a daily fee of <strong>J$500</strong>.</li>
+            <li>If repayment is overdue by more than 10 days, an additional <strong>30% interest</strong> will be charged on the last outstanding amount.</li>
+            <li>Interest will be applied on the outstanding balance as per the rate indicated above.</li>
+            <li>In case of default, collateral (if provided) may be seized and liquidated to recover outstanding amounts.</li>
+            <li>Borrower agrees to allow credit checks and verification of submitted information.</li>
+            <li>All information provided is true and accurate to the best of the borrower's knowledge.</li>
+            <li>The borrower is solely responsible for ensuring that all banking information provided is accurate. S&M Financing and Pawn Limited will not be held liable for any errors arising from incorrect banking details submitted by the borrower. The loan remains repayable regardless of such errors.</li>
+            <li>S&M Financing and Pawn Limited will not be liable for any personal banking issues experienced by the borrower, including but not limited to holds, freezes, or restrictions on their account.</li>
+          </ol></div>
+          <div class="terms-accept">
+            <input type="checkbox" id="terms-check">
+            <label for="terms-check">I, <strong id="decl-name">the applicant</strong>, confirm that all information provided is true and complete. I understand and accept the terms and conditions associated with this loan.</label>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-outline" onclick="goStep(4)">← Back</button>
+          <button class="btn btn-primary" id="submit-btn" onclick="submitApplication()">✅ Submit Application</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="apply-success" style="display:none">
+    <div class="card"><div class="success-screen">
+      <div class="success-icon">🎉</div>
+      <div class="success-title">Application Submitted!</div>
+      <div class="success-sub">Your application has been received. S&M Financing and Pawn Limited will review it and contact you shortly.</div>
+      <div id="success-ref" style="background:var(--navy);color:var(--gold);padding:12px 24px;border-radius:8px;font-weight:700;font-size:16px;display:inline-block;margin-bottom:20px"></div>
+      <br><button class="btn btn-outline" onclick="resetForm()">Submit Another Application</button>
+    </div></div>
+  </div>
+</div>
+
+<!-- ADMIN PAGE -->
+<div id="page-admin" class="page">
+  <div id="admin-login">
+    <div class="card" style="max-width:360px;margin:40px auto">
+      <div class="card-header"><div class="card-icon">🔐</div><div><div class="card-title">Admin Login</div><div class="card-sub">Staff only</div></div></div>
+      <div class="field" style="margin-bottom:14px"><label>Password</label><input type="password" id="admin-pw" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')adminLogin()"></div>
+      <div id="login-err" class="alert alert-danger" style="display:none">❌ Incorrect password</div>
+      <button class="btn btn-primary" style="width:100%" onclick="adminLogin()">Login →</button>
+    </div>
+  </div>
+  <div id="admin-dash" style="display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+      <div style="font-size:18px;font-weight:800;color:var(--navy)">Dashboard</div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-outline btn-sm" onclick="loadDashboard()">🔄 Refresh</button>
+        <button class="btn btn-outline btn-sm" onclick="adminLogout()">Logout</button>
+      </div>
+    </div>
+    <div class="stats-row" id="stats-row"></div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon">📋</div><div><div class="card-title">All Applications</div><div class="card-sub">Click any row to manage</div></div></div>
+      <div class="search-bar"><input type="text" id="search-input" placeholder="Search by name, phone, reference…" oninput="filterTable()"></div>
+      <div class="filter-tabs">
+        <button class="filter-tab active" onclick="setFilter('all',this)">All</button>
+        <button class="filter-tab" onclick="setFilter('pending',this)">Pending</button>
+        <button class="filter-tab" onclick="setFilter('approved',this)">Approved</button>
+        <button class="filter-tab" onclick="setFilter('paid',this)">Paid</button>
+        <button class="filter-tab" onclick="setFilter('overdue',this)">Overdue</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Ref #</th><th>Name</th><th>Amount</th><th>Total Due</th><th>Due Date</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody id="apps-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="client-modal">
+  <div class="modal">
+    <div class="modal-head"><h3 id="modal-client-name">Client Details</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+const SURL='https://sboxupqcpswdzclnxdbm.supabase.co/rest/v1/';
+const SKEY='sb_publishable_36wGVZZD3B1A0aJckfnduw_Kg4HuObp';
+const ADMIN_PASSWORD='admin123';
+
+const LOAN_AMOUNTS=[10000,15000,20000,25000,30000,35000,40000,45000,50000,55000,60000,65000,70000,75000,80000,85000,90000,95000,100000,110000,150000,200000];
+let selectedAmount=0,selectedTerm='payday',currentStep=1,currentFilter='all';
+let allApplications=[],filteredApplications=[];
+
+async function db(path,method='GET',body=null){
+  const opts={method,headers:{'apikey':SKEY,'Authorization':'Bearer '+SKEY,'Content-Type':'application/json','Prefer':method==='POST'?'return=representation':''}};
+  if(body) opts.body=JSON.stringify(body);
+  const res=await fetch(SURL+path,opts);
+  if(!res.ok) throw new Error(await res.text());
+  if(method==='DELETE') return null;
+  const txt=await res.text();
+  return txt?JSON.parse(txt):null;
+}
+
+function buildChips(){
+  const g=document.getElementById('loan-chips');
+  LOAN_AMOUNTS.forEach(a=>{
+    const d=document.createElement('div');
+    d.className='loan-chip';d.textContent=fmtJ(a);
+    d.onclick=()=>selectAmount(a,d);g.appendChild(d);
+  });
+}
+buildChips();
+
+function selectAmount(amt,el){
+  document.querySelectorAll('.loan-chip').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');selectedAmount=amt;
+  document.getElementById('two-month-wrap').style.display=amt===100000?'block':'none';
+  selectedTerm=amt>=150000?'2month':'payday';
+  calcLoan();
+}
+
+function calcLoan(){
+  if(!selectedAmount){document.getElementById('loan-summary-wrap').style.display='none';return;}
+  const t=document.querySelector('input[name="term100k"]:checked');
+  if(selectedAmount===100000&&t) selectedTerm=t.value;
+  const rate=(selectedAmount>=150000||(selectedAmount===100000&&selectedTerm==='2month'))?35:30;
+  const interest=Math.round(selectedAmount*rate/100);
+  const total=selectedAmount+interest;
+  document.getElementById('sum-amount').textContent=fmtJ(selectedAmount);
+  document.getElementById('sum-rate').textContent=rate+'%';
+  document.getElementById('sum-interest').textContent=fmtJ(interest);
+  document.getElementById('sum-total').textContent=fmtJ(total);
+  document.getElementById('sum-term').textContent=selectedTerm==='2month'?'2 months':'Next payday';
+  document.getElementById('sum-issued').textContent=new Date().toLocaleDateString('en-JM');
+  document.getElementById('loan-summary-wrap').style.display='block';
+}
+
+function goStep(n){
+  if(n>currentStep&&!validateStep(currentStep)) return;
+  document.getElementById('step'+currentStep).classList.remove('active');
+  currentStep=n;
+  document.getElementById('step'+n).classList.add('active');
+  updateStepUI();if(n===5) buildReview();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updateStepUI(){
+  for(let i=1;i<=5;i++){
+    const num=document.getElementById('sn'+i),lbl=document.getElementById('sl'+i);
+    if(i<currentStep){num.className='step-num done';num.textContent='✓';}
+    else if(i===currentStep){num.className='step-num active';num.textContent=i;lbl.className='step-name active';}
+    else{num.className='step-num';num.textContent=i;lbl.className='step-name';}
+    if(i<5){const l=document.getElementById('sl'+i+(i+1));if(l)l.className='step-line'+(i<currentStep?' done':'');}
+  }
+}
+
+function validateStep(s){
+  if(s===1){
+    for(const[id,lbl]of[['f_name','Full Name'],['f_dob','Date of Birth'],['f_trn','TRN'],['f_idtype','ID Type'],['f_idnum','ID Number'],['f_address','Address'],['f_phone','Phone']]){
+      if(!document.getElementById(id).value.trim()){alert(lbl+' is required.');document.getElementById(id).focus();return false;}
+    }
+    if(!document.querySelector('input[name="empstatus"]:checked')){alert('Please select employment status.');return false;}
+  }
+  if(s===2){
+    if(!selectedAmount){alert('Please select a loan amount.');return false;}
+    if(selectedAmount===100000&&!document.querySelector('input[name="term100k"]:checked')){alert('Please select your repayment term for J$100,000.');return false;}
+    if(!document.getElementById('f_purpose').value.trim()){alert('Please enter the purpose of the loan.');return false;}
+    if(!document.querySelector('input[name="repfreq"]:checked')){alert('Please select repayment frequency.');return false;}
+  }
+  if(s===3){
+    for(const[id,lbl]of[['r1name','Ref 1 Name'],['r1rel','Ref 1 Relationship'],['r1phone','Ref 1 Phone'],['r2name','Ref 2 Name'],['r2rel','Ref 2 Relationship'],['r2phone','Ref 2 Phone']]){
+      if(!document.getElementById(id).value.trim()){alert(lbl+' is required.');document.getElementById(id).focus();return false;}
+    }
+  }
+  if(s===4){
+    if(!document.getElementById('up-payslip').files[0]){alert('Please upload your payslip.');return false;}
+    if(!document.getElementById('up-workid').files[0]){alert('Please upload your work ID.');return false;}
+    if(!document.getElementById('up-govid').files[0]){alert('Please upload your government ID.');return false;}
+  }
+  return true;
+}
+
+function buildReview(){
+  const rate=(selectedAmount>=150000||(selectedAmount===100000&&selectedTerm==='2month'))?35:30;
+  const interest=Math.round(selectedAmount*rate/100),total=selectedAmount+interest;
+  const name=document.getElementById('f_name').value;
+  document.getElementById('decl-name').textContent=name||'the applicant';
+  document.getElementById('review-summary').innerHTML=`
+    <div style="background:var(--off);border-radius:10px;padding:16px;margin-bottom:16px">
+      <div style="font-size:12px;font-weight:700;color:var(--gold-dark);text-transform:uppercase;margin-bottom:10px">Application Summary</div>
+      <div class="info-row"><span class="ik">Name</span><span class="iv">${name}</span></div>
+      <div class="info-row"><span class="ik">Phone</span><span class="iv">${document.getElementById('f_phone').value}</span></div>
+      <div class="info-row"><span class="ik">Loan Amount</span><span class="iv">${fmtJ(selectedAmount)}</span></div>
+      <div class="info-row"><span class="ik">Interest (${rate}%)</span><span class="iv">${fmtJ(interest)}</span></div>
+      <div class="info-row"><span class="ik">Total Repayment</span><span class="iv" style="color:var(--gold-dark);font-size:15px">${fmtJ(total)}</span></div>
+      <div class="info-row"><span class="ik">Frequency</span><span class="iv">${document.querySelector('input[name="repfreq"]:checked')?.value||'—'}</span></div>
+      <div class="info-row"><span class="ik">Purpose</span><span class="iv">${document.getElementById('f_purpose').value}</span></div>
+    </div>`;
+}
+
+async function submitApplication(){
+  if(!document.getElementById('terms-check').checked){alert('Please accept the terms and conditions.');return;}
+  const btn=document.getElementById('submit-btn');
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Submitting...';
+  showLoading('Saving your application...');
+  try{
+    const rate=(selectedAmount>=150000||(selectedAmount===100000&&selectedTerm==='2month'))?35:30;
+    const interest=Math.round(selectedAmount*rate/100),total=selectedAmount+interest;
+    const today=new Date(),dueDate=new Date(today.getTime()+(selectedTerm==='2month'?60:14)*86400000);
+    const ref='SM'+String(Math.floor(1000+Math.random()*9000));
+    const [applicant]=await db('applicants','POST',{
+      full_name:document.getElementById('f_name').value,date_of_birth:document.getElementById('f_dob').value,
+      trn:document.getElementById('f_trn').value,id_type:document.getElementById('f_idtype').value,
+      id_number:document.getElementById('f_idnum').value,address:document.getElementById('f_address').value,
+      phone:document.getElementById('f_phone').value,email:document.getElementById('f_email').value||null,
+      employment_status:document.querySelector('input[name="empstatus"]:checked')?.value,
+      employer:document.getElementById('f_employer').value||null,job_title:document.getElementById('f_jobtitle').value||null,
+      monthly_income:document.getElementById('f_income').value||null
+    });
+    const [loan]=await db('loans','POST',{
+      applicant_id:applicant.id,reference_number:ref,loan_amount:selectedAmount,
+      interest_rate:rate,interest_amount:interest,total_repayment:total,
+      purpose:document.getElementById('f_purpose').value,
+      repayment_frequency:document.querySelector('input[name="repfreq"]:checked')?.value,
+      loan_term:selectedTerm,issued_date:today.toISOString().split('T')[0],
+      due_date:dueDate.toISOString().split('T')[0],status:'pending'
+    });
+    await db('loan_references','POST',{loan_id:loan.id,ref_number:1,full_name:document.getElementById('r1name').value,relationship:document.getElementById('r1rel').value,phone:document.getElementById('r1phone').value});
+    await db('loan_references','POST',{loan_id:loan.id,ref_number:2,full_name:document.getElementById('r2name').value,relationship:document.getElementById('r2rel').value,phone:document.getElementById('r2phone').value});
+    const colItem=document.getElementById('col_item').value;
+    if(colItem) await db('collateral','POST',{loan_id:loan.id,collateral_offered:colItem,estimated_value:document.getElementById('col_val').value||null,description:document.getElementById('col_desc').value||null});
+    hideLoading();
+    document.getElementById('apply-form-wrap').style.display='none';
+    document.getElementById('apply-success').style.display='block';
+    document.getElementById('success-ref').textContent='Reference: '+ref;
+  }catch(e){
+    hideLoading();btn.disabled=false;btn.innerHTML='✅ Submit Application';
+    alert('Submission failed. Please try again.\n\nError: '+e.message);
+  }
+}
+
+function resetForm(){
+  document.getElementById('apply-form-wrap').style.display='block';
+  document.getElementById('apply-success').style.display='none';
+  currentStep=1;
+  document.querySelectorAll('.section-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('step1').classList.add('active');updateStepUI();
+  document.querySelectorAll('input[type=text],input[type=tel],input[type=email],input[type=number],input[type=date],select,textarea').forEach(el=>el.value='');
+  document.querySelectorAll('input[type=radio],input[type=checkbox]').forEach(el=>el.checked=false);
+  document.querySelectorAll('.radio-opt').forEach(el=>el.classList.remove('selected'));
+  document.querySelectorAll('.loan-chip').forEach(c=>c.classList.remove('selected'));
+  document.querySelectorAll('.upload-zone').forEach(z=>z.classList.remove('has-file'));
+  document.querySelectorAll('.upload-file-name').forEach(f=>f.textContent='');
+  selectedAmount=0;selectedTerm='payday';
+  document.getElementById('loan-summary-wrap').style.display='none';
+  document.getElementById('two-month-wrap').style.display='none';
+  document.getElementById('submit-btn').disabled=false;
+  document.getElementById('submit-btn').innerHTML='✅ Submit Application';
+}
+
+function adminLogin(){
+  if(document.getElementById('admin-pw').value===ADMIN_PASSWORD){
+    document.getElementById('admin-login').style.display='none';
+    document.getElementById('admin-dash').style.display='block';
+    loadDashboard();
+  }else{document.getElementById('login-err').style.display='flex';}
+}
+function adminLogout(){
+  document.getElementById('admin-login').style.display='block';
+  document.getElementById('admin-dash').style.display='none';
+  document.getElementById('admin-pw').value='';
+  document.getElementById('login-err').style.display='none';
+}
+
+async function loadDashboard(){
+  showLoading('Loading applications...');
+  try{
+    const loans=await db('loans?select=*,applicants(*),loan_references(*),collateral(*)&order=created_at.desc');
+    allApplications=loans||[];
+    checkOverdue();renderStats();
+    filteredApplications=[...allApplications];renderTable();
+  }catch(e){alert('Failed to load: '+e.message);}
+  finally{hideLoading();}
+}
+
+function checkOverdue(){
+  const today=new Date();
+  allApplications.forEach(a=>{
+    if(a.status==='approved'){
+      const due=new Date(a.due_date);
+      if(Math.floor((today-due)/86400000)>0) a.status='overdue';
+    }
+  });
+}
+
+function renderStats(){
+  const t=allApplications.length;
+  const pending=allApplications.filter(a=>a.status==='pending').length;
+  const approved=allApplications.filter(a=>a.status==='approved').length;
+  const paid=allApplications.filter(a=>a.status==='paid').length;
+  const overdue=allApplications.filter(a=>a.status==='overdue').length;
+  const outstanding=allApplications.filter(a=>!['paid','rejected'].includes(a.status)).reduce((s,a)=>s+Number(a.total_repayment),0);
+  document.getElementById('stats-row').innerHTML=`
+    <div class="stat-card"><div class="stat-num gold">${t}</div><div class="stat-label">Total</div></div>
+    <div class="stat-card"><div class="stat-num amber">${pending}</div><div class="stat-label">Pending</div></div>
+    <div class="stat-card"><div class="stat-num">${approved}</div><div class="stat-label">Approved</div></div>
+    <div class="stat-card"><div class="stat-num green">${paid}</div><div class="stat-label">Paid</div></div>
+    <div class="stat-card"><div class="stat-num red">${overdue}</div><div class="stat-label">Overdue</div></div>
+    <div class="stat-card"><div class="stat-num red" style="font-size:14px">${fmtJ(outstanding)}</div><div class="stat-label">Outstanding</div></div>`;
+}
+
+function setFilter(f,el){
+  currentFilter=f;
+  document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');filterTable();
+}
+
+function filterTable(){
+  const q=(document.getElementById('search-input').value||'').toLowerCase();
+  filteredApplications=allApplications.filter(a=>{
+    const name=a.applicants?.full_name||'',phone=a.applicants?.phone||'';
+    const matchFilter=currentFilter==='all'||a.status===currentFilter;
+    const matchSearch=!q||name.toLowerCase().includes(q)||phone.includes(q)||a.reference_number?.toLowerCase().includes(q)||String(a.loan_amount).includes(q);
+    return matchFilter&&matchSearch;
+  });
+  renderTable();
+}
+
+function renderTable(){
+  const tbody=document.getElementById('apps-tbody');
+  if(!filteredApplications.length){tbody.innerHTML=`<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--muted)">No applications found</td></tr>`;return;}
+  tbody.innerHTML=filteredApplications.map(a=>{
+    const name=a.applicants?.full_name||'Unknown',phone=a.applicants?.phone||'—';
+    const today=new Date(),due=new Date(a.due_date);
+    const daysLate=Math.max(0,Math.floor((today-due)/86400000));
+    const lateStr=a.status!=='paid'&&daysLate>0?`<br><span style="font-size:10px;color:var(--red)">${daysLate} day(s) late</span>`:'';
+    return`<tr onclick="openModal('${a.id}')" style="cursor:pointer">
+      <td><strong style="color:var(--gold-dark)">${a.reference_number}</strong></td>
+      <td><strong>${name}</strong><br><span style="font-size:11px;color:var(--muted)">${phone}</span></td>
+      <td>${fmtJ(a.loan_amount)}</td><td>${fmtJ(a.total_repayment)}</td>
+      <td>${a.due_date}${lateStr}</td>
+      <td><span class="badge badge-${a.status}">${a.status}</span></td>
+      <td><button class="btn btn-sm btn-outline" onclick="event.stopPropagation();openModal('${a.id}')">Manage</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function openModal(id){
+  const a=allApplications.find(x=>x.id===id);if(!a) return;
+  const app=a.applicants||{},refs=a.loan_references||[],col=a.collateral?.[0]||null;
+  const today=new Date(),due=new Date(a.due_date);
+  const daysLate=Math.max(0,Math.floor((today-due)/86400000));
+  const lateFee=daysLate*500,penaltyInterest=daysLate>10?Math.round(Number(a.total_repayment)*0.30):0;
+  document.getElementById('modal-client-name').textContent=(app.full_name||'Client')+' — '+a.reference_number;
+  document.getElementById('modal-body').innerHTML=`
+    ${a.status==='overdue'?`<div class="alert alert-danger">⚠️ Overdue by ${daysLate} day(s). Late fee: ${fmtJ(lateFee)}${daysLate>10?'. 30% penalty: '+fmtJ(penaltyInterest):'.'}</div>`:''}
+    ${a.status==='pending'?`<div class="alert alert-warn">⏳ Awaiting your review and approval.</div>`:''}
+    ${a.status==='paid'?`<div class="alert alert-success">✅ This loan has been fully repaid.</div>`:''}
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+      <div style="background:var(--off);border-radius:8px;padding:12px">
+        <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:6px">Loan</div>
+        <div class="info-row"><span class="ik">Amount</span><span class="iv">${fmtJ(a.loan_amount)}</span></div>
+        <div class="info-row"><span class="ik">Interest</span><span class="iv">${a.interest_rate}% = ${fmtJ(a.interest_amount)}</span></div>
+        <div class="info-row"><span class="ik">Total Due</span><span class="iv" style="color:var(--gold-dark)">${fmtJ(a.total_repayment)}</span></div>
+        ${penaltyInterest?`<div class="info-row"><span class="ik">Penalty</span><span class="iv" style="color:var(--red)">+${fmtJ(penaltyInterest)}</span></div>`:''}
+        <div class="info-row"><span class="ik">Frequency</span><span class="iv">${a.repayment_frequency}</span></div>
+        <div class="info-row"><span class="ik">Issued</span><span class="iv">${a.issued_date}</span></div>
+        <div class="info-row"><span class="ik">Due</span><span class="iv">${a.due_date}</span></div>
+        <div class="info-row"><span class="ik">Purpose</span><span class="iv">${a.purpose}</span></div>
+      </div>
+      <div style="background:var(--off);border-radius:8px;padding:12px">
+        <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:6px">Personal</div>
+        <div class="info-row"><span class="ik">Phone</span><span class="iv">${app.phone||'—'}</span></div>
+        <div class="info-row"><span class="ik">TRN</span><span class="iv">${app.trn||'—'}</span></div>
+        <div class="info-row"><span class="ik">ID</span><span class="iv">${app.id_type||''} ${app.id_number||''}</span></div>
+        <div class="info-row"><span class="ik">Address</span><span class="iv">${app.address||'—'}</span></div>
+        <div class="info-row"><span class="ik">Employment</span><span class="iv">${app.employment_status||'—'}</span></div>
+        ${app.employer?`<div class="info-row"><span class="ik">Employer</span><span class="iv">${app.employer}</span></div>`:''}
+        ${app.monthly_income?`<div class="info-row"><span class="ik">Income</span><span class="iv">${fmtJ(app.monthly_income)}</span></div>`:''}
+      </div>
+    </div>
+    ${refs.length?`<div style="background:var(--off);border-radius:8px;padding:12px;margin-bottom:12px">
+      <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:6px">References</div>
+      ${refs.map(r=>`<div class="info-row"><span class="ik">Ref ${r.ref_number}</span><span class="iv">${r.full_name} (${r.relationship}) — ${r.phone}</span></div>`).join('')}
+    </div>`:''}
+    ${col?`<div style="background:var(--off);border-radius:8px;padding:12px;margin-bottom:12px">
+      <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:6px">Collateral</div>
+      <div class="info-row"><span class="ik">Item</span><span class="iv">${col.collateral_offered}</span></div>
+      <div class="info-row"><span class="ik">Value</span><span class="iv">${fmtJ(col.estimated_value)}</span></div>
+      <div class="info-row"><span class="ik">Description</span><span class="iv">${col.description||'—'}</span></div>
+    </div>`:''}
+    <div style="margin-bottom:14px">
+      <label style="font-size:12px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.3px;display:block;margin-bottom:6px">Admin Notes</label>
+      <textarea id="admin-notes" rows="2" style="width:100%">${a.admin_notes||''}</textarea>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px">
+      ${a.status==='pending'?`<button class="btn btn-success btn-sm" onclick="updateStatus('${a.id}','approved')">✅ Approve</button><button class="btn btn-danger btn-sm" onclick="updateStatus('${a.id}','rejected')">❌ Reject</button>`:''}
+      ${['approved','overdue'].includes(a.status)?`<button class="btn btn-success btn-sm" onclick="updateStatus('${a.id}','paid')">💰 Mark as Paid</button><button class="btn btn-danger btn-sm" onclick="updateStatus('${a.id}','overdue')">⚠️ Mark Overdue</button>`:''}
+      <button class="btn btn-outline btn-sm" onclick="saveNotes('${a.id}')">💾 Save Notes</button>
+    </div>`;
+  document.getElementById('client-modal').classList.add('open');
+}
+
+async function updateStatus(id,status){
+  showLoading('Updating...');
+  try{
+    const notes=document.getElementById('admin-notes')?.value||'';
+    const res=await fetch(SURL+'loans?id=eq.'+id,{method:'PATCH',headers:{'apikey':SKEY,'Authorization':'Bearer '+SKEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({status,admin_notes:notes})});
+    if(!res.ok) throw new Error(await res.text());
+    closeModal();await loadDashboard();
+  }catch(e){alert('Update failed: '+e.message);}
+  finally{hideLoading();}
+}
+
+async function saveNotes(id){
+  const notes=document.getElementById('admin-notes')?.value||'';
+  try{
+    const res=await fetch(SURL+'loans?id=eq.'+id,{method:'PATCH',headers:{'apikey':SKEY,'Authorization':'Bearer '+SKEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({admin_notes:notes})});
+    if(!res.ok) throw new Error(await res.text());
+    alert('Notes saved!');
+  }catch(e){alert('Failed: '+e.message);}
+}
+
+function closeModal(){document.getElementById('client-modal').classList.remove('open');}
+function showPage(p,el){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');el.classList.add('active');
+}
+function fmtJ(n){return'J$'+Number(n||0).toLocaleString('en-JM');}
+function selRadio(el){
+  const name=el.querySelector('input').name;
+  document.querySelectorAll(`input[name="${name}"]`).forEach(r=>r.closest('.radio-opt').classList.remove('selected'));
+  el.classList.add('selected');
+}
+function handleUpload(input,zoneId,nameId){
+  const f=input.files[0];if(!f) return;
+  if(f.size>5*1024*1024){alert('File must be under 5MB.');input.value='';return;}
+  document.getElementById(zoneId).classList.add('has-file');
+  document.getElementById(nameId).textContent='✓ '+f.name;
+}
+function showLoading(msg){document.getElementById('loading-msg').textContent=msg||'Loading...';document.getElementById('loading-overlay').style.display='flex';}
+function hideLoading(){document.getElementById('loading-overlay').style.display='none';}
+document.getElementById('client-modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+</script>
+</body>
+</html>
