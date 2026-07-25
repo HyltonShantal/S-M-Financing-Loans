@@ -646,17 +646,20 @@ async function uploadFile(file, path){
 async function openDocument(path){
   try{
     showLoading('Opening document...');
-    const res=await fetch(STORAGE_URL+'object/sign/loan-documents/'+path,{
+    // path is like SM1837/payslip_123.jpg
+    const encodedPath=path.split('/').map(p=>encodeURIComponent(p)).join('/');
+    const res=await fetch('https://sboxupqcpswdzclnxdbm.supabase.co/storage/v1/object/sign/loan-documents/'+encodedPath,{
       method:'POST',
       headers:{'apikey':SKEY,'Authorization':'Bearer '+SKEY,'Content-Type':'application/json'},
       body:JSON.stringify({expiresIn:3600})
     });
-    if(!res.ok) throw new Error(await res.text());
-    const data=await res.json();
-    const signedUrl='https://sboxupqcpswdzclnxdbm.supabase.co'+data.signedURL;
+    const txt=await res.text();
+    if(!res.ok) throw new Error(txt);
+    const data=JSON.parse(txt);
+    const signedUrl='https://sboxupqcpswdzclnxdbm.supabase.co/storage/v1'+data.signedURL;
     hideLoading();
     window.open(signedUrl,'_blank');
-  }catch(e){hideLoading();alert('Could not open document. Please try again.\n\n'+e.message);}
+  }catch(e){hideLoading();alert('Could not open document: '+e.message);}
 }
 
 // FORMAT
