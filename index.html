@@ -643,11 +643,20 @@ async function uploadFile(file, path){
   if(!res.ok) throw new Error('Upload failed: '+await res.text());
   return path;
 }
-function getFileURL(path){
-  return STORAGE_URL+'object/authenticated/loan-documents/'+path;
-}
-function getPublicDownloadURL(path){
-  return STORAGE_URL+'object/sign/loan-documents/'+path+'?token='+SKEY;
+async function openDocument(path){
+  try{
+    showLoading('Opening document...');
+    const res=await fetch(STORAGE_URL+'object/sign/loan-documents/'+path,{
+      method:'POST',
+      headers:{'apikey':SKEY,'Authorization':'Bearer '+SKEY,'Content-Type':'application/json'},
+      body:JSON.stringify({expiresIn:3600})
+    });
+    if(!res.ok) throw new Error(await res.text());
+    const data=await res.json();
+    const signedUrl='https://sboxupqcpswdzclnxdbm.supabase.co'+data.signedURL;
+    hideLoading();
+    window.open(signedUrl,'_blank');
+  }catch(e){hideLoading();alert('Could not open document. Please try again.\n\n'+e.message);}
 }
 
 // FORMAT
@@ -1082,11 +1091,11 @@ function renderPayments(){
   if(!list.length){tbody.innerHTML=`<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--muted)">No proof of payment submissions</td></tr>`;return;}
   tbody.innerHTML=list.map(a=>{
     const name=a.applicants?.full_name||'Unknown';
-    const docURL=STORAGE_URL+'object/authenticated/loan-documents/'+a.proof_of_payment+'?token='+SKEY;
+    const docURL=a.proof_of_payment;
     return`<tr>
       <td><strong style="color:var(--gold-dark)">${a.reference_number}</strong></td>
       <td>${name}</td><td>${fmtJ(a.total_repayment)}</td>
-      <td><a class="doc-link" href="${docURL}" target="_blank">View Document</a></td>
+      <td><button class="doc-link" onclick="openDocument('${a.proof_of_payment}')" style="cursor:pointer;border:none">View Document</button></td>
       <td style="display:flex;gap:6px;flex-wrap:wrap">
         <button class="btn btn-sm btn-success" onclick="updateStatus('${a.id}','paid')">Payment Received</button>
         <button class="btn btn-sm btn-danger" onclick="updateStatus('${a.id}','delinquent')">No Payment Made</button>
@@ -1103,7 +1112,7 @@ function docLinks(loan){
   if(loan.doc_address) docs.push({label:'Proof of Address',path:loan.doc_address});
   if(loan.proof_of_payment) docs.push({label:'Proof of Payment',path:loan.proof_of_payment});
   if(!docs.length) return '<span style="color:var(--muted);font-size:12px">No documents uploaded</span>';
-  return docs.map(d=>`<a class="doc-link" href="${STORAGE_URL}object/authenticated/loan-documents/${d.path}?token=${SKEY}" target="_blank">${d.label}</a>`).join('');
+  return docs.map(d=>`<button class="doc-link" onclick="openDocument('${d.path}')" style="cursor:pointer;border:none">${d.label}</button>`).join('');
 }
 
 function openModal(id){
