@@ -675,7 +675,6 @@ function proceedFromLanding(){
   document.getElementById('landing-screen').classList.add('hidden');
   if(customerType==='new'){
     document.getElementById('new-customer-form').classList.remove('hidden');
-    setTimeout(()=>initSig(),100);
   }else{
     document.getElementById('returning-customer-form').classList.remove('hidden');
     setTimeout(()=>initRetSig(),100);
@@ -756,7 +755,7 @@ function calcRetLoan(){
 }
 
 // STEPS
-function goStep(n){if(n>currentStep&&!validateStep(currentStep))return;document.getElementById('step'+currentStep).classList.remove('active');currentStep=n;document.getElementById('step'+n).classList.add('active');updateStepUI();if(n===5)buildReview();window.scrollTo({top:0,behavior:'smooth'});}
+function goStep(n){if(n>currentStep&&!validateStep(currentStep))return;document.getElementById('step'+currentStep).classList.remove('active');currentStep=n;document.getElementById('step'+n).classList.add('active');updateStepUI();if(n===5){buildReview();setTimeout(()=>initSig(),200);}window.scrollTo({top:0,behavior:'smooth'});}
 function updateStepUI(){for(let i=1;i<=5;i++){const num=document.getElementById('sn'+i),lbl=document.getElementById('sl'+i);if(i<currentStep){num.className='step-num done';num.textContent='✓';}else if(i===currentStep){num.className='step-num active';num.textContent=i;lbl.className='step-name active';}else{num.className='step-num';num.textContent=i;lbl.className='step-name';}if(i<5){const l=document.getElementById('sl'+i+(i+1));if(l)l.className='step-line'+(i<currentStep?' done':'');}}}
 function validateStep(s){
   if(s===1){
@@ -1189,18 +1188,31 @@ function hideLoading(){document.getElementById('loading-overlay').style.display=
 document.getElementById('client-modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
 </script>
 
-<!-- Signature Pad Library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/4.1.7/signature_pad.umd.min.js"></script>
 <script>
-// SignaturePad class wrapper
+// Built-in signature pad - no external library needed
 class SignaturePad{
   constructor(canvas){
-    this._pad=new window.SignaturePad(canvas,{backgroundColor:'rgb(255,255,255)',penColor:'rgb(13,27,42)'});
-    this._pad.addEventListener('endStroke',()=>{canvas.classList.add('signed');});
+    this.canvas=canvas;
+    this.ctx=canvas.getContext('2d');
+    this.drawing=false;
+    this._isEmpty=true;
+    this.ctx.strokeStyle='#0D1B2A';
+    this.ctx.lineWidth=2;
+    this.ctx.lineCap='round';
+    this.ctx.lineJoin='round';
+    // Mouse events
+    canvas.addEventListener('mousedown',(e)=>{this.drawing=true;this._isEmpty=false;const r=canvas.getBoundingClientRect();this.ctx.beginPath();this.ctx.moveTo(e.clientX-r.left,e.clientY-r.top);canvas.classList.add('signed');});
+    canvas.addEventListener('mousemove',(e)=>{if(!this.drawing)return;const r=canvas.getBoundingClientRect();this.ctx.lineTo(e.clientX-r.left,e.clientY-r.top);this.ctx.stroke();});
+    canvas.addEventListener('mouseup',()=>{this.drawing=false;});
+    canvas.addEventListener('mouseleave',()=>{this.drawing=false;});
+    // Touch events
+    canvas.addEventListener('touchstart',(e)=>{e.preventDefault();this.drawing=true;this._isEmpty=false;const r=canvas.getBoundingClientRect();const t=e.touches[0];this.ctx.beginPath();this.ctx.moveTo(t.clientX-r.left,t.clientY-r.top);canvas.classList.add('signed');},{passive:false});
+    canvas.addEventListener('touchmove',(e)=>{e.preventDefault();if(!this.drawing)return;const r=canvas.getBoundingClientRect();const t=e.touches[0];this.ctx.lineTo(t.clientX-r.left,t.clientY-r.top);this.ctx.stroke();},{passive:false});
+    canvas.addEventListener('touchend',()=>{this.drawing=false;});
   }
-  isEmpty(){return this._pad.isEmpty();}
-  clear(){this._pad.clear();}
-  toDataURL(){return this._pad.toDataURL();}
+  isEmpty(){return this._isEmpty;}
+  clear(){this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);this._isEmpty=true;this.canvas.classList.remove('signed');}
+  toDataURL(){return this.canvas.toDataURL();}
 }
 </script>
 </body>
