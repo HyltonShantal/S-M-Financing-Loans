@@ -808,7 +808,7 @@ async function submitApplication(){
       phone:document.getElementById('f_phone').value,email:document.getElementById('f_email').value,
       employment_status:document.querySelector('input[name="empstatus"]:checked')?.value,
       employer:document.getElementById('f_employer').value||null,job_title:document.getElementById('f_jobtitle').value||null,
-      monthly_income:document.getElementById('f_income').value||null
+      monthly_income:parseFloat((document.getElementById('f_income').value||'0').replace(/,/g,''))||null
     });
     const [loan]=await db('loans','POST',{
       applicant_id:applicant.id,reference_number:ref,loan_amount:selectedAmount,
