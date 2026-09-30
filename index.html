@@ -304,17 +304,19 @@ tbody td{padding:12px 14px;vertical-align:middle}
         <div style="margin-bottom:20px">
           <div style="font-size:12px;font-weight:800;color:var(--gold-dark);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)">Reference 1</div>
           <div class="form-grid">
-            <div class="field"><label class="field-label">Full Name<span class="req">*</span></label><input type="text" id="r1name"></div>
+            <div class="field"><label class="field-label">First Name<span class="req">*</span></label><input type="text" id="r1firstname" placeholder="First name"></div>
+            <div class="field"><label class="field-label">Last Name<span class="req">*</span></label><input type="text" id="r1lastname" placeholder="Last name"></div>
             <div class="field"><label class="field-label">Relationship<span class="req">*</span></label><input type="text" id="r1rel" placeholder="e.g. Sister, Employer"></div>
-            <div class="field span2"><label class="field-label">Phone<span class="req">*</span></label><input type="text" id="r1phone" placeholder="876-000-0000" maxlength="12" oninput="formatPhone(this)"></div>
+            <div class="field"><label class="field-label">Phone<span class="req">*</span></label><input type="text" id="r1phone" placeholder="876-000-0000" maxlength="12" oninput="formatPhone(this)"></div>
           </div>
         </div>
         <div style="margin-bottom:20px">
           <div style="font-size:12px;font-weight:800;color:var(--gold-dark);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)">Reference 2</div>
           <div class="form-grid">
-            <div class="field"><label class="field-label">Full Name<span class="req">*</span></label><input type="text" id="r2name"></div>
+            <div class="field"><label class="field-label">First Name<span class="req">*</span></label><input type="text" id="r2firstname" placeholder="First name"></div>
+            <div class="field"><label class="field-label">Last Name<span class="req">*</span></label><input type="text" id="r2lastname" placeholder="Last name"></div>
             <div class="field"><label class="field-label">Relationship<span class="req">*</span></label><input type="text" id="r2rel" placeholder="e.g. Neighbour, Friend"></div>
-            <div class="field span2"><label class="field-label">Phone<span class="req">*</span></label><input type="text" id="r2phone" placeholder="876-000-0000" maxlength="12" oninput="formatPhone(this)"></div>
+            <div class="field"><label class="field-label">Phone<span class="req">*</span></label><input type="text" id="r2phone" placeholder="876-000-0000" maxlength="12" oninput="formatPhone(this)"></div>
           </div>
         </div>
         <hr class="section-divider">
@@ -769,7 +771,7 @@ function validateStep(s){
     if(ct==='JDF Soldier'){if(!document.getElementById('f_reg_num').value.trim()){alert('Regimental number is required for JDF Soldiers.');return false;}if(!document.getElementById('f_rod').value){alert('Run Out Date is required for JDF Soldiers.');return false;}}
   }
   if(s===2){if(!selectedAmount){alert('Please select a loan amount.');return false;}if(selectedAmount===100000&&!document.querySelector('input[name="term100k"]:checked')){alert('Please select your repayment term.');return false;}if(!document.getElementById('f_purpose').value.trim()){alert('Please enter the purpose of the loan.');return false;}if(!document.querySelector('input[name="repfreq"]:checked')){alert('Please select repayment frequency.');return false;}}
-  if(s===3){for(const[id,lbl]of[['r1name','Ref 1 Name'],['r1rel','Ref 1 Relationship'],['r1phone','Ref 1 Phone'],['r2name','Ref 2 Name'],['r2rel','Ref 2 Relationship'],['r2phone','Ref 2 Phone']]){if(!document.getElementById(id).value.trim()){alert(lbl+' is required.');return false;}}}
+  if(s===3){for(const[id,lbl]of[['r1firstname','Ref 1 First Name'],['r1lastname','Ref 1 Last Name'],['r1rel','Ref 1 Relationship'],['r1phone','Ref 1 Phone'],['r2firstname','Ref 2 First Name'],['r2lastname','Ref 2 Last Name'],['r2rel','Ref 2 Relationship'],['r2phone','Ref 2 Phone']]){if(!document.getElementById(id).value.trim()){alert(lbl+' is required.');return false;}}}
   if(s===4){if(!document.getElementById('up-payslip').files[0]){alert('Please upload your payslip.');return false;}if(!document.getElementById('up-workid').files[0]){alert('Please upload your work ID.');return false;}if(!document.getElementById('up-govid').files[0]){const t=document.getElementById('f_idtype').value||'government ID';alert('Please upload your '+t+'.');return false;}if(!document.getElementById('up-address').files[0]){alert('Please upload proof of address.');return false;}}
   return true;
 }
@@ -826,8 +828,8 @@ async function submitApplication(){
       doc_payslip:payslipPath,doc_workid:workidPath,doc_govid:govidPath,doc_address:addressPath,
       signature_data:sigDataUrl
     });
-    await db('loan_references','POST',{loan_id:loan.id,ref_number:1,full_name:document.getElementById('r1name').value,relationship:document.getElementById('r1rel').value,phone:document.getElementById('r1phone').value});
-    await db('loan_references','POST',{loan_id:loan.id,ref_number:2,full_name:document.getElementById('r2name').value,relationship:document.getElementById('r2rel').value,phone:document.getElementById('r2phone').value});
+    await db('loan_references','POST',{loan_id:loan.id,ref_number:1,full_name:(document.getElementById('r1firstname').value.trim()+' '+document.getElementById('r1lastname').value.trim()),relationship:document.getElementById('r1rel').value,phone:document.getElementById('r1phone').value});
+    await db('loan_references','POST',{loan_id:loan.id,ref_number:2,full_name:(document.getElementById('r2firstname').value.trim()+' '+document.getElementById('r2lastname').value.trim()),relationship:document.getElementById('r2rel').value,phone:document.getElementById('r2phone').value});
     const colItem=document.getElementById('col_item').value;
     if(colItem)await db('collateral','POST',{loan_id:loan.id,collateral_offered:colItem,estimated_value:document.getElementById('col_val').value||null,description:document.getElementById('col_desc').value||null});
     hideLoading();
