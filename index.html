@@ -222,7 +222,8 @@ tbody td{padding:12px 14px;vertical-align:middle}
       <div class="card">
         <div class="card-header"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div><div><div class="card-title">Personal Information</div><div class="card-sub">Section A — Applicant Details</div></div></div>
         <div class="form-grid">
-          <div class="field span2"><label class="field-label">Full Name<span class="req">*</span></label><input type="text" id="f_name" placeholder="Enter your full legal name"></div>
+          <div class="field"><label class="field-label">First Name<span class="req">*</span></label><input type="text" id="f_firstname" placeholder="Enter your first name"></div>
+          <div class="field"><label class="field-label">Last Name<span class="req">*</span></label><input type="text" id="f_lastname" placeholder="Enter your last name"></div>
           <div class="field"><label class="field-label">Date of Birth<span class="req">*</span></label><input type="date" id="f_dob" onchange="validateAge(this)"></div>
           <div class="field"><label class="field-label">TRN<span class="req">*</span></label><input type="text" id="f_trn" placeholder="000-000-000" maxlength="11" oninput="formatTRN(this)"></div>
           <div class="field"><label class="field-label">ID Type<span class="req">*</span></label><select id="f_idtype" onchange="updateIDLabel()"><option value="">Select ID type</option><option>National ID</option><option>Driver's Licence</option><option>Passport</option></select></div>
@@ -401,6 +402,8 @@ tbody td{padding:12px 14px;vertical-align:middle}
       <div class="card-header"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div><div><div class="card-title">Returning Customer</div><div class="card-sub">Verify your identity and submit your loan request</div></div></div>
       <div class="alert alert-info">Please provide your reference number and personal details to verify your identity.</div>
       <div class="form-grid">
+        <div class="field"><label class="field-label">First Name<span class="req">*</span></label><input type="text" id="ret_firstname" placeholder="Enter your first name"></div>
+        <div class="field"><label class="field-label">Last Name<span class="req">*</span></label><input type="text" id="ret_lastname" placeholder="Enter your last name"></div>
         <div class="field span2"><label class="field-label">Reference Number<span class="req">*</span></label><input type="text" id="ret_ref" placeholder="e.g. SM1234" style="text-transform:uppercase"></div>
         <div class="field"><label class="field-label">TRN<span class="req">*</span></label><input type="text" id="ret_trn" placeholder="000-000-000" maxlength="11" oninput="formatTRN(this)"></div>
         <div class="field"><label class="field-label">Date of Birth<span class="req">*</span></label><input type="date" id="ret_dob"></div>
@@ -759,7 +762,7 @@ function goStep(n){if(n>currentStep&&!validateStep(currentStep))return;document.
 function updateStepUI(){for(let i=1;i<=5;i++){const num=document.getElementById('sn'+i),lbl=document.getElementById('sl'+i);if(i<currentStep){num.className='step-num done';num.textContent='✓';}else if(i===currentStep){num.className='step-num active';num.textContent=i;lbl.className='step-name active';}else{num.className='step-num';num.textContent=i;lbl.className='step-name';}if(i<5){const l=document.getElementById('sl'+i+(i+1));if(l)l.className='step-line'+(i<currentStep?' done':'');}}}
 function validateStep(s){
   if(s===1){
-    for(const[id,lbl]of[['f_name','Full Name'],['f_dob','Date of Birth'],['f_trn','TRN'],['f_idtype','ID Type'],['f_idnum','ID Number'],['f_address','Address'],['f_phone','Phone'],['f_email','Email']]){if(!document.getElementById(id).value.trim()){alert(lbl+' is required.');document.getElementById(id).focus();return false;}}
+    for(const[id,lbl]of[['f_firstname','First Name'],['f_lastname','Last Name'],['f_dob','Date of Birth'],['f_trn','TRN'],['f_idtype','ID Type'],['f_idnum','ID Number'],['f_address','Address'],['f_phone','Phone'],['f_email','Email']]){if(!document.getElementById(id).value.trim()){alert(lbl+' is required.');document.getElementById(id).focus();return false;}}
     if(!document.querySelector('input[name="empstatus"]:checked')){alert('Please select employment status.');return false;}
     if(!document.querySelector('input[name="custtype"]:checked')){alert('Please select JDF Soldier or Civilian.');return false;}
     const ct=document.querySelector('input[name="custtype"]:checked')?.value;
@@ -773,7 +776,7 @@ function validateStep(s){
 function buildReview(){
   const rate=(selectedAmount>=150000||(selectedAmount===100000&&selectedTerm==='2month'))?35:30;
   const interest=Math.round(selectedAmount*rate/100),total=selectedAmount+interest;
-  const name=document.getElementById('f_name').value;
+  const name=(document.getElementById('f_firstname').value.trim()+' '+document.getElementById('f_lastname').value.trim()).trim();
   document.getElementById('decl-name').textContent=name||'the applicant';
   document.getElementById('review-summary').innerHTML=`<div style="background:var(--off);border-radius:10px;padding:18px;margin-bottom:16px"><div style="font-size:11px;font-weight:800;color:var(--gold-dark);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">Application Summary</div><div class="info-row"><span class="ik">Applicant</span><span class="iv">${name}</span></div><div class="info-row"><span class="ik">Phone</span><span class="iv">${document.getElementById('f_phone').value}</span></div><div class="info-row"><span class="ik">Loan Amount</span><span class="iv">${fmtJ(selectedAmount)}</span></div><div class="info-row"><span class="ik">Interest (${rate}%)</span><span class="iv">${fmtJ(interest)}</span></div><div class="info-row"><span class="ik">Total Repayment</span><span class="iv" style="color:var(--gold-dark)">${fmtJ(total)}</span></div><div class="info-row"><span class="ik">Frequency</span><span class="iv">${document.querySelector('input[name="repfreq"]:checked')?.value||'—'}</span></div><div class="info-row"><span class="ik">Purpose</span><span class="iv">${document.getElementById('f_purpose').value}</span></div></div>`;
 }
@@ -802,7 +805,7 @@ async function submitApplication(){
     const sigDataUrl=getSigDataURL(sigPad);
     showLoading('Saving your application...');
     const [applicant]=await db('applicants','POST',{
-      full_name:document.getElementById('f_name').value,date_of_birth:document.getElementById('f_dob').value,
+      full_name:(document.getElementById('f_firstname').value.trim()+' '+document.getElementById('f_lastname').value.trim()),date_of_birth:document.getElementById('f_dob').value,
       trn:document.getElementById('f_trn').value,id_type:document.getElementById('f_idtype').value,
       id_number:document.getElementById('f_idnum').value,address:document.getElementById('f_address').value,
       phone:document.getElementById('f_phone').value,email:document.getElementById('f_email').value,
@@ -831,7 +834,7 @@ async function submitApplication(){
     document.getElementById('new-customer-form').classList.add('hidden');
     document.getElementById('apply-success').classList.remove('hidden');
     document.getElementById('success-ref').textContent='Reference Number: '+ref;
-    sendPendingEmail(document.getElementById('f_email').value,document.getElementById('f_name').value,ref);
+    sendPendingEmail(document.getElementById('f_email').value,(document.getElementById('f_firstname').value.trim()+' '+document.getElementById('f_lastname').value.trim()),ref);
   }catch(e){hideLoading();btn.disabled=false;btn.innerHTML='Submit Application';alert('Submission failed: '+e.message);}
 }
 
@@ -841,7 +844,7 @@ async function submitReturning(){
   const trn=document.getElementById('ret_trn').value.trim();
   const dob=document.getElementById('ret_dob').value;
   const phone=document.getElementById('ret_phone').value.trim();
-  if(!ref||!trn||!dob||!phone){alert('Please fill in all verification fields.');return;}
+  const retFirstName=document.getElementById('ret_firstname').value.trim();const retLastName=document.getElementById('ret_lastname').value.trim();if(!retFirstName||!retLastName||!ref||!trn||!dob||!phone){alert('Please fill in all required verification fields.');return;}
   if(!retSelectedAmount){alert('Please select a loan amount.');return;}
   if(!document.getElementById('ret_purpose').value.trim()){alert('Please enter the purpose of the loan.');return;}
   if(!document.querySelector('input[name="retrepfreq"]:checked')){alert('Please select repayment frequency.');return;}
