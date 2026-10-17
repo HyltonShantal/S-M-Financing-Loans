@@ -184,27 +184,8 @@ tbody td{padding:12px 14px;vertical-align:middle}
 
 <!-- APPLY PAGE -->
 <div id="page-apply" class="page active">
-  <div id="landing-screen">
-    <div class="card">
-      <div class="card-header"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div><div><div class="card-title">Loan Application Form</div><div class="card-sub">S&M Financing and Pawn Limited — Please select your customer status</div></div></div>
-      <div class="customer-type-grid">
-        <div class="customer-type-card" id="ct-new" onclick="selectCustomerType('new')">
-          <div class="ct-icon"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-          <div class="ct-title">New Customer</div>
-          <div class="ct-sub">First time applying for a loan with S&M Financing and Pawn Limited</div>
-        </div>
-        <div class="customer-type-card" id="ct-returning" onclick="selectCustomerType('returning')">
-          <div class="ct-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
-          <div class="ct-title">Returning Customer</div>
-          <div class="ct-sub">You have previously received a loan from S&M Financing and Pawn Limited</div>
-        </div>
-      </div>
-      <div class="btn-row" style="margin-top:24px"><button class="btn btn-primary" onclick="proceedFromLanding()">Continue</button></div>
-    </div>
-  </div>
-
   <!-- NEW CUSTOMER FORM -->
-  <div id="new-customer-form" class="hidden">
+  <div id="new-customer-form">
     <div class="steps">
       <div class="step"><div class="step-num active" id="sn1">1</div><div class="step-name active" id="sl1">Personal</div></div>
       <div class="step-line" id="sl12"></div>
@@ -222,8 +203,7 @@ tbody td{padding:12px 14px;vertical-align:middle}
       <div class="card">
         <div class="card-header"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div><div><div class="card-title">Personal Information</div><div class="card-sub">Section A — Applicant Details</div></div></div>
         <div class="form-grid">
-          <div class="field"><label class="field-label">First Name<span class="req">*</span></label><input type="text" id="f_firstname" placeholder="Enter your first name"></div>
-          <div class="field"><label class="field-label">Last Name<span class="req">*</span></label><input type="text" id="f_lastname" placeholder="Enter your last name"></div>
+          <div class="field span2"><label class="field-label">Full Name<span class="req">*</span></label><input type="text" id="f_name" placeholder="Enter your full legal name"></div>
           <div class="field"><label class="field-label">Date of Birth<span class="req">*</span></label><input type="date" id="f_dob" onchange="validateAge(this)"></div>
           <div class="field"><label class="field-label">TRN<span class="req">*</span></label><input type="text" id="f_trn" placeholder="000-000-000" maxlength="11" oninput="formatTRN(this)"></div>
           <div class="field"><label class="field-label">ID Type<span class="req">*</span></label><select id="f_idtype" onchange="updateIDLabel()"><option value="">Select ID type</option><option>National ID</option><option>Driver's Licence</option><option>Passport</option></select></div>
@@ -254,7 +234,7 @@ tbody td{padding:12px 14px;vertical-align:middle}
           <div class="field"><label class="field-label">Job Title</label><input type="text" id="f_jobtitle" placeholder="If applicable"></div>
           <div class="field span2"><label class="field-label">Monthly Income (J$)</label><input type="text" id="f_income" placeholder="e.g. 80,000.00" oninput="formatIncome(this)" inputmode="decimal"></div>
         </div>
-        <div class="btn-row"><button class="btn btn-outline" onclick="backToLanding()">Back</button><button class="btn btn-primary" onclick="goStep(2)">Continue to Loan Details</button></div>
+        <div class="btn-row"><button class="btn btn-primary" onclick="goStep(2)">Continue to Loan Details</button></div>
       </div>
     </div>
 
@@ -304,19 +284,17 @@ tbody td{padding:12px 14px;vertical-align:middle}
         <div style="margin-bottom:20px">
           <div style="font-size:12px;font-weight:800;color:var(--gold-dark);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)">Reference 1</div>
           <div class="form-grid">
-            <div class="field"><label class="field-label">First Name<span class="req">*</span></label><input type="text" id="r1firstname" placeholder="First name"></div>
-            <div class="field"><label class="field-label">Last Name<span class="req">*</span></label><input type="text" id="r1lastname" placeholder="Last name"></div>
+            <div class="field"><label class="field-label">Full Name<span class="req">*</span></label><input type="text" id="r1name"></div>
             <div class="field"><label class="field-label">Relationship<span class="req">*</span></label><input type="text" id="r1rel" placeholder="e.g. Sister, Employer"></div>
-            <div class="field"><label class="field-label">Phone<span class="req">*</span></label><input type="text" id="r1phone" placeholder="876-000-0000" maxlength="12" oninput="formatPhone(this)"></div>
+            <div class="field span2"><label class="field-label">Phone<span class="req">*</span></label><input type="text" id="r1phone" placeholder="876-000-0000" maxlength="12" oninput="formatPhone(this)"></div>
           </div>
         </div>
         <div style="margin-bottom:20px">
           <div style="font-size:12px;font-weight:800;color:var(--gold-dark);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)">Reference 2</div>
           <div class="form-grid">
-            <div class="field"><label class="field-label">First Name<span class="req">*</span></label><input type="text" id="r2firstname" placeholder="First name"></div>
-            <div class="field"><label class="field-label">Last Name<span class="req">*</span></label><input type="text" id="r2lastname" placeholder="Last name"></div>
+            <div class="field"><label class="field-label">Full Name<span class="req">*</span></label><input type="text" id="r2name"></div>
             <div class="field"><label class="field-label">Relationship<span class="req">*</span></label><input type="text" id="r2rel" placeholder="e.g. Neighbour, Friend"></div>
-            <div class="field"><label class="field-label">Phone<span class="req">*</span></label><input type="text" id="r2phone" placeholder="876-000-0000" maxlength="12" oninput="formatPhone(this)"></div>
+            <div class="field span2"><label class="field-label">Phone<span class="req">*</span></label><input type="text" id="r2phone" placeholder="876-000-0000" maxlength="12" oninput="formatPhone(this)"></div>
           </div>
         </div>
         <hr class="section-divider">
@@ -398,80 +376,6 @@ tbody td{padding:12px 14px;vertical-align:middle}
     </div>
   </div>
 
-  <!-- RETURNING CUSTOMER -->
-  <div id="returning-customer-form" class="hidden">
-    <div class="card">
-      <div class="card-header"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div><div><div class="card-title">Returning Customer</div><div class="card-sub">Verify your identity and submit your loan request</div></div></div>
-      <div class="alert alert-info">Please provide your reference number and personal details to verify your identity.</div>
-      <div class="form-grid">
-        <div class="field"><label class="field-label">First Name<span class="req">*</span></label><input type="text" id="ret_firstname" placeholder="Enter your first name"></div>
-        <div class="field"><label class="field-label">Last Name<span class="req">*</span></label><input type="text" id="ret_lastname" placeholder="Enter your last name"></div>
-        <div class="field span2"><label class="field-label">Reference Number<span class="req">*</span></label><input type="text" id="ret_ref" placeholder="e.g. SM1234" style="text-transform:uppercase"></div>
-        <div class="field"><label class="field-label">TRN<span class="req">*</span></label><input type="text" id="ret_trn" placeholder="000-000-000" maxlength="11" oninput="formatTRN(this)"></div>
-        <div class="field"><label class="field-label">Date of Birth<span class="req">*</span></label><input type="date" id="ret_dob"></div>
-        <div class="field span2"><label class="field-label">Phone Number<span class="req">*</span></label><input type="text" id="ret_phone" placeholder="876-000-0000" maxlength="12" oninput="formatPhone(this)"></div>
-      </div>
-      <hr class="section-divider">
-      <div style="font-size:14px;font-weight:800;color:var(--navy);margin-bottom:16px;text-transform:uppercase;letter-spacing:.4px">New Loan Request</div>
-      <div class="field" style="margin-bottom:16px"><label class="field-label">Select Loan Amount<span class="req">*</span></label><div class="loan-grid" id="ret-loan-chips"></div></div>
-      <div id="ret-two-month-wrap" class="hidden" style="margin-bottom:14px">
-        <div class="alert alert-warn">J$100,000.00 — choose payday (30%) or two months (35%).</div>
-        <div class="radio-group">
-          <label class="radio-opt" onclick="selRadio(this);calcRetLoan()"><input type="radio" name="retterm100k" value="payday"> Payday Loan — 30%</label>
-          <label class="radio-opt" onclick="selRadio(this);calcRetLoan()"><input type="radio" name="retterm100k" value="2month"> Two Month Loan — 35%</label>
-        </div>
-      </div>
-      <div class="field" style="margin-bottom:14px"><label class="field-label">Purpose of Loan<span class="req">*</span></label><input type="text" id="ret_purpose" placeholder="e.g. Medical expenses, School fees"></div>
-      <div class="field" style="margin-bottom:14px">
-        <label class="field-label">Repayment Frequency<span class="req">*</span></label>
-        <div class="radio-group">
-          <label class="radio-opt" onclick="selRadio(this)"><input type="radio" name="retrepfreq" value="Weekly"> Weekly</label>
-          <label class="radio-opt" onclick="selRadio(this)"><input type="radio" name="retrepfreq" value="Biweekly"> Biweekly</label>
-          <label class="radio-opt" onclick="selRadio(this)"><input type="radio" name="retrepfreq" value="Monthly"> Monthly</label>
-        </div>
-      </div>
-      <div id="ret-loan-summary-wrap" class="hidden">
-        <div class="loan-summary">
-          <div class="loan-summary-title">Loan Summary</div>
-          <div class="loan-summary-grid">
-            <div class="loan-sum-item"><label>Loan Amount</label><div class="val gold" id="ret-sum-amount">—</div></div>
-            <div class="loan-sum-item"><label>Interest Rate</label><div class="val" id="ret-sum-rate">—</div></div>
-            <div class="loan-sum-item"><label>Interest Amount</label><div class="val" id="ret-sum-interest">—</div></div>
-            <div class="loan-sum-item"><label>Total Repayment</label><div class="val gold" id="ret-sum-total">—</div></div>
-          </div>
-        </div>
-      </div>
-      <hr class="section-divider">
-      <!-- Payslip mandatory for returning -->
-      <div style="font-size:14px;font-weight:800;color:var(--navy);margin-bottom:14px;text-transform:uppercase;letter-spacing:.4px">Required Documents</div>
-      <div style="margin-bottom:16px">
-        <div style="font-size:12px;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Most Recent Payslip <span class="req">*</span></div>
-        <div class="upload-zone" id="uz-ret-payslip" onclick="document.getElementById('up-ret-payslip').click()"><div class="upload-title">Upload Payslip</div><div class="upload-sub">JPG, PNG or PDF — Maximum 5MB</div><div class="upload-file-name" id="fn-ret-payslip"></div></div>
-        <input type="file" id="up-ret-payslip" accept=".jpg,.jpeg,.png,.pdf" style="display:none" onchange="handleUpload(this,'uz-ret-payslip','fn-ret-payslip')">
-      </div>
-      <hr class="section-divider">
-      <div style="font-size:14px;font-weight:800;color:var(--navy);margin-bottom:14px;text-transform:uppercase;letter-spacing:.4px">Update Information (Optional)</div>
-      <div style="margin-bottom:16px">
-        <div class="upload-zone" id="uz-update-info" onclick="document.getElementById('up-update-info').click()"><div class="upload-title">Upload Updated Document</div><div class="upload-sub">New ID, updated address proof, or any updated personal document — JPG, PNG or PDF — Maximum 5MB</div><div class="upload-file-name" id="fn-update-info"></div></div>
-        <input type="file" id="up-update-info" accept=".jpg,.jpeg,.png,.pdf" style="display:none" onchange="handleUpload(this,'uz-update-info','fn-update-info')">
-      </div>
-      <hr class="section-divider">
-      <div style="font-size:14px;font-weight:800;color:var(--navy);margin-bottom:14px;text-transform:uppercase;letter-spacing:.4px">Proof of Payment (Optional)</div>
-      <div style="margin-bottom:16px">
-        <div class="upload-zone" id="uz-payment" onclick="document.getElementById('up-payment').click()"><div class="upload-title">Upload Proof of Payment</div><div class="upload-sub">Bank receipt, screenshot or deposit slip — JPG, PNG or PDF — Maximum 5MB</div><div class="upload-file-name" id="fn-payment"></div></div>
-        <input type="file" id="up-payment" accept=".jpg,.jpeg,.png,.pdf" style="display:none" onchange="handleUpload(this,'uz-payment','fn-payment')">
-      </div>
-      <hr class="section-divider">
-      <!-- Returning customer signature -->
-      <div style="margin-bottom:20px">
-        <div style="font-size:13px;font-weight:800;color:var(--navy);margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px">Applicant Signature <span class="req">*</span></div>
-        <div style="font-size:12px;color:var(--muted);margin-bottom:10px">Please sign in the box below using your mouse or finger on a touchscreen.</div>
-        <canvas id="ret-sig-canvas" class="sig-canvas" width="680" height="160"></canvas>
-        <div class="sig-btns"><button class="sig-btn" onclick="clearRetSig()">Clear Signature</button><span id="ret-sig-status" style="font-size:12px;color:var(--muted);padding:6px 0"></span></div>
-      </div>
-      <div class="btn-row"><button class="btn btn-outline" onclick="backToLanding()">Back</button><button class="btn btn-primary" id="ret-submit-btn" onclick="submitReturning()">Submit Application</button></div>
-    </div>
-  </div>
 
   <!-- SUCCESS -->
   <div id="apply-success" class="hidden">
@@ -619,8 +523,8 @@ const ADMIN_EMAIL='smfinancingandpawn@gmail.com';
 let ADMIN_PASSWORD=localStorage.getItem('sm_admin_pw')||'admin123';
 const LOAN_AMOUNTS=[10000,15000,20000,25000,30000,35000,40000,45000,50000,55000,60000,65000,70000,75000,80000,85000,90000,95000,100000,110000,150000,200000];
 let selectedAmount=0,selectedTerm='payday',currentStep=1,currentFilter='all';
-let retSelectedAmount=0,retSelectedTerm='payday';
-let allApplications=[],filteredApplications=[],customerType='';
+
+let allApplications=[],filteredApplications=[];
 let sigPad=null,retSigPad=null;
 
 // SECRET URL
@@ -673,24 +577,6 @@ function formatPhone(el){let v=el.value.replace(/\D/g,'');if(v.length>3)v=v.slic
 function showPrivacy(){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-privacy').classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
 function hidePrivacy(){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-apply').classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
 
-// CUSTOMER TYPE
-function selectCustomerType(t){customerType=t;document.getElementById('ct-new').classList.toggle('selected',t==='new');document.getElementById('ct-returning').classList.toggle('selected',t==='returning');}
-function proceedFromLanding(){
-  if(!customerType){alert('Please select new or returning customer.');return;}
-  document.getElementById('landing-screen').classList.add('hidden');
-  if(customerType==='new'){
-    document.getElementById('new-customer-form').classList.remove('hidden');
-  }else{
-    document.getElementById('returning-customer-form').classList.remove('hidden');
-    setTimeout(()=>initRetSig(),100);
-  }
-}
-function backToLanding(){
-  document.getElementById('landing-screen').classList.remove('hidden');
-  document.getElementById('new-customer-form').classList.add('hidden');
-  document.getElementById('returning-customer-form').classList.add('hidden');
-  customerType='';document.getElementById('ct-new').classList.remove('selected');document.getElementById('ct-returning').classList.remove('selected');
-}
 function toggleSoldier(el){document.getElementById('soldier-fields').classList.toggle('hidden',el.querySelector('input').value!=='JDF Soldier');}
 function updateIDLabel(){
   const v=document.getElementById('f_idtype').value;
@@ -746,39 +632,24 @@ function calcLoan(){
   document.getElementById('sum-issued').textContent=new Date().toLocaleDateString('en-JM');
   document.getElementById('loan-summary-wrap').classList.remove('hidden');
 }
-function selectRetAmount(amt,el){document.querySelectorAll('#ret-loan-chips .loan-chip').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');retSelectedAmount=amt;document.getElementById('ret-two-month-wrap').classList.toggle('hidden',amt!==100000);retSelectedTerm=amt>=150000?'2month':'payday';calcRetLoan();}
-function calcRetLoan(){
-  if(!retSelectedAmount){document.getElementById('ret-loan-summary-wrap').classList.add('hidden');return;}
-  const t=document.querySelector('input[name="retterm100k"]:checked');if(retSelectedAmount===100000&&t)retSelectedTerm=t.value;
-  const rate=(retSelectedAmount>=150000||(retSelectedAmount===100000&&retSelectedTerm==='2month'))?35:30;
-  const interest=Math.round(retSelectedAmount*rate/100),total=retSelectedAmount+interest;
-  document.getElementById('ret-sum-amount').textContent=fmtJ(retSelectedAmount);
-  document.getElementById('ret-sum-rate').textContent=rate+'%';
-  document.getElementById('ret-sum-interest').textContent=fmtJ(interest);
-  document.getElementById('ret-sum-total').textContent=fmtJ(total);
-  document.getElementById('ret-loan-summary-wrap').classList.remove('hidden');
-}
-
-// STEPS
-function goStep(n){if(n>currentStep&&!validateStep(currentStep))return;document.getElementById('step'+currentStep).classList.remove('active');currentStep=n;document.getElementById('step'+n).classList.add('active');updateStepUI();if(n===5){buildReview();setTimeout(()=>initSig(),200);}window.scrollTo({top:0,behavior:'smooth'});}
 function updateStepUI(){for(let i=1;i<=5;i++){const num=document.getElementById('sn'+i),lbl=document.getElementById('sl'+i);if(i<currentStep){num.className='step-num done';num.textContent='✓';}else if(i===currentStep){num.className='step-num active';num.textContent=i;lbl.className='step-name active';}else{num.className='step-num';num.textContent=i;lbl.className='step-name';}if(i<5){const l=document.getElementById('sl'+i+(i+1));if(l)l.className='step-line'+(i<currentStep?' done':'');}}}
 function validateStep(s){
   if(s===1){
-    for(const[id,lbl]of[['f_firstname','First Name'],['f_lastname','Last Name'],['f_dob','Date of Birth'],['f_trn','TRN'],['f_idtype','ID Type'],['f_idnum','ID Number'],['f_address','Address'],['f_phone','Phone'],['f_email','Email']]){if(!document.getElementById(id).value.trim()){alert(lbl+' is required.');document.getElementById(id).focus();return false;}}
+    for(const[id,lbl]of[['f_name','Full Name'],['f_dob','Date of Birth'],['f_trn','TRN'],['f_idtype','ID Type'],['f_idnum','ID Number'],['f_address','Address'],['f_phone','Phone'],['f_email','Email']]){if(!document.getElementById(id).value.trim()){alert(lbl+' is required.');document.getElementById(id).focus();return false;}}
     if(!document.querySelector('input[name="empstatus"]:checked')){alert('Please select employment status.');return false;}
     if(!document.querySelector('input[name="custtype"]:checked')){alert('Please select JDF Soldier or Civilian.');return false;}
     const ct=document.querySelector('input[name="custtype"]:checked')?.value;
     if(ct==='JDF Soldier'){if(!document.getElementById('f_reg_num').value.trim()){alert('Regimental number is required for JDF Soldiers.');return false;}if(!document.getElementById('f_rod').value){alert('Run Out Date is required for JDF Soldiers.');return false;}}
   }
   if(s===2){if(!selectedAmount){alert('Please select a loan amount.');return false;}if(selectedAmount===100000&&!document.querySelector('input[name="term100k"]:checked')){alert('Please select your repayment term.');return false;}if(!document.getElementById('f_purpose').value.trim()){alert('Please enter the purpose of the loan.');return false;}if(!document.querySelector('input[name="repfreq"]:checked')){alert('Please select repayment frequency.');return false;}}
-  if(s===3){for(const[id,lbl]of[['r1firstname','Ref 1 First Name'],['r1lastname','Ref 1 Last Name'],['r1rel','Ref 1 Relationship'],['r1phone','Ref 1 Phone'],['r2firstname','Ref 2 First Name'],['r2lastname','Ref 2 Last Name'],['r2rel','Ref 2 Relationship'],['r2phone','Ref 2 Phone']]){if(!document.getElementById(id).value.trim()){alert(lbl+' is required.');return false;}}}
+  if(s===3){for(const[id,lbl]of[['r1name','Ref 1 Name'],['r1rel','Ref 1 Relationship'],['r1phone','Ref 1 Phone'],['r2name','Ref 2 Name'],['r2rel','Ref 2 Relationship'],['r2phone','Ref 2 Phone']]){if(!document.getElementById(id).value.trim()){alert(lbl+' is required.');return false;}}}
   if(s===4){if(!document.getElementById('up-payslip').files[0]){alert('Please upload your payslip.');return false;}if(!document.getElementById('up-workid').files[0]){alert('Please upload your work ID.');return false;}if(!document.getElementById('up-govid').files[0]){const t=document.getElementById('f_idtype').value||'government ID';alert('Please upload your '+t+'.');return false;}if(!document.getElementById('up-address').files[0]){alert('Please upload proof of address.');return false;}}
   return true;
 }
 function buildReview(){
   const rate=(selectedAmount>=150000||(selectedAmount===100000&&selectedTerm==='2month'))?35:30;
   const interest=Math.round(selectedAmount*rate/100),total=selectedAmount+interest;
-  const name=(document.getElementById('f_firstname').value.trim()+' '+document.getElementById('f_lastname').value.trim()).trim();
+  const name=document.getElementById('f_name').value;
   document.getElementById('decl-name').textContent=name||'the applicant';
   document.getElementById('review-summary').innerHTML=`<div style="background:var(--off);border-radius:10px;padding:18px;margin-bottom:16px"><div style="font-size:11px;font-weight:800;color:var(--gold-dark);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">Application Summary</div><div class="info-row"><span class="ik">Applicant</span><span class="iv">${name}</span></div><div class="info-row"><span class="ik">Phone</span><span class="iv">${document.getElementById('f_phone').value}</span></div><div class="info-row"><span class="ik">Loan Amount</span><span class="iv">${fmtJ(selectedAmount)}</span></div><div class="info-row"><span class="ik">Interest (${rate}%)</span><span class="iv">${fmtJ(interest)}</span></div><div class="info-row"><span class="ik">Total Repayment</span><span class="iv" style="color:var(--gold-dark)">${fmtJ(total)}</span></div><div class="info-row"><span class="ik">Frequency</span><span class="iv">${document.querySelector('input[name="repfreq"]:checked')?.value||'—'}</span></div><div class="info-row"><span class="ik">Purpose</span><span class="iv">${document.getElementById('f_purpose').value}</span></div></div>`;
 }
@@ -807,13 +678,13 @@ async function submitApplication(){
     const sigDataUrl=getSigDataURL(sigPad);
     showLoading('Saving your application...');
     const [applicant]=await db('applicants','POST',{
-      full_name:(document.getElementById('f_firstname').value.trim()+' '+document.getElementById('f_lastname').value.trim()),date_of_birth:document.getElementById('f_dob').value,
+      full_name:document.getElementById('f_name').value,date_of_birth:document.getElementById('f_dob').value,
       trn:document.getElementById('f_trn').value,id_type:document.getElementById('f_idtype').value,
       id_number:document.getElementById('f_idnum').value,address:document.getElementById('f_address').value,
       phone:document.getElementById('f_phone').value,email:document.getElementById('f_email').value,
       employment_status:document.querySelector('input[name="empstatus"]:checked')?.value,
       employer:document.getElementById('f_employer').value||null,job_title:document.getElementById('f_jobtitle').value||null,
-      monthly_income:parseFloat((document.getElementById('f_income').value||'0').replace(/,/g,''))||null
+      monthly_income:document.getElementById('f_income').value||null
     });
     const [loan]=await db('loans','POST',{
       applicant_id:applicant.id,reference_number:ref,loan_amount:selectedAmount,
@@ -828,99 +699,20 @@ async function submitApplication(){
       doc_payslip:payslipPath,doc_workid:workidPath,doc_govid:govidPath,doc_address:addressPath,
       signature_data:sigDataUrl
     });
-    await db('loan_references','POST',{loan_id:loan.id,ref_number:1,full_name:(document.getElementById('r1firstname').value.trim()+' '+document.getElementById('r1lastname').value.trim()),relationship:document.getElementById('r1rel').value,phone:document.getElementById('r1phone').value});
-    await db('loan_references','POST',{loan_id:loan.id,ref_number:2,full_name:(document.getElementById('r2firstname').value.trim()+' '+document.getElementById('r2lastname').value.trim()),relationship:document.getElementById('r2rel').value,phone:document.getElementById('r2phone').value});
+    await db('loan_references','POST',{loan_id:loan.id,ref_number:1,full_name:document.getElementById('r1name').value,relationship:document.getElementById('r1rel').value,phone:document.getElementById('r1phone').value});
+    await db('loan_references','POST',{loan_id:loan.id,ref_number:2,full_name:document.getElementById('r2name').value,relationship:document.getElementById('r2rel').value,phone:document.getElementById('r2phone').value});
     const colItem=document.getElementById('col_item').value;
     if(colItem)await db('collateral','POST',{loan_id:loan.id,collateral_offered:colItem,estimated_value:document.getElementById('col_val').value||null,description:document.getElementById('col_desc').value||null});
     hideLoading();
     document.getElementById('new-customer-form').classList.add('hidden');
     document.getElementById('apply-success').classList.remove('hidden');
     document.getElementById('success-ref').textContent='Reference Number: '+ref;
-    sendPendingEmail(document.getElementById('f_email').value,(document.getElementById('f_firstname').value.trim()+' '+document.getElementById('f_lastname').value.trim()),ref);
+    sendPendingEmail(document.getElementById('f_email').value,document.getElementById('f_name').value,ref);
   }catch(e){hideLoading();btn.disabled=false;btn.innerHTML='Submit Application';alert('Submission failed: '+e.message);}
 }
 
 // SUBMIT RETURNING
-async function submitReturning(){
-  const ref=document.getElementById('ret_ref').value.trim().toUpperCase();
-  const trn=document.getElementById('ret_trn').value.trim();
-  const dob=document.getElementById('ret_dob').value;
-  const phone=document.getElementById('ret_phone').value.trim();
-  const retFirstName=document.getElementById('ret_firstname').value.trim();const retLastName=document.getElementById('ret_lastname').value.trim();if(!retFirstName||!retLastName||!ref||!trn||!dob||!phone){alert('Please fill in all required verification fields.');return;}
-  if(!retSelectedAmount){alert('Please select a loan amount.');return;}
-  if(!document.getElementById('ret_purpose').value.trim()){alert('Please enter the purpose of the loan.');return;}
-  if(!document.querySelector('input[name="retrepfreq"]:checked')){alert('Please select repayment frequency.');return;}
-  if(!document.getElementById('up-ret-payslip').files[0]){alert('Please upload your most recent payslip.');return;}
-  if(!retSigPad||retSigPad.isEmpty()){alert('Please provide your signature before submitting.');return;}
-  const btn=document.getElementById('ret-submit-btn');btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Verifying...';
-  showLoading('Verifying your details...');
-  try{
-    const existing=await db('loans?reference_number=eq.'+ref+'&select=*,applicants(*)');
-    if(!existing||!existing.length){hideLoading();btn.disabled=false;btn.innerHTML='Submit Application';alert('Reference number not found.');return;}
-    const prev=existing[0],app=prev.applicants;
-    if(app.trn!==trn||app.date_of_birth!==dob||app.phone!==phone){hideLoading();btn.disabled=false;btn.innerHTML='Submit Application';alert('Verification failed. Your details do not match our records.');return;}
-    const rate=(retSelectedAmount>=150000||(retSelectedAmount===100000&&retSelectedTerm==='2month'))?35:30;
-    const interest=Math.round(retSelectedAmount*rate/100),total=retSelectedAmount+interest;
-    const today=new Date(),dueDate=new Date(today.getTime()+(retSelectedTerm==='2month'?60:14)*86400000);
-    const newRef='SM'+String(Math.floor(1000+Math.random()*9000));
-    const ts=Date.now();
-    // Upload payslip
-    showLoading('Uploading documents...');
-    const payslipFile=document.getElementById('up-ret-payslip').files[0];
-    const payslipPath=await uploadFile(payslipFile,newRef+'/payslip_'+ts+'.'+payslipFile.name.split('.').pop());
-    // Optional uploads
-    let updateInfoPath=null,paymentPath=null;
-    const updateFile=document.getElementById('up-update-info').files[0];
-    if(updateFile)updateInfoPath=await uploadFile(updateFile,newRef+'/update_'+ts+'.'+updateFile.name.split('.').pop());
-    const payFile=document.getElementById('up-payment').files[0];
-    if(payFile)paymentPath=await uploadFile(payFile,ref+'/payment_'+ts+'.'+payFile.name.split('.').pop());
-    const sigDataUrl=getSigDataURL(retSigPad);
-    showLoading('Saving your application...');
-    await db('loans','POST',{
-      applicant_id:app.id,reference_number:newRef,loan_amount:retSelectedAmount,
-      interest_rate:rate,interest_amount:interest,total_repayment:total,
-      purpose:document.getElementById('ret_purpose').value,
-      repayment_frequency:document.querySelector('input[name="retrepfreq"]:checked')?.value,
-      loan_term:retSelectedTerm,issued_date:today.toISOString().split('T')[0],
-      due_date:dueDate.toISOString().split('T')[0],status:'pending',customer_type:'Returning',
-      doc_payslip:payslipPath,doc_update_info:updateInfoPath,proof_of_payment:paymentPath,
-      signature_data:sigDataUrl
-    });
-    if(paymentPath)await dbPatch('loans?reference_number=eq.'+ref,{proof_of_payment:paymentPath});
-    hideLoading();
-    document.getElementById('returning-customer-form').classList.add('hidden');
-    document.getElementById('apply-success').classList.remove('hidden');
-    document.getElementById('success-ref').textContent='Reference Number: '+newRef;
-    if(app.email)sendPendingEmail(app.email,app.full_name,newRef);
-  }catch(e){hideLoading();btn.disabled=false;btn.innerHTML='Submit Application';alert('Submission failed: '+e.message);}
-}
-
-function resetAll(){
-  document.getElementById('apply-success').classList.add('hidden');
-  document.getElementById('landing-screen').classList.remove('hidden');
-  customerType='';selectedAmount=0;retSelectedAmount=0;currentStep=1;
-  document.querySelectorAll('.section-step').forEach(s=>s.classList.remove('active'));
-  document.getElementById('step1').classList.add('active');updateStepUI();
-  document.querySelectorAll('input[type=text],input[type=tel],input[type=email],input[type=number],input[type=date],select,textarea').forEach(el=>el.value='');
-  document.querySelectorAll('input[type=radio],input[type=checkbox]').forEach(el=>el.checked=false);
-  document.querySelectorAll('.radio-opt,.loan-chip,.customer-type-card').forEach(el=>el.classList.remove('selected'));
-  document.querySelectorAll('.upload-zone').forEach(z=>z.classList.remove('has-file'));
-  document.querySelectorAll('.upload-file-name').forEach(f=>f.textContent='');
-  document.getElementById('new-customer-form').classList.add('hidden');
-  document.getElementById('returning-customer-form').classList.add('hidden');
-  ['loan-summary-wrap','ret-loan-summary-wrap','two-month-wrap','ret-two-month-wrap','soldier-fields'].forEach(id=>document.getElementById(id).classList.add('hidden'));
-  document.getElementById('submit-btn').disabled=false;document.getElementById('submit-btn').innerHTML='Submit Application';
-  document.getElementById('ret-submit-btn').disabled=false;document.getElementById('ret-submit-btn').innerHTML='Submit Application';
-  if(sigPad)sigPad.clear();if(retSigPad)retSigPad.clear();
-}
-
-// EMAIL
-function sendPendingEmail(email,name,ref){
-  const subject='Loan Application Received — Reference '+ref;
-  const body=`Dear ${name},\n\nThank you for applying with S&M Financing and Pawn Limited.\n\nYour loan application has been successfully submitted and is currently PENDING review.\n\nYour Reference Number is: ${ref}\n\nPlease keep this reference number safe as you will need it for future enquiries or applications.\n\nWe will review your application and notify you of the outcome as soon as possible.\n\nThank you for choosing S&M Financing and Pawn Limited.\n\nS&M Financing and Pawn Limited\nsmfinancingandpawn@gmail.com`;
-  window.open('mailto:'+email+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body));
-}
-function sendApprovalEmail(email,name,ref,dueDate,amount){
+async function sendApprovalEmail(email,name,ref,dueDate,amount){
   const subject='Your Loan Has Been Approved — Reference '+ref;
   const body=`Dear ${name},\n\nWe are pleased to inform you that your loan application (Reference: ${ref}) has been APPROVED by S&M Financing and Pawn Limited.\n\nLoan Details:\n- Total Amount Due: ${amount}\n- Payment Due Date: ${dueDate}\n\nPlease ensure that full repayment is made on or before the due date stated above to avoid late payment fees.\n\nAs a reminder:\n- A daily late fee of J$500.00 applies after the due date.\n- If overdue by more than 10 days, an additional 30% interest will be charged.\n\nThank you for choosing S&M Financing and Pawn Limited.\n\nS&M Financing and Pawn Limited\nsmfinancingandpawn@gmail.com`;
   window.open('mailto:'+email+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body));
