@@ -2,101 +2,95 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>S&M Financing and Pawn Limited</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>S&M Financing and Pawn Limited — Loan Application</title>
 <style>
+:root{--navy:#0D1B2A;--gold:#C9A84C;--gold-dark:#A07830;--white:#FFFFFF;--off:#F8F7F4;--border:#E5E1D8;--muted:#6B7280;--green:#059669;--red:#DC2626;--amber:#D97706}
 *{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --gold:#C9A84C;--gold-dark:#8B6914;--navy:#0D1B2A;--navy-light:#243B55;
-  --white:#FFFFFF;--off:#F7F5F0;--muted:#6B7280;--border:#D1C9B8;
-  --red:#DC2626;--green:#16A34A;--amber:#D97706;
-  --radius:10px;--shadow:0 2px 16px rgba(0,0,0,0.09);
-}
-body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--off);color:var(--navy);min-height:100vh;font-size:15px}
-.nav{background:var(--navy);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100;border-bottom:2px solid var(--gold)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--off);color:var(--navy);min-height:100vh}
+.nav{background:var(--navy);padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.3)}
 .nav-logo{display:flex;align-items:center;gap:12px}
-.logo-mark{width:38px;height:38px;border-radius:50%;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--gold);font-size:13px}
-.nav-company{color:var(--white);font-size:15px;font-weight:700}
-.nav-company span{color:var(--gold);font-weight:400;font-size:12px;display:block}
-.nav-link{color:rgba(255,255,255,0.6);font-size:13px;cursor:pointer;text-decoration:underline}
-.nav-link:hover{color:var(--gold)}
-.page{display:none;padding:28px 16px;max-width:740px;margin:0 auto}
+.logo-mark{background:var(--gold);color:var(--navy);font-weight:900;font-size:15px;padding:6px 10px;border-radius:6px;letter-spacing:.5px}
+.nav-company{color:var(--white);font-weight:700;font-size:13px;line-height:1.3}
+.nav-company span{display:block;color:rgba(255,255,255,0.55);font-size:11px;font-weight:400}
+.nav-link{color:var(--gold);font-size:12px;font-weight:700;cursor:pointer;text-decoration:none;letter-spacing:.3px}
+.page{display:none;max-width:720px;margin:0 auto;padding:24px 16px 48px}
 .page.active{display:block}
-.card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px;margin-bottom:22px;border:1px solid var(--border)}
-.card-header{display:flex;align-items:center;gap:12px;margin-bottom:22px;padding-bottom:16px;border-bottom:2px solid var(--gold)}
-.card-icon{width:40px;height:40px;background:var(--navy);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.card-icon svg{width:20px;height:20px;fill:var(--gold)}
-.card-title{font-size:17px;font-weight:700;color:var(--navy)}
-.card-sub{font-size:12px;color:var(--muted);margin-top:3px}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.card{background:var(--white);border-radius:14px;box-shadow:0 2px 16px rgba(0,0,0,0.07);padding:24px;margin-bottom:20px}
+.card-header{display:flex;align-items:center;gap:14px;margin-bottom:22px;padding-bottom:16px;border-bottom:2px solid var(--border)}
+.card-icon{width:40px;height:40px;background:var(--navy);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.card-icon svg{width:22px;height:22px;fill:var(--gold)}
+.card-title{font-size:16px;font-weight:800;color:var(--navy)}
+.card-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .field{display:flex;flex-direction:column;gap:6px}
 .field.span2{grid-column:span 2}
-label.field-label{font-size:12px;font-weight:700;color:var(--navy-light);text-transform:uppercase;letter-spacing:.5px}
-input,select,textarea{border:1.5px solid var(--border);border-radius:8px;padding:11px 13px;font-size:14px;color:var(--navy);background:var(--white);transition:.2s;width:100%;font-family:inherit}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,0.13)}
-textarea{resize:vertical;min-height:72px}
+.field-label{font-size:12px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.4px}
 .req{color:var(--red);margin-left:2px}
-.radio-group{display:flex;gap:10px;flex-wrap:wrap}
-.radio-opt{display:flex;align-items:center;gap:8px;padding:10px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:14px;transition:.2s;font-weight:500}
-.radio-opt:hover,.radio-opt.selected{border-color:var(--gold);background:rgba(201,168,76,0.07)}
-.radio-opt input[type=radio]{width:16px;height:16px;accent-color:var(--gold);flex-shrink:0}
-.customer-type-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.customer-type-card{border:2px solid var(--border);border-radius:12px;padding:24px 20px;cursor:pointer;transition:.2s;text-align:center;background:var(--white)}
-.customer-type-card:hover,.customer-type-card.selected{border-color:var(--gold);background:rgba(201,168,76,0.06)}
-.ct-icon{width:48px;height:48px;background:var(--navy);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
-.ct-icon svg{width:24px;height:24px;fill:var(--gold)}
-.ct-title{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px}
-.ct-sub{font-size:12px;color:var(--muted);line-height:1.5}
-.loan-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px;margin-top:8px}
-.loan-chip{border:1.5px solid var(--border);border-radius:8px;padding:11px 6px;text-align:center;cursor:pointer;font-size:12px;font-weight:700;color:var(--navy);transition:.2s;background:var(--white)}
-.loan-chip:hover{border-color:var(--gold);color:var(--gold-dark)}
-.loan-chip.selected{border-color:var(--gold);background:var(--navy);color:var(--gold)}
-.upload-zone{border:2px dashed var(--border);border-radius:10px;padding:22px;text-align:center;cursor:pointer;transition:.2s;background:var(--off)}
-.upload-zone:hover{border-color:var(--gold);background:rgba(201,168,76,0.04)}
-.upload-zone.has-file{border-color:var(--green);background:rgba(22,163,74,0.05)}
+input[type=text],input[type=email],input[type=date],input[type=number],input[type=password],select{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 13px;font-size:14px;font-family:inherit;color:var(--navy);background:var(--white);transition:.2s}
+input:focus,select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,0.12)}
+select{cursor:pointer}
+.radio-group{display:flex;flex-wrap:wrap;gap:8px}
+.radio-opt{display:flex;align-items:center;gap:8px;padding:9px 14px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;transition:.2s;user-select:none}
+.radio-opt.selected{background:var(--navy);border-color:var(--navy);color:var(--gold)}
+.radio-opt input{display:none}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;border:2px solid transparent;transition:.2s;font-family:inherit}
+.btn-primary{background:var(--navy);color:var(--gold);border-color:var(--navy)}
+.btn-primary:hover{background:#1a2d42;border-color:#1a2d42}
+.btn-outline{background:transparent;color:var(--navy);border-color:var(--border)}
+.btn-outline:hover{border-color:var(--navy)}
+.btn-success{background:#059669;color:#fff;border-color:#059669}
+.btn-danger{background:#DC2626;color:#fff;border-color:#DC2626}
+.btn-sm{padding:7px 14px;font-size:12px;border-radius:7px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-row{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.loan-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.loan-chip{padding:8px 14px;border:2px solid var(--border);border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;transition:.2s;color:var(--navy)}
+.loan-chip:hover{border-color:var(--gold)}
+.loan-chip.selected{background:var(--navy);border-color:var(--navy);color:var(--gold)}
+.loan-summary{background:linear-gradient(135deg,var(--navy) 0%,#1a2d42 100%);border-radius:12px;padding:20px;margin-bottom:14px}
+.loan-summary-title{color:var(--gold);font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px}
+.loan-summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.loan-sum-item label{display:block;color:rgba(255,255,255,0.55);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+.loan-sum-item .val{color:var(--white);font-size:15px;font-weight:800}
+.loan-sum-item .val.gold{color:var(--gold)}
+.upload-zone{border:2px dashed var(--border);border-radius:10px;padding:24px;text-align:center;cursor:pointer;transition:.2s;background:var(--off)}
+.upload-zone:hover,.upload-zone.has-file{border-color:var(--gold);background:#FFFBF0}
 .upload-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px}
 .upload-sub{font-size:11px;color:var(--muted)}
 .upload-file-name{font-size:12px;color:var(--green);font-weight:700;margin-top:6px}
-/* SIGNATURE */
-.sig-canvas{border:1.5px solid var(--border);border-radius:8px;width:100%;height:160px;cursor:crosshair;background:#fff;touch-action:none}
-.sig-canvas.signed{border-color:var(--green)}
-.sig-btns{display:flex;gap:8px;margin-top:8px}
-.sig-btn{padding:6px 14px;border-radius:6px;border:1.5px solid var(--border);background:var(--white);font-size:12px;font-weight:700;cursor:pointer;color:var(--navy)}
-.sig-btn:hover{border-color:var(--gold);color:var(--gold-dark)}
-.terms-box{background:var(--off);border:1px solid var(--border);border-radius:8px;padding:16px;font-size:12px;color:var(--navy);line-height:1.9;max-height:200px;overflow-y:auto}
+.terms-box{background:var(--off);border-radius:8px;padding:16px;font-size:12px;color:var(--navy);line-height:1.8;max-height:200px;overflow-y:auto;margin-bottom:14px;border:1px solid var(--border)}
 .terms-box ol{padding-left:18px}
 .terms-box li{margin-bottom:6px}
-.terms-accept{display:flex;align-items:flex-start;gap:10px;margin-top:14px;padding:14px;background:rgba(201,168,76,0.07);border-radius:8px;border:1px solid rgba(201,168,76,0.25)}
-.terms-accept input[type=checkbox]{width:16px;height:16px;margin-top:2px;accent-color:var(--gold);flex-shrink:0}
-.terms-accept label{font-size:13px;text-transform:none;letter-spacing:0;font-weight:500;cursor:pointer;line-height:1.5}
-.btn{padding:12px 26px;border-radius:8px;border:none;cursor:pointer;font-size:14px;font-weight:700;transition:.2s;display:inline-flex;align-items:center;gap:8px}
-.btn-primary{background:var(--gold);color:var(--navy)}
-.btn-primary:hover{background:var(--gold-dark);color:var(--white)}
-.btn-primary:disabled{background:var(--border);color:var(--muted);cursor:not-allowed}
-.btn-outline{background:none;border:1.5px solid var(--border);color:var(--navy)}
-.btn-outline:hover{border-color:var(--gold);color:var(--gold-dark)}
-.btn-danger{background:var(--red);color:var(--white)}
-.btn-success{background:var(--green);color:var(--white)}
-.btn-sm{padding:7px 14px;font-size:12px}
-.btn-row{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:22px}
-.loan-summary{background:var(--navy);color:var(--white);border-radius:10px;padding:20px;margin:16px 0}
-.loan-summary-title{color:var(--gold);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;margin-bottom:14px}
-.loan-summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.loan-sum-item label{color:rgba(255,255,255,0.5);font-size:10px;text-transform:uppercase;letter-spacing:.4px;display:block}
-.loan-sum-item .val{color:var(--white);font-size:15px;font-weight:700;margin-top:3px}
-.loan-sum-item .val.gold{color:var(--gold)}
-.stats-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;margin-bottom:22px}
-.stat-card{background:var(--white);border-radius:var(--radius);padding:16px;border:1px solid var(--border);text-align:center}
-.stat-num{font-size:26px;font-weight:800;color:var(--navy)}
+.terms-accept{display:flex;align-items:flex-start;gap:10px;padding:13px;background:var(--off);border-radius:8px;border:1.5px solid var(--border);font-size:13px;line-height:1.6}
+.terms-accept input[type=checkbox]{width:18px;height:18px;margin-top:2px;flex-shrink:0;cursor:pointer;accent-color:var(--navy)}
+.sig-canvas{width:100%;height:160px;border:2px solid var(--border);border-radius:10px;cursor:crosshair;background:#fff;display:block;touch-action:none}
+.sig-canvas.signed{border-color:var(--navy)}
+.sig-btns{display:flex;align-items:center;gap:12px;margin-top:8px}
+.sig-btn{background:none;border:1.5px solid var(--border);border-radius:7px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;color:var(--muted);font-family:inherit}
+.sig-btn:hover{border-color:var(--navy);color:var(--navy)}
+.steps{display:flex;align-items:center;margin-bottom:26px;overflow-x:auto;padding-bottom:4px}
+.step{display:flex;align-items:center;gap:7px;flex-shrink:0}
+.step-num{width:30px;height:30px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--muted);background:var(--white);transition:.3s}
+.step-num.done{background:var(--navy);border-color:var(--navy);color:var(--gold)}
+.step-num.active{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+.step-name{font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap;text-transform:uppercase;letter-spacing:.3px}
+.step-name.active{color:var(--navy)}
+.step-line{width:20px;height:2px;background:var(--border);flex-shrink:0}
+.step-line.done{background:var(--navy)}
+.section-step{display:none}
+.section-step.active{display:block}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:10px;margin-bottom:20px}
+.stat-card{background:var(--white);border-radius:10px;padding:14px;text-align:center;box-shadow:0 1px 6px rgba(0,0,0,0.06)}
+.stat-num{font-size:22px;font-weight:900;color:var(--navy)}
 .stat-num.gold{color:var(--gold-dark)}
 .stat-num.green{color:var(--green)}
 .stat-num.red{color:var(--red)}
 .stat-num.amber{color:var(--amber)}
-.stat-label{font-size:11px;color:var(--muted);margin-top:4px;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
-.table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
+.stat-label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-top:2px}
+.table-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:13px}
-thead{background:var(--navy)}
-thead th{color:var(--gold);padding:12px 14px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;font-weight:700}
+thead th{background:var(--off);padding:11px 14px;text-align:left;font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;border-bottom:2px solid var(--border)}
 tbody tr{border-bottom:1px solid var(--border);transition:.15s}
 tbody tr:hover{background:rgba(201,168,76,0.04)}
 tbody td{padding:12px 14px;vertical-align:middle}
@@ -118,17 +112,6 @@ tbody td{padding:12px 14px;vertical-align:middle}
 .success-title{font-size:22px;font-weight:800;color:var(--navy);margin-bottom:10px}
 .success-sub{font-size:14px;color:var(--muted);line-height:1.7;max-width:420px;margin:0 auto 28px}
 .ref-badge{background:var(--navy);color:var(--gold);padding:14px 28px;border-radius:8px;font-weight:800;font-size:17px;display:inline-block;margin-bottom:24px;letter-spacing:1px}
-.steps{display:flex;align-items:center;margin-bottom:26px;overflow-x:auto;padding-bottom:4px}
-.step{display:flex;align-items:center;gap:7px;flex-shrink:0}
-.step-num{width:30px;height:30px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--muted);background:var(--white);transition:.3s}
-.step-num.done{background:var(--navy);border-color:var(--navy);color:var(--gold)}
-.step-num.active{background:var(--gold);border-color:var(--gold);color:var(--navy)}
-.step-name{font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap;text-transform:uppercase;letter-spacing:.3px}
-.step-name.active{color:var(--navy)}
-.step-line{width:20px;height:2px;background:var(--border);flex-shrink:0}
-.step-line.done{background:var(--navy)}
-.section-step{display:none}
-.section-step.active{display:block}
 .search-bar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
 .search-bar input{flex:1;min-width:180px}
 .filter-tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
@@ -142,7 +125,6 @@ tbody td{padding:12px 14px;vertical-align:middle}
 .alert-warn{background:#FEF3C7;color:#92400E;border:1px solid #FDE68A}
 .alert-danger{background:#FEE2E2;color:#991B1B;border:1px solid #FECACA}
 .alert-success{background:#D1FAE5;color:#065F46;border:1px solid #A7F3D0}
-.alert-info{background:#EFF6FF;color:#1E40AF;border:1px solid #BFDBFE}
 .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-overlay{position:fixed;inset:0;background:rgba(255,255,255,0.88);z-index:300;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;font-size:15px;font-weight:700;color:var(--navy)}
@@ -167,7 +149,6 @@ tbody td{padding:12px 14px;vertical-align:middle}
   .field.span2{grid-column:span 1}
   .loan-summary-grid{grid-template-columns:1fr}
   .stats-row{grid-template-columns:1fr 1fr}
-  .customer-type-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -184,8 +165,7 @@ tbody td{padding:12px 14px;vertical-align:middle}
 
 <!-- APPLY PAGE -->
 <div id="page-apply" class="page active">
-  <!-- NEW CUSTOMER FORM -->
-  <div id="new-customer-form">
+  <div id="main-form">
     <div class="steps">
       <div class="step"><div class="step-num active" id="sn1">1</div><div class="step-name active" id="sl1">Personal</div></div>
       <div class="step-line" id="sl12"></div>
@@ -195,7 +175,7 @@ tbody td{padding:12px 14px;vertical-align:middle}
       <div class="step-line" id="sl34"></div>
       <div class="step"><div class="step-num" id="sn4">4</div><div class="step-name" id="sl4">Documents</div></div>
       <div class="step-line" id="sl45"></div>
-      <div class="step"><div class="step-num" id="sn5">5</div><div class="step-name" id="sl5">Sign & Submit</div></div>
+      <div class="step"><div class="step-num" id="sn5">5</div><div class="step-name" id="sl5">Sign &amp; Submit</div></div>
     </div>
 
     <!-- STEP 1 -->
@@ -203,7 +183,8 @@ tbody td{padding:12px 14px;vertical-align:middle}
       <div class="card">
         <div class="card-header"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div><div><div class="card-title">Personal Information</div><div class="card-sub">Section A — Applicant Details</div></div></div>
         <div class="form-grid">
-          <div class="field"><label class="field-label">First Name<span class="req">*</span></label><input type="text" id="f_fname" placeholder="Enter first name"></div><div class="field"><label class="field-label">Last Name<span class="req">*</span></label><input type="text" id="f_lname" placeholder="Enter last name"></div>
+          <div class="field"><label class="field-label">First Name<span class="req">*</span></label><input type="text" id="f_fname" placeholder="Enter first name"></div>
+          <div class="field"><label class="field-label">Last Name<span class="req">*</span></label><input type="text" id="f_lname" placeholder="Enter last name"></div>
           <div class="field"><label class="field-label">Date of Birth<span class="req">*</span></label><input type="date" id="f_dob" onchange="validateAge(this)"></div>
           <div class="field"><label class="field-label">TRN<span class="req">*</span></label><input type="text" id="f_trn" placeholder="000-000-000" maxlength="11" oninput="formatTRN(this)"></div>
           <div class="field"><label class="field-label">ID Type<span class="req">*</span></label><select id="f_idtype" onchange="updateIDLabel()"><option value="">Select ID type</option><option>National ID</option><option>Driver's Licence</option><option>Passport</option></select></div>
@@ -284,17 +265,19 @@ tbody td{padding:12px 14px;vertical-align:middle}
         <div style="margin-bottom:20px">
           <div style="font-size:12px;font-weight:800;color:var(--gold-dark);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)">Reference 1</div>
           <div class="form-grid">
-            <div class="field"><label class="field-label">First Name<span class="req">*</span></label><input type="text" id="r1fname" placeholder="First name"></div><div class="field"><label class="field-label">Last Name<span class="req">*</span></label><input type="text" id="r1lname" placeholder="Last name"></div>
+            <div class="field"><label class="field-label">First Name<span class="req">*</span></label><input type="text" id="r1fname" placeholder="First name"></div>
+            <div class="field"><label class="field-label">Last Name<span class="req">*</span></label><input type="text" id="r1lname" placeholder="Last name"></div>
             <div class="field"><label class="field-label">Relationship<span class="req">*</span></label><input type="text" id="r1rel" placeholder="e.g. Sister, Employer"></div>
-            <div class="field span2"><label class="field-label">Phone<span class="req">*</span></label><input type="text" id="r1phone" placeholder="876-000-0000" maxlength="12" oninput="formatPhone(this)"></div>
+            <div class="field"><label class="field-label">Phone<span class="req">*</span></label><input type="text" id="r1phone" placeholder="876-000-0000" maxlength="12" oninput="formatPhone(this)"></div>
           </div>
         </div>
         <div style="margin-bottom:20px">
           <div style="font-size:12px;font-weight:800;color:var(--gold-dark);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)">Reference 2</div>
           <div class="form-grid">
-            <div class="field"><label class="field-label">First Name<span class="req">*</span></label><input type="text" id="r2fname" placeholder="First name"></div><div class="field"><label class="field-label">Last Name<span class="req">*</span></label><input type="text" id="r2lname" placeholder="Last name"></div>
+            <div class="field"><label class="field-label">First Name<span class="req">*</span></label><input type="text" id="r2fname" placeholder="First name"></div>
+            <div class="field"><label class="field-label">Last Name<span class="req">*</span></label><input type="text" id="r2lname" placeholder="Last name"></div>
             <div class="field"><label class="field-label">Relationship<span class="req">*</span></label><input type="text" id="r2rel" placeholder="e.g. Neighbour, Friend"></div>
-            <div class="field span2"><label class="field-label">Phone<span class="req">*</span></label><input type="text" id="r2phone" placeholder="876-000-0000" maxlength="12" oninput="formatPhone(this)"></div>
+            <div class="field"><label class="field-label">Phone<span class="req">*</span></label><input type="text" id="r2phone" placeholder="876-000-0000" maxlength="12" oninput="formatPhone(this)"></div>
           </div>
         </div>
         <hr class="section-divider">
@@ -338,7 +321,7 @@ tbody td{padding:12px 14px;vertical-align:middle}
       </div>
     </div>
 
-    <!-- STEP 5: Sign & Submit -->
+    <!-- STEP 5 -->
     <div class="section-step" id="step5">
       <div class="card">
         <div class="card-header"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><div><div class="card-title">Review, Sign and Submit</div><div class="card-sub">Section E and F — Terms, signature and declaration</div></div></div>
@@ -353,9 +336,9 @@ tbody td{padding:12px 14px;vertical-align:middle}
             <li>In case of default, collateral (if provided) may be seized and liquidated to recover outstanding amounts.</li>
             <li>Borrower agrees to allow credit checks and verification of submitted information.</li>
             <li>All information provided is true and accurate to the best of the borrower's knowledge.</li>
-            <li>The borrower is solely responsible for ensuring that all banking information provided is accurate. S&M Financing and Pawn Limited will not be held liable for any errors arising from incorrect banking details. The loan remains repayable regardless of such errors.</li>
-            <li>S&M Financing and Pawn Limited will not be liable for any personal banking issues experienced by the borrower, including holds, freezes, or restrictions on their account.</li>
-            <li>In the event of delinquency, S&M Financing and Pawn Limited reserves the right to use available information, including photographs, to publicly post information on the internet and social media for the purpose of locating and recovering outstanding amounts from delinquent borrowers.</li>
+            <li>The borrower is solely responsible for ensuring that all banking information provided is accurate. S&amp;M Financing and Pawn Limited will not be held liable for any errors arising from incorrect banking details. The loan remains repayable regardless of such errors.</li>
+            <li>S&amp;M Financing and Pawn Limited will not be liable for any personal banking issues experienced by the borrower, including holds, freezes, or restrictions on their account.</li>
+            <li>In the event of delinquency, S&amp;M Financing and Pawn Limited reserves the right to use available information, including photographs, to publicly post information on the internet and social media for the purpose of locating and recovering outstanding amounts from delinquent borrowers.</li>
           </ol></div>
           <div class="terms-accept">
             <input type="checkbox" id="terms-check">
@@ -376,13 +359,12 @@ tbody td{padding:12px 14px;vertical-align:middle}
     </div>
   </div>
 
-
   <!-- SUCCESS -->
   <div id="apply-success" class="hidden">
     <div class="card"><div class="success-screen">
       <svg viewBox="0 0 24 24" style="width:64px;height:64px;fill:var(--green);margin-bottom:16px"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
       <div class="success-title">Application Successfully Submitted</div>
-      <div class="success-sub">Your loan application has been received by S&M Financing and Pawn Limited. You will receive a confirmation email shortly. Please save your reference number for future use.</div>
+      <div class="success-sub">Your loan application has been received by S&amp;M Financing and Pawn Limited. You will receive a confirmation email shortly. Please save your reference number for future use.</div>
       <div class="ref-badge" id="success-ref"></div>
       <br><button class="btn btn-outline" onclick="resetAll()">Submit Another Application</button>
     </div></div>
@@ -392,9 +374,9 @@ tbody td{padding:12px 14px;vertical-align:middle}
 <!-- PRIVACY PAGE -->
 <div id="page-privacy" class="page">
   <div class="card">
-    <div class="card-header"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div><div><div class="card-title">Privacy Policy</div><div class="card-sub">S&M Financing and Pawn Limited — Last updated: January 2025</div></div></div>
+    <div class="card-header"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div><div><div class="card-title">Privacy Policy</div><div class="card-sub">S&amp;M Financing and Pawn Limited — Last updated: January 2025</div></div></div>
     <div class="privacy-content">
-      <p>S&M Financing and Pawn Limited ("we", "us", or "our") is committed to protecting the personal information of our customers in accordance with the <strong>Data Protection Act of Jamaica (2020)</strong>.</p>
+      <p>S&amp;M Financing and Pawn Limited ("we", "us", or "our") is committed to protecting the personal information of our customers in accordance with the <strong>Data Protection Act of Jamaica (2020)</strong>.</p>
       <h2>1. Information We Collect</h2>
       <ul>
         <li>Full name, date of birth, TRN, and government-issued ID details</li>
@@ -416,7 +398,7 @@ tbody td{padding:12px 14px;vertical-align:middle}
         <li>To contact you in the event of a missed or late payment</li>
       </ul>
       <h2>3. Delinquency and Public Disclosure</h2>
-      <p>By submitting this application and accepting these terms, you acknowledge and agree that in the event of delinquency — defined as failure to repay the loan after the due date and after reasonable attempts to contact you have been made — <strong>S&M Financing and Pawn Limited reserves the right to use available information, including your name, photograph, and other identifying details, to publicly post information on the internet and social media platforms for the purpose of locating and recovering outstanding loan amounts.</strong> This measure will only be taken as a last resort after all other collection methods have been exhausted.</p>
+      <p>By submitting this application and accepting these terms, you acknowledge and agree that in the event of delinquency — defined as failure to repay the loan after the due date and after reasonable attempts to contact you have been made — <strong>S&amp;M Financing and Pawn Limited reserves the right to use available information, including your name, photograph, and other identifying details, to publicly post information on the internet and social media platforms for the purpose of locating and recovering outstanding loan amounts.</strong> This measure will only be taken as a last resort after all other collection methods have been exhausted.</p>
       <h2>4. How We Store and Protect Your Information</h2>
       <p>Your personal information and uploaded documents are stored securely using industry-standard encryption. All data is transmitted over encrypted HTTPS connections and stored on secure servers with access controls that restrict access to authorised personnel only.</p>
       <h2>5. Sharing of Information</h2>
@@ -426,7 +408,7 @@ tbody td{padding:12px 14px;vertical-align:middle}
       <h2>7. Retention of Data</h2>
       <p>We retain your personal information for a minimum of seven (7) years following the conclusion of the loan agreement.</p>
       <h2>8. Contact Us</h2>
-      <p><strong>S&M Financing and Pawn Limited</strong><br>Jamaica<br>Email: smfinancingandpawn@gmail.com</p>
+      <p><strong>S&amp;M Financing and Pawn Limited</strong><br>Jamaica<br>Email: smfinancingandpawn@gmail.com</p>
     </div>
     <div class="btn-row" style="margin-top:24px"><button class="btn btn-outline" onclick="hidePrivacy()">Back to Application</button></div>
   </div>
@@ -501,7 +483,7 @@ tbody td{padding:12px 14px;vertical-align:middle}
     <div id="tab-rod" class="hidden">
       <div class="card">
         <div class="card-header"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg></div><div><div class="card-title">JDF Soldier ROD Alerts</div><div class="card-sub">Soldiers whose Run Out Date is within 3 months</div></div></div>
-        <div class="table-wrap"><table><thead><tr><th>Reference</th><th>Name</th><th>Phone</th><th>Regimental No.</th><th>ROD Date</th><th>Days Remaining</th><th>Notes</th></tr></thead><tbody id="rod-tbody"></tbody></table></div>
+        <div class="table-wrap"><table><thead><tr><th>Reference</th><th>Name</th><th>Phone</th><th>Regimental No.</th><th>ROD Date</th><th>Days Remaining</th><th>Alert</th></tr></thead><tbody id="rod-tbody"></tbody></table></div>
       </div>
     </div>
   </div>
@@ -516,6 +498,7 @@ tbody td{padding:12px 14px;vertical-align:middle}
 </div>
 
 <script>
+'use strict';
 const SURL='https://sboxupqcpswdzclnxdbm.supabase.co/rest/v1/';
 const STORAGE_URL='https://sboxupqcpswdzclnxdbm.supabase.co/storage/v1/';
 const SKEY='sb_publishable_36wGVZZD3B1A0aJckfnduw_Kg4HuObp';
@@ -523,22 +506,28 @@ const ADMIN_EMAIL='smfinancingandpawn@gmail.com';
 let ADMIN_PASSWORD=localStorage.getItem('sm_admin_pw')||'admin123';
 const LOAN_AMOUNTS=[10000,15000,20000,25000,30000,35000,40000,45000,50000,55000,60000,65000,70000,75000,80000,85000,90000,95000,100000,110000,150000,200000];
 let selectedAmount=0,selectedTerm='payday',currentStep=1,currentFilter='all';
-
 let allApplications=[],filteredApplications=[];
 let sigPad=null;
 
-// SECRET URL
-function checkSecretURL(){if(window.location.hash==='#admin-sm2025'){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-admin').classList.add('active');}}
+// SECRET ADMIN URL
+function checkSecretURL(){
+  if(window.location.hash==='#admin-sm2025'){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById('page-admin').classList.add('active');
+  }
+}
 window.addEventListener('hashchange',checkSecretURL);
 checkSecretURL();
 
-// DB
-async function db(path,method='GET',body=null){
+// DB HELPERS
+async function db(path,method,body){
+  method=method||'GET';
   const opts={method,headers:{'apikey':SKEY,'Authorization':'Bearer '+SKEY,'Content-Type':'application/json','Prefer':method==='POST'?'return=representation':''}};
   if(body)opts.body=JSON.stringify(body);
   const res=await fetch(SURL+path,opts);
   if(!res.ok)throw new Error(await res.text());
-  const txt=await res.text();return txt?JSON.parse(txt):null;
+  const txt=await res.text();
+  return txt?JSON.parse(txt):null;
 }
 async function dbPatch(path,body){
   const res=await fetch(SURL+path,{method:'PATCH',headers:{'apikey':SKEY,'Authorization':'Bearer '+SKEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify(body)});
@@ -552,73 +541,101 @@ async function uploadFile(file,path){
 async function openDocument(path){
   try{
     showLoading('Opening document...');
-    const encodedPath=path.split('/').map(p=>encodeURIComponent(p)).join('/');
+    const encodedPath=path.split('/').map(function(p){return encodeURIComponent(p);}).join('/');
     const res=await fetch('https://sboxupqcpswdzclnxdbm.supabase.co/storage/v1/object/sign/loan-documents/'+encodedPath,{
       method:'POST',headers:{'apikey':SKEY,'Authorization':'Bearer '+SKEY,'Content-Type':'application/json'},
       body:JSON.stringify({expiresIn:3600})
     });
-    const txt=await res.text();if(!res.ok)throw new Error(txt);
+    const txt=await res.text();
+    if(!res.ok)throw new Error(txt);
     const data=JSON.parse(txt);
     const signedUrl='https://sboxupqcpswdzclnxdbm.supabase.co/storage/v1'+data.signedURL;
     hideLoading();
     window.open(signedUrl,'_blank');
-    // Also trigger download
     const a=document.createElement('a');a.href=signedUrl;a.download=path.split('/').pop();
     document.body.appendChild(a);a.click();document.body.removeChild(a);
   }catch(e){hideLoading();alert('Could not open document: '+e.message);}
 }
 
-// FORMAT
+// FORMAT HELPERS
 function fmtJ(n){return'J$'+Number(n||0).toLocaleString('en-JM',{minimumFractionDigits:2,maximumFractionDigits:2});}
-function formatTRN(el){let v=el.value.replace(/\D/g,'');if(v.length>3)v=v.slice(0,3)+'-'+v.slice(3);if(v.length>7)v=v.slice(0,7)+'-'+v.slice(7);el.value=v.slice(0,11);}
-function formatPhone(el){let v=el.value.replace(/\D/g,'');if(v.length>3)v=v.slice(0,3)+'-'+v.slice(3);if(v.length>7)v=v.slice(0,7)+'-'+v.slice(7);el.value=v.slice(0,12);}
+function formatTRN(el){var v=el.value.replace(/\D/g,'');if(v.length>3)v=v.slice(0,3)+'-'+v.slice(3);if(v.length>7)v=v.slice(0,7)+'-'+v.slice(7);el.value=v.slice(0,11);}
+function formatPhone(el){var v=el.value.replace(/\D/g,'');if(v.length>3)v=v.slice(0,3)+'-'+v.slice(3);if(v.length>7)v=v.slice(0,7)+'-'+v.slice(7);el.value=v.slice(0,12);}
+function formatIncome(el){var raw=el.value.replace(/[^0-9.]/g,'');var parts=raw.split('.');var intPart=parts[0].replace(/\B(?=(\d{3})+(?!\d))/g,',');var decPart=parts.length>1?'.'+parts[1].slice(0,2):'';el.value=intPart+decPart;}
 
-// PAGES
-function showPrivacy(){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-privacy').classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
-function hidePrivacy(){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-apply').classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+// PAGE NAV
+function showPrivacy(){document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});document.getElementById('page-privacy').classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+function hidePrivacy(){document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});document.getElementById('page-apply').classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
 
+// FIELD HELPERS
 function toggleSoldier(el){document.getElementById('soldier-fields').classList.toggle('hidden',el.querySelector('input').value!=='JDF Soldier');}
 function updateIDLabel(){
-  const v=document.getElementById('f_idtype').value;
+  var v=document.getElementById('f_idtype').value;
   document.getElementById('govid-upload-title').textContent=v?'Upload your '+v:'Upload National ID, Driver\'s Licence or Passport';
   document.getElementById('gov-id-label').innerHTML=(v?'3. '+v:'3. Government-Issued ID')+' <span class="req">*</span>';
 }
+function validateAge(el){
+  if(!el.value)return;
+  var dob=new Date(el.value),today=new Date();
+  var age=today.getFullYear()-dob.getFullYear()-(today<new Date(today.getFullYear(),dob.getMonth(),dob.getDate())?1:0);
+  if(age<18){alert('You must be at least 18 years old to apply.');el.value='';}
+}
+function selRadio(el){
+  var name=el.querySelector('input').name;
+  document.querySelectorAll('input[name="'+name+'"]').forEach(function(r){r.closest('.radio-opt').classList.remove('selected');});
+  el.classList.add('selected');
+}
+function handleUpload(input,zoneId,nameId){
+  var f=input.files[0];
+  if(!f)return;
+  if(f.size>5*1024*1024){alert('File must be under 5MB.');input.value='';return;}
+  document.getElementById(zoneId).classList.add('has-file');
+  document.getElementById(nameId).textContent='Uploaded: '+f.name;
+}
+function showLoading(msg){document.getElementById('loading-msg').textContent=msg||'Please wait...';document.getElementById('loading-overlay').style.display='flex';}
+function hideLoading(){document.getElementById('loading-overlay').style.display='none';}
 
 // SIGNATURE
 function initSig(){
-  const canvas=document.getElementById('sig-canvas');
+  var canvas=document.getElementById('sig-canvas');
   sigPad=new SignaturePad(canvas);
-  resizeCanvas(canvas,sigPad);
-}
-
-function resizeCanvas(canvas,pad){
-  const ratio=Math.max(window.devicePixelRatio||1,1);
+  var ratio=Math.max(window.devicePixelRatio||1,1);
   canvas.width=canvas.offsetWidth*ratio;
   canvas.height=canvas.offsetHeight*ratio;
   canvas.getContext('2d').scale(ratio,ratio);
-  if(pad)pad.clear();
+  sigPad.clear();
 }
 function clearSig(){if(sigPad)sigPad.clear();document.getElementById('sig-canvas').classList.remove('signed');document.getElementById('sig-status').textContent='';}
 
-function getSigDataURL(pad){return pad&&!pad.isEmpty()?pad.toDataURL():null;}
-
 // LOAN CHIPS
 function buildChips(){
-  const g=document.getElementById('loan-chips');
+  var g=document.getElementById('loan-chips');
   if(!g)return;
-  LOAN_AMOUNTS.forEach(a=>{
-    const d=document.createElement('div');d.className='loan-chip';d.textContent=fmtJ(a);
-    d.onclick=()=>selectAmount(a,d);
+  LOAN_AMOUNTS.forEach(function(a){
+    var d=document.createElement('div');
+    d.className='loan-chip';
+    d.textContent=fmtJ(a);
+    d.onclick=function(){selectAmount(a,d);};
     g.appendChild(d);
   });
 }
 buildChips();
-function selectAmount(amt,el){document.querySelectorAll('#loan-chips .loan-chip').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');selectedAmount=amt;document.getElementById('two-month-wrap').classList.toggle('hidden',amt!==100000);selectedTerm=amt>=150000?'2month':'payday';calcLoan();}
+
+function selectAmount(amt,el){
+  document.querySelectorAll('#loan-chips .loan-chip').forEach(function(c){c.classList.remove('selected');});
+  el.classList.add('selected');
+  selectedAmount=amt;
+  document.getElementById('two-month-wrap').classList.toggle('hidden',amt!==100000);
+  selectedTerm=amt>=150000?'2month':'payday';
+  calcLoan();
+}
+
 function calcLoan(){
   if(!selectedAmount){document.getElementById('loan-summary-wrap').classList.add('hidden');return;}
-  const t=document.querySelector('input[name="term100k"]:checked');if(selectedAmount===100000&&t)selectedTerm=t.value;
-  const rate=(selectedAmount>=150000||(selectedAmount===100000&&selectedTerm==='2month'))?35:30;
-  const interest=Math.round(selectedAmount*rate/100),total=selectedAmount+interest;
+  var t=document.querySelector('input[name="term100k"]:checked');
+  if(selectedAmount===100000&&t)selectedTerm=t.value;
+  var rate=(selectedAmount>=150000||(selectedAmount===100000&&selectedTerm==='2month'))?35:30;
+  var interest=Math.round(selectedAmount*rate/100),total=selectedAmount+interest;
   document.getElementById('sum-amount').textContent=fmtJ(selectedAmount);
   document.getElementById('sum-rate').textContent=rate+'%';
   document.getElementById('sum-interest').textContent=fmtJ(interest);
@@ -627,362 +644,489 @@ function calcLoan(){
   document.getElementById('sum-issued').textContent=new Date().toLocaleDateString('en-JM');
   document.getElementById('loan-summary-wrap').classList.remove('hidden');
 }
-function updateStepUI(){for(let i=1;i<=5;i++){const num=document.getElementById('sn'+i),lbl=document.getElementById('sl'+i);if(i<currentStep){num.className='step-num done';num.textContent='✓';}else if(i===currentStep){num.className='step-num active';num.textContent=i;lbl.className='step-name active';}else{num.className='step-num';num.textContent=i;lbl.className='step-name';}if(i<5){const l=document.getElementById('sl'+i+(i+1));if(l)l.className='step-line'+(i<currentStep?' done':'');}}}
-function goStep(n){if(n>currentStep&&!validateStep(currentStep))return;document.getElementById('step'+currentStep).classList.remove('active');currentStep=n;document.getElementById('step'+currentStep).classList.add('active');updateStepUI();window.scrollTo({top:0,behavior:'smooth'});if(n===5)initSig();}
-function validateStep(s){
-  if(s===1){
-    for(const[id,lbl]of[['f_fname','First Name'],['f_lname','Last Name'],['f_dob','Date of Birth'],['f_trn','TRN'],['f_idtype','ID Type'],['f_idnum','ID Number'],['f_address','Address'],['f_phone','Phone'],['f_email','Email']]){if(!document.getElementById(id).value.trim()){alert(lbl+' is required.');document.getElementById(id).focus();return false;}}
-    if(!document.querySelector('input[name="empstatus"]:checked')){alert('Please select employment status.');return false;}
-    if(!document.querySelector('input[name="custtype"]:checked')){alert('Please select JDF Soldier or Civilian.');return false;}
-    const ct=document.querySelector('input[name="custtype"]:checked')?.value;
-    if(ct==='JDF Soldier'){if(!document.getElementById('f_reg_num').value.trim()){alert('Regimental number is required for JDF Soldiers.');return false;}if(!document.getElementById('f_rod').value){alert('Run Out Date is required for JDF Soldiers.');return false;}}
+
+// STEP NAVIGATION
+function updateStepUI(){
+  for(var i=1;i<=5;i++){
+    var num=document.getElementById('sn'+i),lbl=document.getElementById('sl'+i);
+    if(i<currentStep){num.className='step-num done';num.textContent='✓';lbl.className='step-name';}
+    else if(i===currentStep){num.className='step-num active';num.textContent=i;lbl.className='step-name active';}
+    else{num.className='step-num';num.textContent=i;lbl.className='step-name';}
+    if(i<5){var l=document.getElementById('sl'+i+(i+1));if(l)l.className='step-line'+(i<currentStep?' done':'');}
   }
-  if(s===2){if(!selectedAmount){alert('Please select a loan amount.');return false;}if(selectedAmount===100000&&!document.querySelector('input[name="term100k"]:checked')){alert('Please select your repayment term.');return false;}if(!document.getElementById('f_purpose').value.trim()){alert('Please enter the purpose of the loan.');return false;}if(!document.querySelector('input[name="repfreq"]:checked')){alert('Please select repayment frequency.');return false;}}
-  if(s===3){for(const[id,lbl]of[['r1fname','Ref 1 First Name'],['r1lname','Ref 1 Last Name'],['r1rel','Ref 1 Relationship'],['r1phone','Ref 1 Phone'],['r2fname','Ref 2 First Name'],['r2lname','Ref 2 Last Name'],['r2rel','Ref 2 Relationship'],['r2phone','Ref 2 Phone']]){if(!document.getElementById(id).value.trim()){alert(lbl+' is required.');return false;}}}
-  if(s===4){if(!document.getElementById('up-payslip').files[0]){alert('Please upload your payslip.');return false;}if(!document.getElementById('up-workid').files[0]){alert('Please upload your work ID.');return false;}if(!document.getElementById('up-govid').files[0]){const t=document.getElementById('f_idtype').value||'government ID';alert('Please upload your '+t+'.');return false;}if(!document.getElementById('up-address').files[0]){alert('Please upload proof of address.');return false;}}
-  return true;
-}
-function buildReview(){
-  const rate=(selectedAmount>=150000||(selectedAmount===100000&&selectedTerm==='2month'))?35:30;
-  const interest=Math.round(selectedAmount*rate/100),total=selectedAmount+interest;
-  const name=document.getElementById('f_fname').value+' '+document.getElementById('f_lname').value;
-  document.getElementById('decl-name').textContent=name||'the applicant';
-  document.getElementById('review-summary').innerHTML=`<div style="background:var(--off);border-radius:10px;padding:18px;margin-bottom:16px"><div style="font-size:11px;font-weight:800;color:var(--gold-dark);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">Application Summary</div><div class="info-row"><span class="ik">Applicant</span><span class="iv">${name}</span></div><div class="info-row"><span class="ik">Phone</span><span class="iv">${document.getElementById('f_phone').value}</span></div><div class="info-row"><span class="ik">Loan Amount</span><span class="iv">${fmtJ(selectedAmount)}</span></div><div class="info-row"><span class="ik">Interest (${rate}%)</span><span class="iv">${fmtJ(interest)}</span></div><div class="info-row"><span class="ik">Total Repayment</span><span class="iv" style="color:var(--gold-dark)">${fmtJ(total)}</span></div><div class="info-row"><span class="ik">Frequency</span><span class="iv">${document.querySelector('input[name="repfreq"]:checked')?.value||'—'}</span></div><div class="info-row"><span class="ik">Purpose</span><span class="iv">${document.getElementById('f_purpose').value}</span></div></div>`;
 }
 
-// SUBMIT NEW
+function goStep(n){
+  if(n>currentStep&&!validateStep(currentStep))return;
+  document.getElementById('step'+currentStep).classList.remove('active');
+  currentStep=n;
+  document.getElementById('step'+currentStep).classList.add('active');
+  updateStepUI();
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(n===5)buildReview();
+  if(n===5)initSig();
+}
+
+function validateStep(s){
+  if(s===1){
+    var fields=[['f_fname','First Name'],['f_lname','Last Name'],['f_dob','Date of Birth'],['f_trn','TRN'],['f_idtype','ID Type'],['f_idnum','ID Number'],['f_address','Address'],['f_phone','Phone'],['f_email','Email']];
+    for(var i=0;i<fields.length;i++){
+      if(!document.getElementById(fields[i][0]).value.trim()){
+        alert(fields[i][1]+' is required.');
+        document.getElementById(fields[i][0]).focus();
+        return false;
+      }
+    }
+    if(!document.querySelector('input[name="empstatus"]:checked')){alert('Please select employment status.');return false;}
+    if(!document.querySelector('input[name="custtype"]:checked')){alert('Please select JDF Soldier or Civilian.');return false;}
+    var ct=document.querySelector('input[name="custtype"]:checked').value;
+    if(ct==='JDF Soldier'){
+      if(!document.getElementById('f_reg_num').value.trim()){alert('Regimental number is required for JDF Soldiers.');return false;}
+      if(!document.getElementById('f_rod').value){alert('Run Out Date is required for JDF Soldiers.');return false;}
+    }
+  }
+  if(s===2){
+    if(!selectedAmount){alert('Please select a loan amount.');return false;}
+    if(selectedAmount===100000&&!document.querySelector('input[name="term100k"]:checked')){alert('Please select your repayment term.');return false;}
+    if(!document.getElementById('f_purpose').value.trim()){alert('Please enter the purpose of the loan.');return false;}
+    if(!document.querySelector('input[name="repfreq"]:checked')){alert('Please select repayment frequency.');return false;}
+  }
+  if(s===3){
+    var refs=[['r1fname','Ref 1 First Name'],['r1lname','Ref 1 Last Name'],['r1rel','Ref 1 Relationship'],['r1phone','Ref 1 Phone'],['r2fname','Ref 2 First Name'],['r2lname','Ref 2 Last Name'],['r2rel','Ref 2 Relationship'],['r2phone','Ref 2 Phone']];
+    for(var j=0;j<refs.length;j++){
+      if(!document.getElementById(refs[j][0]).value.trim()){alert(refs[j][1]+' is required.');return false;}
+    }
+  }
+  if(s===4){
+    if(!document.getElementById('up-payslip').files[0]){alert('Please upload your payslip.');return false;}
+    if(!document.getElementById('up-workid').files[0]){alert('Please upload your work ID.');return false;}
+    if(!document.getElementById('up-govid').files[0]){var t2=document.getElementById('f_idtype').value||'government ID';alert('Please upload your '+t2+'.');return false;}
+    if(!document.getElementById('up-address').files[0]){alert('Please upload proof of address.');return false;}
+  }
+  return true;
+}
+
+function buildReview(){
+  var rate=(selectedAmount>=150000||(selectedAmount===100000&&selectedTerm==='2month'))?35:30;
+  var interest=Math.round(selectedAmount*rate/100),total=selectedAmount+interest;
+  var name=(document.getElementById('f_fname').value+' '+document.getElementById('f_lname').value).trim();
+  document.getElementById('decl-name').textContent=name||'the applicant';
+  document.getElementById('review-summary').innerHTML='<div style="background:var(--off);border-radius:10px;padding:18px;margin-bottom:16px"><div style="font-size:11px;font-weight:800;color:var(--gold-dark);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">Application Summary</div><div class="info-row"><span class="ik">Applicant</span><span class="iv">'+name+'</span></div><div class="info-row"><span class="ik">Phone</span><span class="iv">'+document.getElementById('f_phone').value+'</span></div><div class="info-row"><span class="ik">Loan Amount</span><span class="iv">'+fmtJ(selectedAmount)+'</span></div><div class="info-row"><span class="ik">Interest ('+rate+'%)</span><span class="iv">'+fmtJ(interest)+'</span></div><div class="info-row"><span class="ik">Total Repayment</span><span class="iv" style="color:var(--gold-dark)">'+fmtJ(total)+'</span></div><div class="info-row"><span class="ik">Frequency</span><span class="iv">'+(document.querySelector('input[name="repfreq"]:checked')?document.querySelector('input[name="repfreq"]:checked').value:'—')+'</span></div><div class="info-row"><span class="ik">Purpose</span><span class="iv">'+document.getElementById('f_purpose').value+'</span></div></div>';
+}
+
+// SUBMIT APPLICATION
 async function submitApplication(){
   if(!document.getElementById('terms-check').checked){alert('Please accept the terms and conditions.');return;}
   if(!sigPad||sigPad.isEmpty()){alert('Please provide your signature before submitting.');return;}
-  const btn=document.getElementById('submit-btn');btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Submitting...';
+  var btn=document.getElementById('submit-btn');
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Submitting...';
   showLoading('Uploading documents...');
   try{
-    const rate=(selectedAmount>=150000||(selectedAmount===100000&&selectedTerm==='2month'))?35:30;
-    const interest=Math.round(selectedAmount*rate/100),total=selectedAmount+interest;
-    const today=new Date(),dueDate=new Date(today.getTime()+(selectedTerm==='2month'?60:14)*86400000);
-    const ref='SM'+String(Math.floor(1000+Math.random()*9000));
-    const custType=document.querySelector('input[name="custtype"]:checked')?.value;
-    const ts=Date.now();
-    const payslipFile=document.getElementById('up-payslip').files[0];
-    const workidFile=document.getElementById('up-workid').files[0];
-    const govidFile=document.getElementById('up-govid').files[0];
-    const addressFile=document.getElementById('up-address').files[0];
-    const payslipPath=await uploadFile(payslipFile,ref+'/payslip_'+ts+'.'+payslipFile.name.split('.').pop());
-    const workidPath=await uploadFile(workidFile,ref+'/workid_'+ts+'.'+workidFile.name.split('.').pop());
-    const govidPath=await uploadFile(govidFile,ref+'/govid_'+ts+'.'+govidFile.name.split('.').pop());
-    const addressPath=await uploadFile(addressFile,ref+'/address_'+ts+'.'+addressFile.name.split('.').pop());
-    const sigDataUrl=getSigDataURL(sigPad);
+    var rate=(selectedAmount>=150000||(selectedAmount===100000&&selectedTerm==='2month'))?35:30;
+    var interest=Math.round(selectedAmount*rate/100),total=selectedAmount+interest;
+    var today=new Date(),dueDate=new Date(today.getTime()+(selectedTerm==='2month'?60:14)*86400000);
+    var ref='SM'+String(Math.floor(1000+Math.random()*9000));
+    var custType=document.querySelector('input[name="custtype"]:checked')?document.querySelector('input[name="custtype"]:checked').value:'';
+    var ts=Date.now();
+    var payslipFile=document.getElementById('up-payslip').files[0];
+    var workidFile=document.getElementById('up-workid').files[0];
+    var govidFile=document.getElementById('up-govid').files[0];
+    var addressFile=document.getElementById('up-address').files[0];
+    var payslipPath=await uploadFile(payslipFile,ref+'/payslip_'+ts+'.'+payslipFile.name.split('.').pop());
+    var workidPath=await uploadFile(workidFile,ref+'/workid_'+ts+'.'+workidFile.name.split('.').pop());
+    var govidPath=await uploadFile(govidFile,ref+'/govid_'+ts+'.'+govidFile.name.split('.').pop());
+    var addressPath=await uploadFile(addressFile,ref+'/address_'+ts+'.'+addressFile.name.split('.').pop());
+    var sigDataUrl=sigPad.toDataURL();
     showLoading('Saving your application...');
-    const [applicant]=await db('applicants','POST',{
-      first_name:document.getElementById('f_fname').value,last_name:document.getElementById('f_lname').value,date_of_birth:document.getElementById('f_dob').value,
-      trn:document.getElementById('f_trn').value,id_type:document.getElementById('f_idtype').value,
-      id_number:document.getElementById('f_idnum').value,address:document.getElementById('f_address').value,
-      phone:document.getElementById('f_phone').value,email:document.getElementById('f_email').value,
-      employment_status:document.querySelector('input[name="empstatus"]:checked')?.value,
-      employer:document.getElementById('f_employer').value||null,job_title:document.getElementById('f_jobtitle').value||null,
+    var appResult=await db('applicants','POST',{
+      first_name:document.getElementById('f_fname').value.trim(),
+      last_name:document.getElementById('f_lname').value.trim(),
+      date_of_birth:document.getElementById('f_dob').value,
+      trn:document.getElementById('f_trn').value,
+      id_type:document.getElementById('f_idtype').value,
+      id_number:document.getElementById('f_idnum').value,
+      address:document.getElementById('f_address').value,
+      phone:document.getElementById('f_phone').value,
+      email:document.getElementById('f_email').value,
+      employment_status:document.querySelector('input[name="empstatus"]:checked')?document.querySelector('input[name="empstatus"]:checked').value:null,
+      employer:document.getElementById('f_employer').value||null,
+      job_title:document.getElementById('f_jobtitle').value||null,
       monthly_income:document.getElementById('f_income').value||null
     });
-    const [loan]=await db('loans','POST',{
-      applicant_id:applicant.id,reference_number:ref,loan_amount:selectedAmount,
-      interest_rate:rate,interest_amount:interest,total_repayment:total,
+    var applicant=appResult[0];
+    var loanResult=await db('loans','POST',{
+      applicant_id:applicant.id,
+      reference_number:ref,
+      loan_amount:selectedAmount,
+      interest_rate:rate,
+      interest_amount:interest,
+      total_repayment:total,
       purpose:document.getElementById('f_purpose').value,
-      repayment_frequency:document.querySelector('input[name="repfreq"]:checked')?.value,
-      loan_term:selectedTerm,issued_date:today.toISOString().split('T')[0],
-      due_date:dueDate.toISOString().split('T')[0],status:'pending',
+      repayment_frequency:document.querySelector('input[name="repfreq"]:checked')?document.querySelector('input[name="repfreq"]:checked').value:null,
+      loan_term:selectedTerm,
+      issued_date:today.toISOString().split('T')[0],
+      due_date:dueDate.toISOString().split('T')[0],
+      status:'pending',
       customer_type:custType,
       rod_date:custType==='JDF Soldier'?document.getElementById('f_rod').value:null,
       regimental_number:custType==='JDF Soldier'?document.getElementById('f_reg_num').value:null,
-      doc_payslip:payslipPath,doc_workid:workidPath,doc_govid:govidPath,doc_address:addressPath,
+      doc_payslip:payslipPath,
+      doc_workid:workidPath,
+      doc_govid:govidPath,
+      doc_address:addressPath,
       signature_data:sigDataUrl
     });
-    await db('loan_references','POST',{loan_id:loan.id,ref_number:1,first_name:document.getElementById('r1fname').value,last_name:document.getElementById('r1lname').value,relationship:document.getElementById('r1rel').value,phone:document.getElementById('r1phone').value});
-    await db('loan_references','POST',{loan_id:loan.id,ref_number:2,first_name:document.getElementById('r2fname').value,last_name:document.getElementById('r2lname').value,relationship:document.getElementById('r2rel').value,phone:document.getElementById('r2phone').value});
-    const colItem=document.getElementById('col_item').value;
+    var loan=loanResult[0];
+    await db('loan_references','POST',{loan_id:loan.id,ref_number:1,first_name:document.getElementById('r1fname').value.trim(),last_name:document.getElementById('r1lname').value.trim(),relationship:document.getElementById('r1rel').value,phone:document.getElementById('r1phone').value});
+    await db('loan_references','POST',{loan_id:loan.id,ref_number:2,first_name:document.getElementById('r2fname').value.trim(),last_name:document.getElementById('r2lname').value.trim(),relationship:document.getElementById('r2rel').value,phone:document.getElementById('r2phone').value});
+    var colItem=document.getElementById('col_item').value;
     if(colItem)await db('collateral','POST',{loan_id:loan.id,collateral_offered:colItem,estimated_value:document.getElementById('col_val').value||null,description:document.getElementById('col_desc').value||null});
     hideLoading();
-    document.getElementById('new-customer-form').classList.add('hidden');
+    document.getElementById('main-form').classList.add('hidden');
     document.getElementById('apply-success').classList.remove('hidden');
     document.getElementById('success-ref').textContent='Reference Number: '+ref;
-    sendPendingEmail(document.getElementById('f_email').value,document.getElementById('f_fname').value+' '+document.getElementById('f_lname').value,ref);
-  }catch(e){hideLoading();btn.disabled=false;btn.innerHTML='Submit Application';alert('Submission failed: '+e.message);}
+    sendConfirmEmail(document.getElementById('f_email').value,(document.getElementById('f_fname').value+' '+document.getElementById('f_lname').value).trim(),ref);
+  }catch(e){
+    hideLoading();
+    btn.disabled=false;
+    btn.innerHTML='Submit Application';
+    alert('Submission failed: '+e.message);
+  }
 }
 
-// SUBMIT RETURNING
-async function sendApprovalEmail(email,name,ref,dueDate,amount){
-  const subject='Your Loan Has Been Approved — Reference '+ref;
-  const body=`Dear ${name},\n\nWe are pleased to inform you that your loan application (Reference: ${ref}) has been APPROVED by S&M Financing and Pawn Limited.\n\nLoan Details:\n- Total Amount Due: ${amount}\n- Payment Due Date: ${dueDate}\n\nPlease ensure that full repayment is made on or before the due date stated above to avoid late payment fees.\n\nAs a reminder:\n- A daily late fee of J$500.00 applies after the due date.\n- If overdue by more than 10 days, an additional 30% interest will be charged.\n\nThank you for choosing S&M Financing and Pawn Limited.\n\nS&M Financing and Pawn Limited\nsmfinancingandpawn@gmail.com`;
+function resetAll(){
+  document.getElementById('main-form').classList.remove('hidden');
+  document.getElementById('apply-success').classList.add('hidden');
+  document.getElementById('main-form').querySelectorAll('input[type=text],input[type=email],input[type=date],input[type=number],input[type=password],select,textarea').forEach(function(el){el.value='';});
+  document.getElementById('main-form').querySelectorAll('.radio-opt').forEach(function(el){el.classList.remove('selected');});
+  document.getElementById('main-form').querySelectorAll('input[type=radio],input[type=checkbox]').forEach(function(el){el.checked=false;});
+  document.getElementById('main-form').querySelectorAll('.upload-zone').forEach(function(el){el.classList.remove('has-file');});
+  document.getElementById('main-form').querySelectorAll('.upload-file-name').forEach(function(el){el.textContent='';});
+  document.getElementById('soldier-fields').classList.add('hidden');
+  document.getElementById('two-month-wrap').classList.add('hidden');
+  document.getElementById('loan-summary-wrap').classList.add('hidden');
+  document.getElementById('loan-chips').querySelectorAll('.loan-chip').forEach(function(c){c.classList.remove('selected');});
+  selectedAmount=0;selectedTerm='payday';
+  currentStep=1;
+  document.querySelectorAll('.section-step').forEach(function(el){el.classList.remove('active');});
+  document.getElementById('step1').classList.add('active');
+  updateStepUI();
+  if(sigPad)sigPad.clear();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// EMAIL (mailto fallback)
+function sendConfirmEmail(email,name,ref){
+  var subject='Loan Application Received — Reference '+ref;
+  var body='Dear '+name+',\n\nThank you for submitting your loan application to S&M Financing and Pawn Limited.\n\nYour reference number is: '+ref+'\n\nWe will review your application and be in touch shortly.\n\nS&M Financing and Pawn Limited\nsmfinancingandpawn@gmail.com';
+  window.open('mailto:'+email+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body));
+}
+function sendApprovalEmail(email,name,ref,dueDate,amount){
+  var subject='Your Loan Has Been Approved — Reference '+ref;
+  var body='Dear '+name+',\n\nWe are pleased to inform you that your loan application (Reference: '+ref+') has been APPROVED by S&M Financing and Pawn Limited.\n\nLoan Details:\n- Total Amount Due: '+amount+'\n- Payment Due Date: '+dueDate+'\n\nPlease ensure that full repayment is made on or before the due date to avoid late payment fees.\n\nAs a reminder:\n- A daily late fee of J$500.00 applies after the due date.\n- If overdue by more than 10 days, an additional 30% interest will be charged.\n\nThank you for choosing S&M Financing and Pawn Limited.\n\nS&M Financing and Pawn Limited\nsmfinancingandpawn@gmail.com';
   window.open('mailto:'+email+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body));
 }
 function sendRejectionEmail(email,name,ref){
-  const subject='Loan Application Update — Reference '+ref;
-  const body=`Dear ${name},\n\nThank you for applying with S&M Financing and Pawn Limited.\n\nAfter careful review of your loan application (Reference: ${ref}), we regret to inform you that your application has not been approved at this time.\n\nUnfortunately, based on our assessment, we are unable to grant the requested loan. This decision may be based on a number of factors including but not limited to the information provided in your application.\n\nWe encourage you to reapply in the future should your circumstances change. If you have any questions regarding this decision, please do not hesitate to contact us.\n\nThank you for your interest in S&M Financing and Pawn Limited. We wish you all the best.\n\nS&M Financing and Pawn Limited\nsmfinancingandpawn@gmail.com`;
+  var subject='Loan Application Update — Reference '+ref;
+  var body='Dear '+name+',\n\nThank you for applying with S&M Financing and Pawn Limited.\n\nAfter careful review of your loan application (Reference: '+ref+'), we regret to inform you that your application has not been approved at this time.\n\nIf you have any questions, please contact us at smfinancingandpawn@gmail.com.\n\nS&M Financing and Pawn Limited';
   window.open('mailto:'+email+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body));
 }
 function sendRODAlertEmail(name,phone,ref,rodDate,regNum){
-  const subject='ROD ALERT — '+name+' ('+ref+') expires '+rodDate;
-  const body=`ROD ALERT — Action Required\n\nThe following JDF Soldier's Run Out Date is within 3 months:\n\nName: ${name}\nReference: ${ref}\nRegimental Number: ${regNum||'N/A'}\nPhone: ${phone}\nRun Out Date: ${rodDate}\n\nPlease review this customer's account and take appropriate action.\n\nS&M Financing and Pawn Limited Administration System`;
+  var subject='ROD ALERT — '+name+' ('+ref+') expires '+rodDate;
+  var body='ROD ALERT — Action Required\n\nThe following JDF Soldier\'s Run Out Date is within 3 months:\n\nName: '+name+'\nReference: '+ref+'\nRegimental Number: '+(regNum||'N/A')+'\nPhone: '+phone+'\nRun Out Date: '+rodDate+'\n\nPlease review this customer\'s account and take appropriate action.\n\nS&M Financing and Pawn Limited Administration System';
   window.open('mailto:'+ADMIN_EMAIL+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body));
 }
 
 // ADMIN
-function adminLogin(){if(document.getElementById('admin-pw').value===ADMIN_PASSWORD){document.getElementById('admin-login').classList.add('hidden');document.getElementById('admin-dash').classList.remove('hidden');loadDashboard();}else{document.getElementById('login-err').classList.remove('hidden');}}
-function adminLogout(){document.getElementById('admin-login').classList.remove('hidden');document.getElementById('admin-dash').classList.add('hidden');document.getElementById('admin-pw').value='';document.getElementById('login-err').classList.add('hidden');}
+function adminLogin(){
+  if(document.getElementById('admin-pw').value===ADMIN_PASSWORD){
+    document.getElementById('admin-login').classList.add('hidden');
+    document.getElementById('admin-dash').classList.remove('hidden');
+    loadDashboard();
+  }else{
+    document.getElementById('login-err').classList.remove('hidden');
+  }
+}
+function adminLogout(){
+  document.getElementById('admin-login').classList.remove('hidden');
+  document.getElementById('admin-dash').classList.add('hidden');
+  document.getElementById('admin-pw').value='';
+  document.getElementById('login-err').classList.add('hidden');
+}
 function showChangePw(){document.getElementById('change-pw-card').classList.remove('hidden');}
 function hideChangePw(){document.getElementById('change-pw-card').classList.add('hidden');}
 function changePassword(){
-  const cur=document.getElementById('pw-current').value,np=document.getElementById('pw-new').value,cf=document.getElementById('pw-confirm').value;
-  const msg=document.getElementById('pw-msg');
+  var cur=document.getElementById('pw-current').value,np=document.getElementById('pw-new').value,cf=document.getElementById('pw-confirm').value;
+  var msg=document.getElementById('pw-msg');
   if(cur!==ADMIN_PASSWORD){msg.className='alert alert-danger';msg.textContent='Current password incorrect.';msg.classList.remove('hidden');return;}
   if(np.length<6){msg.className='alert alert-warn';msg.textContent='New password must be at least 6 characters.';msg.classList.remove('hidden');return;}
   if(np!==cf){msg.className='alert alert-danger';msg.textContent='Passwords do not match.';msg.classList.remove('hidden');return;}
   ADMIN_PASSWORD=np;localStorage.setItem('sm_admin_pw',np);
   msg.className='alert alert-success';msg.textContent='Password updated successfully.';msg.classList.remove('hidden');
-  setTimeout(()=>{hideChangePw();['pw-current','pw-new','pw-confirm'].forEach(id=>document.getElementById(id).value='');msg.classList.add('hidden');},2000);
+  setTimeout(function(){hideChangePw();['pw-current','pw-new','pw-confirm'].forEach(function(id){document.getElementById(id).value='';});msg.classList.add('hidden');},2000);
 }
 
 async function loadDashboard(){
   showLoading('Loading applications...');
   try{
-    const loans=await db('loans?select=*,applicants(*),loan_references(*),collateral(*)&order=created_at.desc');
-    allApplications=loans||[];checkOverdue();renderStats();
-    filteredApplications=[...allApplications];renderTable();renderDelinquent();renderPayments();renderROD();
-  }catch(e){alert('Failed to load: '+e.message);}finally{hideLoading();}
+    var loans=await db('loans?select=*,applicants(*),loan_references(*),collateral(*)&order=created_at.desc');
+    allApplications=loans||[];
+    checkOverdue();
+    renderStats();
+    filteredApplications=allApplications.slice();
+    renderTable();renderDelinquent();renderPayments();renderROD();
+  }catch(e){alert('Failed to load: '+e.message);}
+  finally{hideLoading();}
 }
 
-function checkOverdue(){const today=new Date();allApplications.forEach(a=>{if(a.status==='approved'&&Math.floor((today-new Date(a.due_date))/86400000)>0)a.status='overdue';});}
+function checkOverdue(){
+  var today=new Date();
+  allApplications.forEach(function(a){
+    if(a.status==='approved'&&Math.floor((today-new Date(a.due_date))/86400000)>0)a.status='overdue';
+  });
+}
 
 function renderStats(){
-  const t=allApplications.length,pending=allApplications.filter(a=>a.status==='pending').length;
-  const approved=allApplications.filter(a=>a.status==='approved').length,paid=allApplications.filter(a=>a.status==='paid').length;
-  const overdue=allApplications.filter(a=>a.status==='overdue').length,delinquent=allApplications.filter(a=>a.status==='delinquent').length;
-  const outstanding=allApplications.filter(a=>!['paid','rejected'].includes(a.status)).reduce((s,a)=>s+Number(a.total_repayment),0);
-  document.getElementById('stats-row').innerHTML=`
-    <div class="stat-card"><div class="stat-num gold">${t}</div><div class="stat-label">Total</div></div>
-    <div class="stat-card"><div class="stat-num amber">${pending}</div><div class="stat-label">Pending</div></div>
-    <div class="stat-card"><div class="stat-num">${approved}</div><div class="stat-label">Approved</div></div>
-    <div class="stat-card"><div class="stat-num green">${paid}</div><div class="stat-label">Paid</div></div>
-    <div class="stat-card"><div class="stat-num amber">${overdue}</div><div class="stat-label">Overdue</div></div>
-    <div class="stat-card"><div class="stat-num red">${delinquent}</div><div class="stat-label">Delinquent</div></div>
-    <div class="stat-card"><div class="stat-num red" style="font-size:13px">${fmtJ(outstanding)}</div><div class="stat-label">Outstanding</div></div>`;
+  var t=allApplications.length;
+  var pending=allApplications.filter(function(a){return a.status==='pending';}).length;
+  var approved=allApplications.filter(function(a){return a.status==='approved';}).length;
+  var paid=allApplications.filter(function(a){return a.status==='paid';}).length;
+  var overdue=allApplications.filter(function(a){return a.status==='overdue';}).length;
+  var delinquent=allApplications.filter(function(a){return a.status==='delinquent';}).length;
+  var outstanding=allApplications.filter(function(a){return a.status!=='paid'&&a.status!=='rejected';}).reduce(function(s,a){return s+Number(a.total_repayment);},0);
+  document.getElementById('stats-row').innerHTML=
+    '<div class="stat-card"><div class="stat-num gold">'+t+'</div><div class="stat-label">Total</div></div>'+
+    '<div class="stat-card"><div class="stat-num amber">'+pending+'</div><div class="stat-label">Pending</div></div>'+
+    '<div class="stat-card"><div class="stat-num">'+approved+'</div><div class="stat-label">Approved</div></div>'+
+    '<div class="stat-card"><div class="stat-num green">'+paid+'</div><div class="stat-label">Paid</div></div>'+
+    '<div class="stat-card"><div class="stat-num amber">'+overdue+'</div><div class="stat-label">Overdue</div></div>'+
+    '<div class="stat-card"><div class="stat-num red">'+delinquent+'</div><div class="stat-label">Delinquent</div></div>'+
+    '<div class="stat-card"><div class="stat-num red" style="font-size:13px">'+fmtJ(outstanding)+'</div><div class="stat-label">Outstanding</div></div>';
 }
 
-function switchAdminTab(tab,el){document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');['all','delinquent','payment','rod'].forEach(t=>document.getElementById('tab-'+t).classList.toggle('hidden',t!==tab));}
-function setFilter(f,el){currentFilter=f;document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');filterTable();}
+function switchAdminTab(tab,el){
+  document.querySelectorAll('.admin-tab').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+  ['all','delinquent','payment','rod'].forEach(function(t){document.getElementById('tab-'+t).classList.toggle('hidden',t!==tab);});
+}
+function setFilter(f,el){
+  currentFilter=f;
+  document.querySelectorAll('.filter-tab').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+  filterTable();
+}
 function filterTable(){
-  const q=(document.getElementById('search-input').value||'').toLowerCase();
-  filteredApplications=allApplications.filter(a=>{
-    const name=((a.applicants?.first_name||'')+(a.applicants?.last_name?' '+a.applicants.last_name:'')).trim()||'',phone=a.applicants?.phone||'',trn=a.applicants?.trn||'';
+  var q=(document.getElementById('search-input').value||'').toLowerCase();
+  filteredApplications=allApplications.filter(function(a){
+    var name=getName(a.applicants),phone=a.applicants?a.applicants.phone||'':'',trn=a.applicants?a.applicants.trn||'':'';
     return(currentFilter==='all'||a.status===currentFilter)&&(!q||name.toLowerCase().includes(q)||phone.includes(q)||trn.includes(q)||(a.reference_number||'').toLowerCase().includes(q));
-  });renderTable();
+  });
+  renderTable();
 }
+
+function getName(app){
+  if(!app)return'';
+  return((app.first_name||'')+(app.last_name?' '+app.last_name:'')).trim()||'Unknown';
+}
+
 function renderTable(){
-  const tbody=document.getElementById('apps-tbody');
-  if(!filteredApplications.length){tbody.innerHTML=`<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted)">No applications found</td></tr>`;return;}
-  tbody.innerHTML=filteredApplications.map(a=>{
-    const name=((a.applicants?.first_name||'')+(a.applicants?.last_name?' '+a.applicants.last_name:'')).trim()||'Unknown',phone=a.applicants?.phone||'—';
-    const daysLate=Math.max(0,Math.floor((new Date()-new Date(a.due_date))/86400000));
-    const lateStr=a.status!=='paid'&&daysLate>0?`<br><span style="font-size:10px;color:var(--red);font-weight:700">${daysLate} day(s) overdue</span>`:'';
-    return`<tr onclick="openModal('${a.id}')" style="cursor:pointer">
-      <td><strong style="color:var(--gold-dark)">${a.reference_number}</strong></td>
-      <td><strong>${name}</strong><br><span style="font-size:11px;color:var(--muted)">${phone}</span></td>
-      <td>${fmtJ(a.loan_amount)}</td><td>${fmtJ(a.total_repayment)}</td>
-      <td>${a.due_date}${lateStr}</td>
-      <td><span class="badge badge-${a.status}">${a.status}</span></td>
-      <td><button class="btn btn-sm btn-outline" onclick="event.stopPropagation();openModal('${a.id}')">Notes</button></td>
-    </tr>`;
+  var tbody=document.getElementById('apps-tbody');
+  if(!filteredApplications.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted)">No applications found</td></tr>';return;}
+  tbody.innerHTML=filteredApplications.map(function(a){
+    var name=getName(a.applicants),phone=a.applicants?a.applicants.phone||'—':'—';
+    var daysLate=Math.max(0,Math.floor((new Date()-new Date(a.due_date))/86400000));
+    var lateStr=a.status!=='paid'&&daysLate>0?'<br><span style="font-size:10px;color:var(--red);font-weight:700">'+daysLate+' day(s) overdue</span>':'';
+    return'<tr onclick="openModal(\''+a.id+'\')" style="cursor:pointer">'+
+      '<td><strong style="color:var(--gold-dark)">'+a.reference_number+'</strong></td>'+
+      '<td><strong>'+name+'</strong><br><span style="font-size:11px;color:var(--muted)">'+phone+'</span></td>'+
+      '<td>'+fmtJ(a.loan_amount)+'</td><td>'+fmtJ(a.total_repayment)+'</td>'+
+      '<td>'+(a.due_date||'—')+lateStr+'</td>'+
+      '<td><span class="badge badge-'+a.status+'">'+a.status+'</span></td>'+
+      '<td><button class="btn btn-sm btn-outline" onclick="event.stopPropagation();openModal(\''+a.id+'\')">Notes</button></td>'+
+      '</tr>';
   }).join('');
 }
+
 function renderDelinquent(){
-  const list=allApplications.filter(a=>a.status==='delinquent');
-  const tbody=document.getElementById('delinquent-tbody');
-  if(!list.length){tbody.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:32px;color:var(--muted)">No delinquent customers</td></tr>`;return;}
-  tbody.innerHTML=list.map(a=>{
-    const app=a.applicants||{};
-    const daysLate=Math.max(0,Math.floor((new Date()-new Date(a.due_date))/86400000));
-    const lateFee=daysLate*500,penalty=daysLate>10?Math.round(Number(a.total_repayment)*0.30):0;
-    return`<tr>
-      <td><strong style="color:var(--gold-dark)">${a.reference_number}</strong></td>
-      <td><strong>${((app.first_name||'')+(app.last_name?' '+app.last_name:'')).trim()||'—'}</strong></td>
-      <td><strong style="color:var(--red)">${app.phone||'—'}</strong></td>
-      <td>${app.email||'—'}</td>
-      <td>${fmtJ(Number(a.total_repayment)+penalty)}</td>
-      <td><span style="color:var(--red);font-weight:700">${daysLate} days</span></td>
-      <td>${fmtJ(lateFee)}${penalty?'<br><small style="color:var(--red)">+'+fmtJ(penalty)+'</small>':''}</td>
-      <td><button class="btn btn-sm btn-outline" onclick="openModal('${a.id}')">Notes</button></td>
-    </tr>`;
+  var list=allApplications.filter(function(a){return a.status==='delinquent';});
+  var tbody=document.getElementById('delinquent-tbody');
+  if(!list.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:32px;color:var(--muted)">No delinquent customers</td></tr>';return;}
+  tbody.innerHTML=list.map(function(a){
+    var app=a.applicants||{};
+    var daysLate=Math.max(0,Math.floor((new Date()-new Date(a.due_date))/86400000));
+    var lateFee=daysLate*500,penalty=daysLate>10?Math.round(Number(a.total_repayment)*0.30):0;
+    return'<tr>'+
+      '<td><strong style="color:var(--gold-dark)">'+a.reference_number+'</strong></td>'+
+      '<td><strong>'+getName(app)+'</strong></td>'+
+      '<td><strong style="color:var(--red)">'+( app.phone||'—')+'</strong></td>'+
+      '<td>'+(app.email||'—')+'</td>'+
+      '<td>'+fmtJ(Number(a.total_repayment)+penalty)+'</td>'+
+      '<td><span style="color:var(--red);font-weight:700">'+daysLate+' days</span></td>'+
+      '<td>'+fmtJ(lateFee)+(penalty?'<br><small style="color:var(--red)">+'+fmtJ(penalty)+'</small>':'')+'</td>'+
+      '<td><button class="btn btn-sm btn-outline" onclick="openModal(\''+a.id+'\')">Notes</button></td>'+
+      '</tr>';
   }).join('');
 }
+
 function renderPayments(){
-  const list=allApplications.filter(a=>a.proof_of_payment);
-  const tbody=document.getElementById('payment-tbody');
-  if(!list.length){tbody.innerHTML=`<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--muted)">No proof of payment submissions</td></tr>`;return;}
-  tbody.innerHTML=list.map(a=>`<tr>
-    <td><strong style="color:var(--gold-dark)">${a.reference_number}</strong></td>
-    <td>${((a.applicants?.first_name||'')+(a.applicants?.last_name?' '+a.applicants.last_name:'')).trim()||'—'}</td>
-    <td>${fmtJ(a.total_repayment)}</td>
-    <td><button class="doc-link" onclick="openDocument('${a.proof_of_payment}')">View Document</button></td>
-    <td><button class="btn btn-sm btn-outline" onclick="openModal('${a.id}')">Notes</button></td>
-  </tr>`).join('');
+  var list=allApplications.filter(function(a){return a.proof_of_payment;});
+  var tbody=document.getElementById('payment-tbody');
+  if(!list.length){tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--muted)">No proof of payment submissions</td></tr>';return;}
+  tbody.innerHTML=list.map(function(a){
+    return'<tr>'+
+      '<td><strong style="color:var(--gold-dark)">'+a.reference_number+'</strong></td>'+
+      '<td>'+getName(a.applicants)+'</td>'+
+      '<td>'+fmtJ(a.total_repayment)+'</td>'+
+      '<td><button class="doc-link" onclick="openDocument(\''+a.proof_of_payment+'\')">View Document</button></td>'+
+      '<td><button class="btn btn-sm btn-outline" onclick="openModal(\''+a.id+'\')">Notes</button></td>'+
+      '</tr>';
+  }).join('');
 }
+
 function renderROD(){
-  const today=new Date();
-  const list=allApplications.filter(a=>{
+  var today=new Date();
+  var list=allApplications.filter(function(a){
     if(!a.rod_date)return false;
-    const rod=new Date(a.rod_date);
-    const days=Math.floor((rod-today)/86400000);
+    var rod=new Date(a.rod_date),days=Math.floor((rod-today)/86400000);
     return days<=90&&days>=0;
   });
-  const tbody=document.getElementById('rod-tbody');
-  if(!list.length){tbody.innerHTML=`<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted)">No soldiers with ROD within 3 months</td></tr>`;return;}
-  tbody.innerHTML=list.map(a=>{
-    const app=a.applicants||{};
-    const days=Math.floor((new Date(a.rod_date)-today)/86400000);
-    const urgency=days<=30?'color:var(--red);font-weight:700':days<=60?'color:var(--amber);font-weight:700':'color:var(--navy)';
-    return`<tr>
-      <td><strong style="color:var(--gold-dark)">${a.reference_number}</strong></td>
-      <td><strong>${((app.first_name||'')+(app.last_name?' '+app.last_name:'')).trim()||'—'}</strong></td>
-      <td>${app.phone||'—'}</td>
-      <td>${a.regimental_number||'—'}</td>
-      <td>${a.rod_date}</td>
-      <td><span style="${urgency}">${days} days</span></td>
-      <td><button class="btn btn-sm btn-outline" onclick="sendRODAlertEmail('${((app.first_name||'')+(app.last_name?' '+app.last_name:'')).trim()||''}','${app.phone||''}','${a.reference_number}','${a.rod_date}','${a.regimental_number||''}')">Send Alert</button></td>
-    </tr>`;
+  var tbody=document.getElementById('rod-tbody');
+  if(!list.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted)">No soldiers with ROD within 3 months</td></tr>';return;}
+  tbody.innerHTML=list.map(function(a){
+    var app=a.applicants||{};
+    var days=Math.floor((new Date(a.rod_date)-today)/86400000);
+    var urgency=days<=30?'color:var(--red);font-weight:700':days<=60?'color:var(--amber);font-weight:700':'color:var(--navy)';
+    return'<tr>'+
+      '<td><strong style="color:var(--gold-dark)">'+a.reference_number+'</strong></td>'+
+      '<td><strong>'+getName(app)+'</strong></td>'+
+      '<td>'+(app.phone||'—')+'</td>'+
+      '<td>'+(a.regimental_number||'—')+'</td>'+
+      '<td>'+a.rod_date+'</td>'+
+      '<td><span style="'+urgency+'">'+days+' days</span></td>'+
+      '<td><button class="btn btn-sm btn-outline" onclick="sendRODAlertEmail(\''+getName(app)+'\',\''+( app.phone||'')+'\',\''+a.reference_number+'\',\''+a.rod_date+'\',\'+'+(a.regimental_number||'')+'\')">Send Alert</button></td>'+
+      '</tr>';
   }).join('');
 }
 
 function docLinks(loan){
-  const docs=[];
+  var docs=[];
   if(loan.doc_payslip)docs.push({label:'Payslip',path:loan.doc_payslip});
   if(loan.doc_workid)docs.push({label:'Work ID',path:loan.doc_workid});
-  if(loan.doc_govid)docs.push({label:loan.applicants?.id_type||'Gov ID',path:loan.doc_govid});
+  if(loan.doc_govid)docs.push({label:(loan.applicants&&loan.applicants.id_type)||'Gov ID',path:loan.doc_govid});
   if(loan.doc_address)docs.push({label:'Proof of Address',path:loan.doc_address});
   if(loan.doc_update_info)docs.push({label:'Updated Document',path:loan.doc_update_info});
   if(loan.proof_of_payment)docs.push({label:'Proof of Payment',path:loan.proof_of_payment});
   if(!docs.length)return'<span style="color:var(--muted);font-size:12px">No documents uploaded</span>';
-  return docs.map(d=>`<button class="doc-link" onclick="openDocument('${d.path}')">${d.label}</button>`).join('');
+  return docs.map(function(d){return'<button class="doc-link" onclick="openDocument(\''+d.path+'\')">'+d.label+'</button>';}).join('');
 }
 
 function openModal(id){
-  const a=allApplications.find(x=>x.id===id);if(!a)return;
-  const app=a.applicants||{},refs=a.loan_references||[],col=a.collateral?.[0]||null;
-  const daysLate=Math.max(0,Math.floor((new Date()-new Date(a.due_date))/86400000));
-  const lateFee=daysLate*500,penalty=daysLate>10?Math.round(Number(a.total_repayment)*0.30):0;
-  document.getElementById('modal-client-name').textContent=(((app.first_name||'')+(app.last_name?' '+app.last_name:'')).trim()||'Client')+' — '+a.reference_number;
-  document.getElementById('modal-body').innerHTML=`
-    ${['overdue','delinquent'].includes(a.status)?`<div class="alert alert-danger">Overdue by ${daysLate} day(s). Late fee: ${fmtJ(lateFee)}.${daysLate>10?' 30% penalty: '+fmtJ(penalty)+'.':''}</div>`:''}
-    ${a.status==='pending'?`<div class="alert alert-warn">This application is awaiting your review and approval.</div>`:''}
-    ${a.status==='paid'?`<div class="alert alert-success">This loan has been fully repaid.</div>`:''}
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
-      <div style="background:var(--off);border-radius:8px;padding:14px">
-        <div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:8px">Loan</div>
-        <div class="info-row"><span class="ik">Amount</span><span class="iv">${fmtJ(a.loan_amount)}</span></div>
-        <div class="info-row"><span class="ik">Interest</span><span class="iv">${a.interest_rate}% = ${fmtJ(a.interest_amount)}</span></div>
-        <div class="info-row"><span class="ik">Total Due</span><span class="iv" style="color:var(--gold-dark)">${fmtJ(a.total_repayment)}</span></div>
-        ${penalty?`<div class="info-row"><span class="ik">Penalty</span><span class="iv" style="color:var(--red)">+${fmtJ(penalty)}</span></div>`:''}
-        <div class="info-row"><span class="ik">Frequency</span><span class="iv">${a.repayment_frequency}</span></div>
-        <div class="info-row"><span class="ik">Issued</span><span class="iv">${a.issued_date}</span></div>
-        <div class="info-row"><span class="ik">Due</span><span class="iv">${a.due_date}</span></div>
-        <div class="info-row"><span class="ik">Purpose</span><span class="iv">${a.purpose}</span></div>
-        ${a.customer_type?`<div class="info-row"><span class="ik">Type</span><span class="iv">${a.customer_type}</span></div>`:''}
-        ${a.regimental_number?`<div class="info-row"><span class="ik">Reg. No.</span><span class="iv">${a.regimental_number}</span></div>`:''}
-        ${a.rod_date?`<div class="info-row"><span class="ik">ROD</span><span class="iv">${a.rod_date}</span></div>`:''}
-      </div>
-      <div style="background:var(--off);border-radius:8px;padding:14px">
-        <div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:8px">Personal</div>
-        <div class="info-row"><span class="ik">Phone</span><span class="iv">${app.phone||'—'}</span></div>
-        <div class="info-row"><span class="ik">Email</span><span class="iv">${app.email||'—'}</span></div>
-        <div class="info-row"><span class="ik">TRN</span><span class="iv">${app.trn||'—'}</span></div>
-        <div class="info-row"><span class="ik">ID</span><span class="iv">${app.id_type||''} ${app.id_number||''}</span></div>
-        <div class="info-row"><span class="ik">DOB</span><span class="iv">${app.date_of_birth||'—'}</span></div>
-        <div class="info-row"><span class="ik">Address</span><span class="iv">${app.address||'—'}</span></div>
-        <div class="info-row"><span class="ik">Employment</span><span class="iv">${app.employment_status||'—'}</span></div>
-        ${app.monthly_income?`<div class="info-row"><span class="ik">Income</span><span class="iv">${fmtJ(app.monthly_income)}</span></div>`:''}
-      </div>
-    </div>
-    ${refs.length?`<div style="background:var(--off);border-radius:8px;padding:14px;margin-bottom:12px"><div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:8px">References</div>${refs.map(r=>`<div class="info-row"><span class="ik">Ref ${r.ref_number}</span><span class="iv">${((r.first_name||'')+(r.last_name?' '+r.last_name:'')).trim()} (${r.relationship}) — ${r.phone}</span></div>`).join('')}</div>`:''}
-    ${col?`<div style="background:var(--off);border-radius:8px;padding:14px;margin-bottom:12px"><div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:8px">Collateral</div><div class="info-row"><span class="ik">Item</span><span class="iv">${col.collateral_offered}</span></div><div class="info-row"><span class="ik">Value</span><span class="iv">${fmtJ(col.estimated_value)}</span></div></div>`:''}
-    <div style="background:var(--off);border-radius:8px;padding:14px;margin-bottom:14px">
-      <div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:10px">Uploaded Documents</div>
-      <div>${docLinks(a)}</div>
-    </div>
-    ${a.signature_data?`<div style="background:var(--off);border-radius:8px;padding:14px;margin-bottom:14px"><div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:8px">Applicant Signature</div><img src="${a.signature_data}" style="max-width:100%;border:1px solid var(--border);border-radius:6px;background:#fff"></div>`:''}
-    ${a.status==='pending'?`<div style="background:var(--off);border-radius:8px;padding:14px;margin-bottom:14px">
-      <div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:8px">Set Payment Due Date (Required for Approval)</div>
-      <div class="field"><label class="field-label">Payment Due Date<span class="req">*</span></label><input type="date" id="manual-due-date" style="margin-top:6px"></div>
-    </div>`:''}
-    <div style="margin-bottom:16px">
-      <div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:8px">Admin Notes</div>
-      <textarea class="notes-area" id="admin-notes">${a.admin_notes||''}</textarea>
-      <button class="btn btn-outline btn-sm" style="margin-top:8px" onclick="saveNotes('${a.id}')">Save Notes</button>
-    </div>
-    <div style="display:flex;flex-wrap:wrap;gap:8px">
-      ${a.status==='pending'?`<button class="btn btn-success btn-sm" onclick="approveLoan('${a.id}','${app.email||''}','${((app.first_name||'')+(app.last_name?' '+app.last_name:'')).trim()||''}','${a.reference_number}',${a.total_repayment})">Approve Loan</button><button class="btn btn-danger btn-sm" onclick="rejectLoan('${a.id}','${app.email||''}','${((app.first_name||'')+(app.last_name?' '+app.last_name:'')).trim()||''}','${a.reference_number}')">Reject Application</button>`:''}
-      ${['approved','overdue'].includes(a.status)?`<button class="btn btn-success btn-sm" onclick="updateStatus('${a.id}','paid')">Payment Received</button><button class="btn btn-danger btn-sm" onclick="updateStatus('${a.id}','delinquent')">No Payment Made</button>`:''}
-      ${a.status==='delinquent'?`<button class="btn btn-success btn-sm" onclick="updateStatus('${a.id}','paid')">Mark as Paid</button>`:''}
-    </div>`;
+  var a=allApplications.find(function(x){return x.id===id;});
+  if(!a)return;
+  var app=a.applicants||{},refs=a.loan_references||[],col=a.collateral?a.collateral[0]||null:null;
+  var daysLate=Math.max(0,Math.floor((new Date()-new Date(a.due_date))/86400000));
+  var lateFee=daysLate*500,penalty=daysLate>10?Math.round(Number(a.total_repayment)*0.30):0;
+  var clientName=getName(app)||'Client';
+  document.getElementById('modal-client-name').textContent=clientName+' — '+a.reference_number;
+  var html='';
+  if(['overdue','delinquent'].includes(a.status))html+='<div class="alert alert-danger">Overdue by '+daysLate+' day(s). Late fee: '+fmtJ(lateFee)+'.'+(daysLate>10?' 30% penalty: '+fmtJ(penalty)+'.':'')+'</div>';
+  if(a.status==='pending')html+='<div class="alert alert-warn">This application is awaiting your review and approval.</div>';
+  if(a.status==='paid')html+='<div class="alert alert-success">This loan has been fully repaid.</div>';
+  html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">'+
+    '<div style="background:var(--off);border-radius:8px;padding:14px">'+
+    '<div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:8px">Loan</div>'+
+    '<div class="info-row"><span class="ik">Amount</span><span class="iv">'+fmtJ(a.loan_amount)+'</span></div>'+
+    '<div class="info-row"><span class="ik">Interest</span><span class="iv">'+a.interest_rate+'% = '+fmtJ(a.interest_amount)+'</span></div>'+
+    '<div class="info-row"><span class="ik">Total Due</span><span class="iv" style="color:var(--gold-dark)">'+fmtJ(a.total_repayment)+'</span></div>'+
+    (penalty?'<div class="info-row"><span class="ik">Penalty</span><span class="iv" style="color:var(--red)">+'+fmtJ(penalty)+'</span></div>':'')+
+    '<div class="info-row"><span class="ik">Frequency</span><span class="iv">'+( a.repayment_frequency||'—')+'</span></div>'+
+    '<div class="info-row"><span class="ik">Issued</span><span class="iv">'+( a.issued_date||'—')+'</span></div>'+
+    '<div class="info-row"><span class="ik">Due</span><span class="iv">'+( a.due_date||'—')+'</span></div>'+
+    '<div class="info-row"><span class="ik">Purpose</span><span class="iv">'+( a.purpose||'—')+'</span></div>'+
+    (a.customer_type?'<div class="info-row"><span class="ik">Type</span><span class="iv">'+a.customer_type+'</span></div>':'')+
+    (a.regimental_number?'<div class="info-row"><span class="ik">Reg. No.</span><span class="iv">'+a.regimental_number+'</span></div>':'')+
+    (a.rod_date?'<div class="info-row"><span class="ik">ROD</span><span class="iv">'+a.rod_date+'</span></div>':'')+
+    '</div>'+
+    '<div style="background:var(--off);border-radius:8px;padding:14px">'+
+    '<div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:8px">Personal</div>'+
+    '<div class="info-row"><span class="ik">Phone</span><span class="iv">'+( app.phone||'—')+'</span></div>'+
+    '<div class="info-row"><span class="ik">Email</span><span class="iv">'+( app.email||'—')+'</span></div>'+
+    '<div class="info-row"><span class="ik">TRN</span><span class="iv">'+( app.trn||'—')+'</span></div>'+
+    '<div class="info-row"><span class="ik">ID</span><span class="iv">'+( app.id_type||'')+' '+(app.id_number||'')+'</span></div>'+
+    '<div class="info-row"><span class="ik">DOB</span><span class="iv">'+( app.date_of_birth||'—')+'</span></div>'+
+    '<div class="info-row"><span class="ik">Address</span><span class="iv">'+( app.address||'—')+'</span></div>'+
+    '<div class="info-row"><span class="ik">Employment</span><span class="iv">'+( app.employment_status||'—')+'</span></div>'+
+    (app.monthly_income?'<div class="info-row"><span class="ik">Income</span><span class="iv">'+fmtJ(app.monthly_income)+'</span></div>':'')+
+    '</div></div>';
+  if(refs.length){
+    html+='<div style="background:var(--off);border-radius:8px;padding:14px;margin-bottom:12px"><div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:8px">References</div>'+
+    refs.map(function(r){return'<div class="info-row"><span class="ik">Ref '+r.ref_number+'</span><span class="iv">'+((r.first_name||'')+(r.last_name?' '+r.last_name:'')).trim()+' ('+r.relationship+') — '+r.phone+'</span></div>';}).join('')+
+    '</div>';
+  }
+  if(col){
+    html+='<div style="background:var(--off);border-radius:8px;padding:14px;margin-bottom:12px"><div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:8px">Collateral</div><div class="info-row"><span class="ik">Item</span><span class="iv">'+col.collateral_offered+'</span></div><div class="info-row"><span class="ik">Value</span><span class="iv">'+fmtJ(col.estimated_value)+'</span></div></div>';
+  }
+  html+='<div style="background:var(--off);border-radius:8px;padding:14px;margin-bottom:14px"><div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:10px">Uploaded Documents</div><div>'+docLinks(a)+'</div></div>';
+  if(a.signature_data){
+    html+='<div style="background:var(--off);border-radius:8px;padding:14px;margin-bottom:14px"><div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:8px">Applicant Signature</div><img src="'+a.signature_data+'" style="max-width:100%;border:1px solid var(--border);border-radius:6px;background:#fff"></div>';
+  }
+  if(a.status==='pending'){
+    html+='<div style="background:var(--off);border-radius:8px;padding:14px;margin-bottom:14px"><div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:8px">Set Payment Due Date (Required for Approval)</div><div class="field"><label class="field-label">Payment Due Date<span class="req">*</span></label><input type="date" id="manual-due-date" style="margin-top:6px"></div></div>';
+  }
+  html+='<div style="margin-bottom:16px"><div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:8px">Admin Notes</div><textarea class="notes-area" id="admin-notes">'+(a.admin_notes||'')+'</textarea><button class="btn btn-outline btn-sm" style="margin-top:8px" onclick="saveNotes(\''+a.id+'\')">Save Notes</button></div>';
+  html+='<div style="display:flex;flex-wrap:wrap;gap:8px">';
+  if(a.status==='pending')html+='<button class="btn btn-success btn-sm" onclick="approveLoan(\''+a.id+'\',\''+( app.email||'')+'\',\''+clientName+'\',\''+a.reference_number+'\','+a.total_repayment+')">Approve Loan</button><button class="btn btn-danger btn-sm" onclick="rejectLoan(\''+a.id+'\',\''+( app.email||'')+'\',\''+clientName+'\',\''+a.reference_number+'\')">Reject Application</button>';
+  if(a.status==='approved'||a.status==='overdue')html+='<button class="btn btn-success btn-sm" onclick="updateStatus(\''+a.id+'\',\'paid\')">Payment Received</button><button class="btn btn-danger btn-sm" onclick="updateStatus(\''+a.id+'\',\'delinquent\')">No Payment Made</button>';
+  if(a.status==='delinquent')html+='<button class="btn btn-success btn-sm" onclick="updateStatus(\''+a.id+'\',\'paid\')">Mark as Paid</button>';
+  html+='</div>';
+  document.getElementById('modal-body').innerHTML=html;
   document.getElementById('client-modal').classList.add('open');
 }
 
 async function approveLoan(id,email,name,ref,totalRepayment){
-  const dueDateEl=document.getElementById('manual-due-date');
+  var dueDateEl=document.getElementById('manual-due-date');
   if(!dueDateEl||!dueDateEl.value){alert('Please set the payment due date before approving.');return;}
-  const dueDate=dueDateEl.value;
+  var dueDate=dueDateEl.value;
   showLoading('Approving loan...');
   try{
-    const notes=document.getElementById('admin-notes')?.value||'';
+    var notes=document.getElementById('admin-notes')?document.getElementById('admin-notes').value:'';
     await dbPatch('loans?id=eq.'+id,{status:'approved',due_date:dueDate,admin_notes:notes});
     closeModal();await loadDashboard();
     if(email&&name)sendApprovalEmail(email,name,ref,dueDate,fmtJ(totalRepayment));
-  }catch(e){alert('Failed: '+e.message);}finally{hideLoading();}
+  }catch(e){alert('Failed: '+e.message);}
+  finally{hideLoading();}
 }
 async function rejectLoan(id,email,name,ref){
   showLoading('Updating...');
   try{
-    const notes=document.getElementById('admin-notes')?.value||'';
+    var notes=document.getElementById('admin-notes')?document.getElementById('admin-notes').value:'';
     await dbPatch('loans?id=eq.'+id,{status:'rejected',admin_notes:notes});
     closeModal();await loadDashboard();
     if(email&&name)sendRejectionEmail(email,name,ref);
-  }catch(e){alert('Failed: '+e.message);}finally{hideLoading();}
+  }catch(e){alert('Failed: '+e.message);}
+  finally{hideLoading();}
 }
 async function updateStatus(id,status){
   showLoading('Updating...');
-  try{const notes=document.getElementById('admin-notes')?.value||'';await dbPatch('loans?id=eq.'+id,{status,admin_notes:notes});closeModal();await loadDashboard();}
-  catch(e){alert('Update failed: '+e.message);}finally{hideLoading();}
+  try{
+    var notes=document.getElementById('admin-notes')?document.getElementById('admin-notes').value:'';
+    await dbPatch('loans?id=eq.'+id,{status:status,admin_notes:notes});
+    closeModal();await loadDashboard();
+  }catch(e){alert('Update failed: '+e.message);}
+  finally{hideLoading();}
 }
 async function saveNotes(id){
-  try{await dbPatch('loans?id=eq.'+id,{admin_notes:document.getElementById('admin-notes')?.value||''});alert('Notes saved successfully.');}
-  catch(e){alert('Failed: '+e.message);}
+  try{
+    var notes=document.getElementById('admin-notes')?document.getElementById('admin-notes').value:'';
+    await dbPatch('loans?id=eq.'+id,{admin_notes:notes});
+    alert('Notes saved successfully.');
+  }catch(e){alert('Failed: '+e.message);}
 }
 function closeModal(){document.getElementById('client-modal').classList.remove('open');}
-function selRadio(el){const name=el.querySelector('input').name;document.querySelectorAll(`input[name="${name}"]`).forEach(r=>r.closest('.radio-opt').classList.remove('selected'));el.classList.add('selected');}
-function handleUpload(input,zoneId,nameId){const f=input.files[0];if(!f)return;if(f.size>5*1024*1024){alert('File must be under 5MB.');input.value='';return;}document.getElementById(zoneId).classList.add('has-file');document.getElementById(nameId).textContent='Uploaded: '+f.name;}
-function validateAge(el){
-  if(!el.value) return;
-  const dob=new Date(el.value);
-  const today=new Date();
-  const age=today.getFullYear()-dob.getFullYear()-(today<new Date(today.getFullYear(),dob.getMonth(),dob.getDate())?1:0);
-  if(age<18){
-    alert('We are sorry, but you must be at least 18 years old to apply for a loan with S&M Financing and Pawn Limited.');
-    el.value='';
-  }
-}
-function formatIncome(el){
-  let raw=el.value.replace(/[^0-9.]/g,'');
-  const parts=raw.split('.');
-  let intPart=parts[0].replace(/\B(?=(\d{3})+(?!\d))/g,',');
-  let decPart=parts.length>1?'.'+parts[1].slice(0,2):'';
-  el.value=intPart+decPart;
-}
-function getIncomeValue(el){
-  return parseFloat(el.value.replace(/,/g,''))||null;
-}
-function showLoading(msg){document.getElementById('loading-msg').textContent=msg||'Please wait...';document.getElementById('loading-overlay').style.display='flex';}
-function hideLoading(){document.getElementById('loading-overlay').style.display='none';}
 document.getElementById('client-modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
 </script>
 
 <script>
-// Built-in signature pad - no external library needed
 class SignaturePad{
   constructor(canvas){
     this.canvas=canvas;
@@ -993,14 +1137,12 @@ class SignaturePad{
     this.ctx.lineWidth=2;
     this.ctx.lineCap='round';
     this.ctx.lineJoin='round';
-    // Mouse events
-    canvas.addEventListener('mousedown',(e)=>{this.drawing=true;this._isEmpty=false;const r=canvas.getBoundingClientRect();this.ctx.beginPath();this.ctx.moveTo(e.clientX-r.left,e.clientY-r.top);canvas.classList.add('signed');});
-    canvas.addEventListener('mousemove',(e)=>{if(!this.drawing)return;const r=canvas.getBoundingClientRect();this.ctx.lineTo(e.clientX-r.left,e.clientY-r.top);this.ctx.stroke();});
+    canvas.addEventListener('mousedown',(e)=>{this.drawing=true;this._isEmpty=false;var r=canvas.getBoundingClientRect();this.ctx.beginPath();this.ctx.moveTo(e.clientX-r.left,e.clientY-r.top);canvas.classList.add('signed');});
+    canvas.addEventListener('mousemove',(e)=>{if(!this.drawing)return;var r=canvas.getBoundingClientRect();this.ctx.lineTo(e.clientX-r.left,e.clientY-r.top);this.ctx.stroke();});
     canvas.addEventListener('mouseup',()=>{this.drawing=false;});
     canvas.addEventListener('mouseleave',()=>{this.drawing=false;});
-    // Touch events
-    canvas.addEventListener('touchstart',(e)=>{e.preventDefault();this.drawing=true;this._isEmpty=false;const r=canvas.getBoundingClientRect();const t=e.touches[0];this.ctx.beginPath();this.ctx.moveTo(t.clientX-r.left,t.clientY-r.top);canvas.classList.add('signed');},{passive:false});
-    canvas.addEventListener('touchmove',(e)=>{e.preventDefault();if(!this.drawing)return;const r=canvas.getBoundingClientRect();const t=e.touches[0];this.ctx.lineTo(t.clientX-r.left,t.clientY-r.top);this.ctx.stroke();},{passive:false});
+    canvas.addEventListener('touchstart',(e)=>{e.preventDefault();this.drawing=true;this._isEmpty=false;var r=canvas.getBoundingClientRect();var t=e.touches[0];this.ctx.beginPath();this.ctx.moveTo(t.clientX-r.left,t.clientY-r.top);canvas.classList.add('signed');},{passive:false});
+    canvas.addEventListener('touchmove',(e)=>{e.preventDefault();if(!this.drawing)return;var r=canvas.getBoundingClientRect();var t=e.touches[0];this.ctx.lineTo(t.clientX-r.left,t.clientY-r.top);this.ctx.stroke();},{passive:false});
     canvas.addEventListener('touchend',()=>{this.drawing=false;});
   }
   isEmpty(){return this._isEmpty;}
