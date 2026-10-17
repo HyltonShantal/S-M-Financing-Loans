@@ -211,9 +211,9 @@ tbody td{padding:12px 14px;vertical-align:middle}
               <div class="field"><label class="field-label">Run Out Date (ROD)<span class="req">*</span></label><input type="date" id="f_rod"></div>
             </div>
           </div>
-          <div class="field"><label class="field-label">Employer / Organization</label><input type="text" id="f_employer" placeholder="If applicable"></div>
-          <div class="field"><label class="field-label">Job Title</label><input type="text" id="f_jobtitle" placeholder="If applicable"></div>
-          <div class="field span2"><label class="field-label">Monthly Income (J$)</label><input type="text" id="f_income" placeholder="e.g. 80,000.00" oninput="formatIncome(this)" inputmode="decimal"></div>
+          <div class="field"><label class="field-label">Employer / Organization<span class="req">*</span></label><input type="text" id="f_employer" placeholder="Enter employer or organization name"></div>
+          <div class="field"><label class="field-label">Job Title<span class="req">*</span></label><input type="text" id="f_jobtitle" placeholder="Enter your job title"></div>
+          <div class="field span2"><label class="field-label">Monthly Income (J$)<span class="req">*</span></label><input type="text" id="f_income" placeholder="e.g. 80000" oninput="formatIncome(this)" inputmode="decimal"></div>
         </div>
         <div class="btn-row"><button class="btn btn-primary" onclick="goStep(2)">Continue to Loan Details</button></div>
       </div>
@@ -669,7 +669,7 @@ function goStep(n){
 
 function validateStep(s){
   if(s===1){
-    var fields=[['f_fname','First Name'],['f_lname','Last Name'],['f_dob','Date of Birth'],['f_trn','TRN'],['f_idtype','ID Type'],['f_idnum','ID Number'],['f_address','Address'],['f_phone','Phone'],['f_email','Email']];
+    var fields=[['f_fname','First Name'],['f_lname','Last Name'],['f_dob','Date of Birth'],['f_trn','TRN'],['f_idtype','ID Type'],['f_idnum','ID Number'],['f_address','Address'],['f_phone','Phone'],['f_email','Email'],['f_employer','Employer / Organization'],['f_jobtitle','Job Title'],['f_income','Monthly Income']];
     for(var i=0;i<fields.length;i++){
       if(!document.getElementById(fields[i][0]).value.trim()){
         alert(fields[i][1]+' is required.');
@@ -738,9 +738,11 @@ async function submitApplication(){
     var addressPath=await uploadFile(addressFile,ref+'/address_'+ts+'.'+addressFile.name.split('.').pop());
     var sigDataUrl=sigPad.toDataURL();
     showLoading('Saving your application...');
+    var fname=document.getElementById('f_fname').value.trim(),lname=document.getElementById('f_lname').value.trim();
     var appResult=await db('applicants','POST',{
-      first_name:document.getElementById('f_fname').value.trim(),
-      last_name:document.getElementById('f_lname').value.trim(),
+      full_name:(fname+' '+lname).trim(),
+      first_name:fname,
+      last_name:lname,
       date_of_birth:document.getElementById('f_dob').value,
       trn:document.getElementById('f_trn').value,
       id_type:document.getElementById('f_idtype').value,
@@ -751,7 +753,7 @@ async function submitApplication(){
       employment_status:document.querySelector('input[name="empstatus"]:checked')?document.querySelector('input[name="empstatus"]:checked').value:null,
       employer:document.getElementById('f_employer').value||null,
       job_title:document.getElementById('f_jobtitle').value||null,
-      monthly_income:document.getElementById('f_income').value?parseFloat(document.getElementById('f_income').value.replace(/,/g,'')):null
+      monthly_income:document.getElementById('f_income').value?parseFloat(document.getElementById('f_income').value.replace(/,/g,'').replace(/[^0-9.]/g,'')):null
     });
     var applicant=appResult[0];
     var loanResult=await db('loans','POST',{
@@ -777,8 +779,10 @@ async function submitApplication(){
       signature_data:sigDataUrl
     });
     var loan=loanResult[0];
-    await db('loan_references','POST',{loan_id:loan.id,ref_number:1,first_name:document.getElementById('r1fname').value.trim(),last_name:document.getElementById('r1lname').value.trim(),relationship:document.getElementById('r1rel').value,phone:document.getElementById('r1phone').value});
-    await db('loan_references','POST',{loan_id:loan.id,ref_number:2,first_name:document.getElementById('r2fname').value.trim(),last_name:document.getElementById('r2lname').value.trim(),relationship:document.getElementById('r2rel').value,phone:document.getElementById('r2phone').value});
+    var r1f=document.getElementById('r1fname').value.trim(),r1l=document.getElementById('r1lname').value.trim();
+    var r2f=document.getElementById('r2fname').value.trim(),r2l=document.getElementById('r2lname').value.trim();
+    await db('loan_references','POST',{loan_id:loan.id,ref_number:1,full_name:(r1f+' '+r1l).trim(),first_name:r1f,last_name:r1l,relationship:document.getElementById('r1rel').value,phone:document.getElementById('r1phone').value});
+    await db('loan_references','POST',{loan_id:loan.id,ref_number:2,full_name:(r2f+' '+r2l).trim(),first_name:r2f,last_name:r2l,relationship:document.getElementById('r2rel').value,phone:document.getElementById('r2phone').value});
     var colItem=document.getElementById('col_item').value;
     if(colItem)await db('collateral','POST',{loan_id:loan.id,collateral_offered:colItem,estimated_value:document.getElementById('col_val').value?parseFloat(document.getElementById('col_val').value.replace(/,/g,'')):null,description:document.getElementById('col_desc').value||null});
     hideLoading();
