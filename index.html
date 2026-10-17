@@ -540,7 +540,7 @@ async function uploadFile(file,path){
 }
 async function openDocument(path){
   try{
-    showLoading('Preparing download...');
+    showLoading('Opening document...');
     var encodedPath=path.split('/').map(function(s){return encodeURIComponent(s);}).join('/');
     var res=await fetch('https://sboxupqcpswdzclnxdbm.supabase.co/storage/v1/object/sign/loan-documents/'+encodedPath,{
       method:'POST',
@@ -552,19 +552,33 @@ async function openDocument(path){
     var data=JSON.parse(txt);
     var signedUrl='https://sboxupqcpswdzclnxdbm.supabase.co/storage/v1'+data.signedURL;
     hideLoading();
-    /* Fetch the file as a blob and force-download it so it saves to disk */
-    var fileRes=await fetch(signedUrl);
-    if(!fileRes.ok)throw new Error('Could not fetch file');
-    var blob=await fileRes.blob();
-    var blobUrl=URL.createObjectURL(blob);
-    var a=document.createElement('a');
-    a.href=blobUrl;
-    a.download=path.split('/').pop();
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(function(){URL.revokeObjectURL(blobUrl);},5000);
-  }catch(e){hideLoading();alert('Could not download document: '+e.message);}
+    var filename=path.split('/').pop();
+    /* Open viewer modal */
+    var existing=document.getElementById('doc-viewer-modal');
+    if(existing)existing.remove();
+    var modal=document.createElement('div');
+    modal.id='doc-viewer-modal';
+    modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:16px';
+    var isImg=/\.(jpg|jpeg|png|gif|webp)$/i.test(filename);
+    var isPdf=/\.pdf$/i.test(filename);
+    modal.innerHTML=
+      '<div style="width:100%;max-width:860px;background:#1a2d42;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;max-height:90vh">'+
+        '<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#0D1B2A;border-bottom:2px solid #C9A84C">'+
+          '<span style="color:#C9A84C;font-weight:700;font-size:14px">'+filename+'</span>'+
+          '<div style="display:flex;gap:10px;align-items:center">'+
+            '<a href="'+signedUrl+'" download="'+filename+'" style="background:#C9A84C;color:#0D1B2A;padding:7px 16px;border-radius:7px;font-size:12px;font-weight:700;text-decoration:none">Download</a>'+
+            '<button onclick="document.getElementById(\'doc-viewer-modal\').remove()" style="background:none;border:none;color:rgba(255,255,255,0.6);font-size:24px;cursor:pointer;line-height:1">&times;</button>'+
+          '</div>'+
+        '</div>'+
+        '<div style="overflow:auto;flex:1;padding:12px;display:flex;align-items:flex-start;justify-content:center;background:#f0f0f0">'+
+          (isImg?'<img src="'+signedUrl+'" style="max-width:100%;border-radius:6px;box-shadow:0 4px 20px rgba(0,0,0,0.3)">':
+           isPdf?'<iframe src="'+signedUrl+'" style="width:100%;height:70vh;border:none;border-radius:6px"></iframe>':
+           '<div style="padding:40px;text-align:center;color:#444"><p style="font-size:15px;font-weight:600;margin-bottom:16px">Preview not available for this file type.</p><a href="'+signedUrl+'" download="'+filename+'" style="background:#0D1B2A;color:#C9A84C;padding:11px 22px;border-radius:8px;font-weight:700;text-decoration:none;font-size:14px">Download File</a></div>')+
+        '</div>'+
+      '</div>';
+    modal.addEventListener('click',function(e){if(e.target===modal)modal.remove();});
+    document.body.appendChild(modal);
+  }catch(e){hideLoading();alert('Could not open document: '+e.message);}
 }
 
 // FORMAT HELPERS
