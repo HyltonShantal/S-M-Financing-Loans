@@ -203,7 +203,7 @@ tbody td{padding:12px 14px;vertical-align:middle}
       <div class="card">
         <div class="card-header"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div><div><div class="card-title">Personal Information</div><div class="card-sub">Section A — Applicant Details</div></div></div>
         <div class="form-grid">
-          <div class="field span2"><label class="field-label">Full Name<span class="req">*</span></label><input type="text" id="f_name" placeholder="Enter your full legal name"></div>
+          <div class="field"><label class="field-label">First Name<span class="req">*</span></label><input type="text" id="f_fname" placeholder="Enter first name"></div><div class="field"><label class="field-label">Last Name<span class="req">*</span></label><input type="text" id="f_lname" placeholder="Enter last name"></div>
           <div class="field"><label class="field-label">Date of Birth<span class="req">*</span></label><input type="date" id="f_dob" onchange="validateAge(this)"></div>
           <div class="field"><label class="field-label">TRN<span class="req">*</span></label><input type="text" id="f_trn" placeholder="000-000-000" maxlength="11" oninput="formatTRN(this)"></div>
           <div class="field"><label class="field-label">ID Type<span class="req">*</span></label><select id="f_idtype" onchange="updateIDLabel()"><option value="">Select ID type</option><option>National ID</option><option>Driver's Licence</option><option>Passport</option></select></div>
@@ -284,7 +284,7 @@ tbody td{padding:12px 14px;vertical-align:middle}
         <div style="margin-bottom:20px">
           <div style="font-size:12px;font-weight:800;color:var(--gold-dark);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)">Reference 1</div>
           <div class="form-grid">
-            <div class="field"><label class="field-label">Full Name<span class="req">*</span></label><input type="text" id="r1name"></div>
+            <div class="field"><label class="field-label">First Name<span class="req">*</span></label><input type="text" id="r1fname" placeholder="First name"></div><div class="field"><label class="field-label">Last Name<span class="req">*</span></label><input type="text" id="r1lname" placeholder="Last name"></div>
             <div class="field"><label class="field-label">Relationship<span class="req">*</span></label><input type="text" id="r1rel" placeholder="e.g. Sister, Employer"></div>
             <div class="field span2"><label class="field-label">Phone<span class="req">*</span></label><input type="text" id="r1phone" placeholder="876-000-0000" maxlength="12" oninput="formatPhone(this)"></div>
           </div>
@@ -292,7 +292,7 @@ tbody td{padding:12px 14px;vertical-align:middle}
         <div style="margin-bottom:20px">
           <div style="font-size:12px;font-weight:800;color:var(--gold-dark);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)">Reference 2</div>
           <div class="form-grid">
-            <div class="field"><label class="field-label">Full Name<span class="req">*</span></label><input type="text" id="r2name"></div>
+            <div class="field"><label class="field-label">First Name<span class="req">*</span></label><input type="text" id="r2fname" placeholder="First name"></div><div class="field"><label class="field-label">Last Name<span class="req">*</span></label><input type="text" id="r2lname" placeholder="Last name"></div>
             <div class="field"><label class="field-label">Relationship<span class="req">*</span></label><input type="text" id="r2rel" placeholder="e.g. Neighbour, Friend"></div>
             <div class="field span2"><label class="field-label">Phone<span class="req">*</span></label><input type="text" id="r2phone" placeholder="876-000-0000" maxlength="12" oninput="formatPhone(this)"></div>
           </div>
@@ -635,21 +635,21 @@ function calcLoan(){
 function updateStepUI(){for(let i=1;i<=5;i++){const num=document.getElementById('sn'+i),lbl=document.getElementById('sl'+i);if(i<currentStep){num.className='step-num done';num.textContent='✓';}else if(i===currentStep){num.className='step-num active';num.textContent=i;lbl.className='step-name active';}else{num.className='step-num';num.textContent=i;lbl.className='step-name';}if(i<5){const l=document.getElementById('sl'+i+(i+1));if(l)l.className='step-line'+(i<currentStep?' done':'');}}}
 function validateStep(s){
   if(s===1){
-    for(const[id,lbl]of[['f_name','Full Name'],['f_dob','Date of Birth'],['f_trn','TRN'],['f_idtype','ID Type'],['f_idnum','ID Number'],['f_address','Address'],['f_phone','Phone'],['f_email','Email']]){if(!document.getElementById(id).value.trim()){alert(lbl+' is required.');document.getElementById(id).focus();return false;}}
+    for(const[id,lbl]of[['f_fname','First Name'],['f_lname','Last Name'],['f_dob','Date of Birth'],['f_trn','TRN'],['f_idtype','ID Type'],['f_idnum','ID Number'],['f_address','Address'],['f_phone','Phone'],['f_email','Email']]){if(!document.getElementById(id).value.trim()){alert(lbl+' is required.');document.getElementById(id).focus();return false;}}
     if(!document.querySelector('input[name="empstatus"]:checked')){alert('Please select employment status.');return false;}
     if(!document.querySelector('input[name="custtype"]:checked')){alert('Please select JDF Soldier or Civilian.');return false;}
     const ct=document.querySelector('input[name="custtype"]:checked')?.value;
     if(ct==='JDF Soldier'){if(!document.getElementById('f_reg_num').value.trim()){alert('Regimental number is required for JDF Soldiers.');return false;}if(!document.getElementById('f_rod').value){alert('Run Out Date is required for JDF Soldiers.');return false;}}
   }
   if(s===2){if(!selectedAmount){alert('Please select a loan amount.');return false;}if(selectedAmount===100000&&!document.querySelector('input[name="term100k"]:checked')){alert('Please select your repayment term.');return false;}if(!document.getElementById('f_purpose').value.trim()){alert('Please enter the purpose of the loan.');return false;}if(!document.querySelector('input[name="repfreq"]:checked')){alert('Please select repayment frequency.');return false;}}
-  if(s===3){for(const[id,lbl]of[['r1name','Ref 1 Name'],['r1rel','Ref 1 Relationship'],['r1phone','Ref 1 Phone'],['r2name','Ref 2 Name'],['r2rel','Ref 2 Relationship'],['r2phone','Ref 2 Phone']]){if(!document.getElementById(id).value.trim()){alert(lbl+' is required.');return false;}}}
+  if(s===3){for(const[id,lbl]of[['r1fname','Ref 1 First Name'],['r1lname','Ref 1 Last Name'],['r1rel','Ref 1 Relationship'],['r1phone','Ref 1 Phone'],['r2fname','Ref 2 First Name'],['r2lname','Ref 2 Last Name'],['r2rel','Ref 2 Relationship'],['r2phone','Ref 2 Phone']]){if(!document.getElementById(id).value.trim()){alert(lbl+' is required.');return false;}}}
   if(s===4){if(!document.getElementById('up-payslip').files[0]){alert('Please upload your payslip.');return false;}if(!document.getElementById('up-workid').files[0]){alert('Please upload your work ID.');return false;}if(!document.getElementById('up-govid').files[0]){const t=document.getElementById('f_idtype').value||'government ID';alert('Please upload your '+t+'.');return false;}if(!document.getElementById('up-address').files[0]){alert('Please upload proof of address.');return false;}}
   return true;
 }
 function buildReview(){
   const rate=(selectedAmount>=150000||(selectedAmount===100000&&selectedTerm==='2month'))?35:30;
   const interest=Math.round(selectedAmount*rate/100),total=selectedAmount+interest;
-  const name=document.getElementById('f_name').value;
+  const name=document.getElementById('f_fname').value+' '+document.getElementById('f_lname').value;
   document.getElementById('decl-name').textContent=name||'the applicant';
   document.getElementById('review-summary').innerHTML=`<div style="background:var(--off);border-radius:10px;padding:18px;margin-bottom:16px"><div style="font-size:11px;font-weight:800;color:var(--gold-dark);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">Application Summary</div><div class="info-row"><span class="ik">Applicant</span><span class="iv">${name}</span></div><div class="info-row"><span class="ik">Phone</span><span class="iv">${document.getElementById('f_phone').value}</span></div><div class="info-row"><span class="ik">Loan Amount</span><span class="iv">${fmtJ(selectedAmount)}</span></div><div class="info-row"><span class="ik">Interest (${rate}%)</span><span class="iv">${fmtJ(interest)}</span></div><div class="info-row"><span class="ik">Total Repayment</span><span class="iv" style="color:var(--gold-dark)">${fmtJ(total)}</span></div><div class="info-row"><span class="ik">Frequency</span><span class="iv">${document.querySelector('input[name="repfreq"]:checked')?.value||'—'}</span></div><div class="info-row"><span class="ik">Purpose</span><span class="iv">${document.getElementById('f_purpose').value}</span></div></div>`;
 }
@@ -678,7 +678,7 @@ async function submitApplication(){
     const sigDataUrl=getSigDataURL(sigPad);
     showLoading('Saving your application...');
     const [applicant]=await db('applicants','POST',{
-      full_name:document.getElementById('f_name').value,date_of_birth:document.getElementById('f_dob').value,
+      first_name:document.getElementById('f_fname').value,last_name:document.getElementById('f_lname').value,date_of_birth:document.getElementById('f_dob').value,
       trn:document.getElementById('f_trn').value,id_type:document.getElementById('f_idtype').value,
       id_number:document.getElementById('f_idnum').value,address:document.getElementById('f_address').value,
       phone:document.getElementById('f_phone').value,email:document.getElementById('f_email').value,
@@ -699,15 +699,15 @@ async function submitApplication(){
       doc_payslip:payslipPath,doc_workid:workidPath,doc_govid:govidPath,doc_address:addressPath,
       signature_data:sigDataUrl
     });
-    await db('loan_references','POST',{loan_id:loan.id,ref_number:1,full_name:document.getElementById('r1name').value,relationship:document.getElementById('r1rel').value,phone:document.getElementById('r1phone').value});
-    await db('loan_references','POST',{loan_id:loan.id,ref_number:2,full_name:document.getElementById('r2name').value,relationship:document.getElementById('r2rel').value,phone:document.getElementById('r2phone').value});
+    await db('loan_references','POST',{loan_id:loan.id,ref_number:1,first_name:document.getElementById('r1fname').value,last_name:document.getElementById('r1lname').value,relationship:document.getElementById('r1rel').value,phone:document.getElementById('r1phone').value});
+    await db('loan_references','POST',{loan_id:loan.id,ref_number:2,first_name:document.getElementById('r2fname').value,last_name:document.getElementById('r2lname').value,relationship:document.getElementById('r2rel').value,phone:document.getElementById('r2phone').value});
     const colItem=document.getElementById('col_item').value;
     if(colItem)await db('collateral','POST',{loan_id:loan.id,collateral_offered:colItem,estimated_value:document.getElementById('col_val').value||null,description:document.getElementById('col_desc').value||null});
     hideLoading();
     document.getElementById('new-customer-form').classList.add('hidden');
     document.getElementById('apply-success').classList.remove('hidden');
     document.getElementById('success-ref').textContent='Reference Number: '+ref;
-    sendPendingEmail(document.getElementById('f_email').value,document.getElementById('f_name').value,ref);
+    sendPendingEmail(document.getElementById('f_email').value,document.getElementById('f_fname').value+' '+document.getElementById('f_lname').value,ref);
   }catch(e){hideLoading();btn.disabled=false;btn.innerHTML='Submit Application';alert('Submission failed: '+e.message);}
 }
 
@@ -775,7 +775,7 @@ function setFilter(f,el){currentFilter=f;document.querySelectorAll('.filter-tab'
 function filterTable(){
   const q=(document.getElementById('search-input').value||'').toLowerCase();
   filteredApplications=allApplications.filter(a=>{
-    const name=a.applicants?.full_name||'',phone=a.applicants?.phone||'',trn=a.applicants?.trn||'';
+    const name=((a.applicants?.first_name||'')+(a.applicants?.last_name?' '+a.applicants.last_name:'')).trim()||'',phone=a.applicants?.phone||'',trn=a.applicants?.trn||'';
     return(currentFilter==='all'||a.status===currentFilter)&&(!q||name.toLowerCase().includes(q)||phone.includes(q)||trn.includes(q)||(a.reference_number||'').toLowerCase().includes(q));
   });renderTable();
 }
@@ -783,7 +783,7 @@ function renderTable(){
   const tbody=document.getElementById('apps-tbody');
   if(!filteredApplications.length){tbody.innerHTML=`<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted)">No applications found</td></tr>`;return;}
   tbody.innerHTML=filteredApplications.map(a=>{
-    const name=a.applicants?.full_name||'Unknown',phone=a.applicants?.phone||'—';
+    const name=((a.applicants?.first_name||'')+(a.applicants?.last_name?' '+a.applicants.last_name:'')).trim()||'Unknown',phone=a.applicants?.phone||'—';
     const daysLate=Math.max(0,Math.floor((new Date()-new Date(a.due_date))/86400000));
     const lateStr=a.status!=='paid'&&daysLate>0?`<br><span style="font-size:10px;color:var(--red);font-weight:700">${daysLate} day(s) overdue</span>`:'';
     return`<tr onclick="openModal('${a.id}')" style="cursor:pointer">
@@ -806,7 +806,7 @@ function renderDelinquent(){
     const lateFee=daysLate*500,penalty=daysLate>10?Math.round(Number(a.total_repayment)*0.30):0;
     return`<tr>
       <td><strong style="color:var(--gold-dark)">${a.reference_number}</strong></td>
-      <td><strong>${app.full_name||'—'}</strong></td>
+      <td><strong>${((app.first_name||'')+(app.last_name?' '+app.last_name:'')).trim()||'—'}</strong></td>
       <td><strong style="color:var(--red)">${app.phone||'—'}</strong></td>
       <td>${app.email||'—'}</td>
       <td>${fmtJ(Number(a.total_repayment)+penalty)}</td>
@@ -822,7 +822,7 @@ function renderPayments(){
   if(!list.length){tbody.innerHTML=`<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--muted)">No proof of payment submissions</td></tr>`;return;}
   tbody.innerHTML=list.map(a=>`<tr>
     <td><strong style="color:var(--gold-dark)">${a.reference_number}</strong></td>
-    <td>${a.applicants?.full_name||'—'}</td>
+    <td>${((a.applicants?.first_name||'')+(a.applicants?.last_name?' '+a.applicants.last_name:'')).trim()||'—'}</td>
     <td>${fmtJ(a.total_repayment)}</td>
     <td><button class="doc-link" onclick="openDocument('${a.proof_of_payment}')">View Document</button></td>
     <td><button class="btn btn-sm btn-outline" onclick="openModal('${a.id}')">Notes</button></td>
@@ -844,12 +844,12 @@ function renderROD(){
     const urgency=days<=30?'color:var(--red);font-weight:700':days<=60?'color:var(--amber);font-weight:700':'color:var(--navy)';
     return`<tr>
       <td><strong style="color:var(--gold-dark)">${a.reference_number}</strong></td>
-      <td><strong>${app.full_name||'—'}</strong></td>
+      <td><strong>${((app.first_name||'')+(app.last_name?' '+app.last_name:'')).trim()||'—'}</strong></td>
       <td>${app.phone||'—'}</td>
       <td>${a.regimental_number||'—'}</td>
       <td>${a.rod_date}</td>
       <td><span style="${urgency}">${days} days</span></td>
-      <td><button class="btn btn-sm btn-outline" onclick="sendRODAlertEmail('${app.full_name||''}','${app.phone||''}','${a.reference_number}','${a.rod_date}','${a.regimental_number||''}')">Send Alert</button></td>
+      <td><button class="btn btn-sm btn-outline" onclick="sendRODAlertEmail('${((app.first_name||'')+(app.last_name?' '+app.last_name:'')).trim()||''}','${app.phone||''}','${a.reference_number}','${a.rod_date}','${a.regimental_number||''}')">Send Alert</button></td>
     </tr>`;
   }).join('');
 }
@@ -871,7 +871,7 @@ function openModal(id){
   const app=a.applicants||{},refs=a.loan_references||[],col=a.collateral?.[0]||null;
   const daysLate=Math.max(0,Math.floor((new Date()-new Date(a.due_date))/86400000));
   const lateFee=daysLate*500,penalty=daysLate>10?Math.round(Number(a.total_repayment)*0.30):0;
-  document.getElementById('modal-client-name').textContent=(app.full_name||'Client')+' — '+a.reference_number;
+  document.getElementById('modal-client-name').textContent=(((app.first_name||'')+(app.last_name?' '+app.last_name:'')).trim()||'Client')+' — '+a.reference_number;
   document.getElementById('modal-body').innerHTML=`
     ${['overdue','delinquent'].includes(a.status)?`<div class="alert alert-danger">Overdue by ${daysLate} day(s). Late fee: ${fmtJ(lateFee)}.${daysLate>10?' 30% penalty: '+fmtJ(penalty)+'.':''}</div>`:''}
     ${a.status==='pending'?`<div class="alert alert-warn">This application is awaiting your review and approval.</div>`:''}
@@ -903,7 +903,7 @@ function openModal(id){
         ${app.monthly_income?`<div class="info-row"><span class="ik">Income</span><span class="iv">${fmtJ(app.monthly_income)}</span></div>`:''}
       </div>
     </div>
-    ${refs.length?`<div style="background:var(--off);border-radius:8px;padding:14px;margin-bottom:12px"><div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:8px">References</div>${refs.map(r=>`<div class="info-row"><span class="ik">Ref ${r.ref_number}</span><span class="iv">${r.full_name} (${r.relationship}) — ${r.phone}</span></div>`).join('')}</div>`:''}
+    ${refs.length?`<div style="background:var(--off);border-radius:8px;padding:14px;margin-bottom:12px"><div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:8px">References</div>${refs.map(r=>`<div class="info-row"><span class="ik">Ref ${r.ref_number}</span><span class="iv">${((r.first_name||'')+(r.last_name?' '+r.last_name:'')).trim()} (${r.relationship}) — ${r.phone}</span></div>`).join('')}</div>`:''}
     ${col?`<div style="background:var(--off);border-radius:8px;padding:14px;margin-bottom:12px"><div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:8px">Collateral</div><div class="info-row"><span class="ik">Item</span><span class="iv">${col.collateral_offered}</span></div><div class="info-row"><span class="ik">Value</span><span class="iv">${fmtJ(col.estimated_value)}</span></div></div>`:''}
     <div style="background:var(--off);border-radius:8px;padding:14px;margin-bottom:14px">
       <div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:10px">Uploaded Documents</div>
@@ -920,7 +920,7 @@ function openModal(id){
       <button class="btn btn-outline btn-sm" style="margin-top:8px" onclick="saveNotes('${a.id}')">Save Notes</button>
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:8px">
-      ${a.status==='pending'?`<button class="btn btn-success btn-sm" onclick="approveLoan('${a.id}','${app.email||''}','${app.full_name||''}','${a.reference_number}',${a.total_repayment})">Approve Loan</button><button class="btn btn-danger btn-sm" onclick="rejectLoan('${a.id}','${app.email||''}','${app.full_name||''}','${a.reference_number}')">Reject Application</button>`:''}
+      ${a.status==='pending'?`<button class="btn btn-success btn-sm" onclick="approveLoan('${a.id}','${app.email||''}','${((app.first_name||'')+(app.last_name?' '+app.last_name:'')).trim()||''}','${a.reference_number}',${a.total_repayment})">Approve Loan</button><button class="btn btn-danger btn-sm" onclick="rejectLoan('${a.id}','${app.email||''}','${((app.first_name||'')+(app.last_name?' '+app.last_name:'')).trim()||''}','${a.reference_number}')">Reject Application</button>`:''}
       ${['approved','overdue'].includes(a.status)?`<button class="btn btn-success btn-sm" onclick="updateStatus('${a.id}','paid')">Payment Received</button><button class="btn btn-danger btn-sm" onclick="updateStatus('${a.id}','delinquent')">No Payment Made</button>`:''}
       ${a.status==='delinquent'?`<button class="btn btn-success btn-sm" onclick="updateStatus('${a.id}','paid')">Mark as Paid</button>`:''}
     </div>`;
