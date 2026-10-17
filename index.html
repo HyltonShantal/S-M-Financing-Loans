@@ -213,7 +213,7 @@ tbody td{padding:12px 14px;vertical-align:middle}
           </div>
           <div class="field"><label class="field-label">Employer / Organization<span class="req">*</span></label><input type="text" id="f_employer" placeholder="Enter employer or organization name"></div>
           <div class="field"><label class="field-label">Job Title<span class="req">*</span></label><input type="text" id="f_jobtitle" placeholder="Enter your job title"></div>
-          <div class="field span2"><label class="field-label">Monthly Income (J$)<span class="req">*</span></label><input type="text" id="f_income" placeholder="e.g. 80000" oninput="formatIncome(this)" inputmode="decimal"></div>
+          <div class="field span2"><label class="field-label">Monthly Income (J$)<span class="req">*</span></label><input type="text" id="f_income" placeholder="e.g. 80,000.00" oninput="formatIncome(this)" onblur="formatIncomeBlur(this)" inputmode="decimal"></div>
         </div>
         <div class="btn-row"><button class="btn btn-primary" onclick="goStep(2)">Continue to Loan Details</button></div>
       </div>
@@ -540,21 +540,31 @@ async function uploadFile(file,path){
 }
 async function openDocument(path){
   try{
-    showLoading('Opening document...');
-    const encodedPath=path.split('/').map(function(p){return encodeURIComponent(p);}).join('/');
-    const res=await fetch('https://sboxupqcpswdzclnxdbm.supabase.co/storage/v1/object/sign/loan-documents/'+encodedPath,{
-      method:'POST',headers:{'apikey':SKEY,'Authorization':'Bearer '+SKEY,'Content-Type':'application/json'},
+    showLoading('Preparing download...');
+    var encodedPath=path.split('/').map(function(s){return encodeURIComponent(s);}).join('/');
+    var res=await fetch('https://sboxupqcpswdzclnxdbm.supabase.co/storage/v1/object/sign/loan-documents/'+encodedPath,{
+      method:'POST',
+      headers:{'apikey':SKEY,'Authorization':'Bearer '+SKEY,'Content-Type':'application/json'},
       body:JSON.stringify({expiresIn:3600})
     });
-    const txt=await res.text();
+    var txt=await res.text();
     if(!res.ok)throw new Error(txt);
-    const data=JSON.parse(txt);
-    const signedUrl='https://sboxupqcpswdzclnxdbm.supabase.co/storage/v1'+data.signedURL;
+    var data=JSON.parse(txt);
+    var signedUrl='https://sboxupqcpswdzclnxdbm.supabase.co/storage/v1'+data.signedURL;
     hideLoading();
-    window.open(signedUrl,'_blank');
-    const a=document.createElement('a');a.href=signedUrl;a.download=path.split('/').pop();
-    document.body.appendChild(a);a.click();document.body.removeChild(a);
-  }catch(e){hideLoading();alert('Could not open document: '+e.message);}
+    /* Fetch the file as a blob and force-download it so it saves to disk */
+    var fileRes=await fetch(signedUrl);
+    if(!fileRes.ok)throw new Error('Could not fetch file');
+    var blob=await fileRes.blob();
+    var blobUrl=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    a.href=blobUrl;
+    a.download=path.split('/').pop();
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(blobUrl);},5000);
+  }catch(e){hideLoading();alert('Could not download document: '+e.message);}
 }
 
 // FORMAT HELPERS
@@ -562,6 +572,7 @@ function fmtJ(n){return'J$'+Number(n||0).toLocaleString('en-JM',{minimumFraction
 function formatTRN(el){var v=el.value.replace(/\D/g,'');if(v.length>3)v=v.slice(0,3)+'-'+v.slice(3);if(v.length>7)v=v.slice(0,7)+'-'+v.slice(7);el.value=v.slice(0,11);}
 function formatPhone(el){var v=el.value.replace(/\D/g,'');if(v.length>3)v=v.slice(0,3)+'-'+v.slice(3);if(v.length>7)v=v.slice(0,7)+'-'+v.slice(7);el.value=v.slice(0,12);}
 function formatIncome(el){var raw=el.value.replace(/[^0-9.]/g,'');var parts=raw.split('.');var intPart=parts[0].replace(/\B(?=(\d{3})+(?!\d))/g,',');var decPart=parts.length>1?'.'+parts[1].slice(0,2):'';el.value=intPart+decPart;}
+function formatIncomeBlur(el){var raw=el.value.replace(/[^0-9.]/g,'');if(!raw)return;var num=parseFloat(raw.replace(/,/g,''));if(!isNaN(num)){var intPart=Math.floor(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');var decPart=(num%1).toFixed(2).slice(1);el.value=intPart+decPart;}}
 
 // PAGE NAV
 function showPrivacy(){document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});document.getElementById('page-privacy').classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
