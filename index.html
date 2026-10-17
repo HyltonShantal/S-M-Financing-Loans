@@ -751,7 +751,7 @@ async function submitApplication(){
       employment_status:document.querySelector('input[name="empstatus"]:checked')?document.querySelector('input[name="empstatus"]:checked').value:null,
       employer:document.getElementById('f_employer').value||null,
       job_title:document.getElementById('f_jobtitle').value||null,
-      monthly_income:document.getElementById('f_income').value||null
+      monthly_income:document.getElementById('f_income').value?parseFloat(document.getElementById('f_income').value.replace(/,/g,'')):null
     });
     var applicant=appResult[0];
     var loanResult=await db('loans','POST',{
@@ -780,7 +780,7 @@ async function submitApplication(){
     await db('loan_references','POST',{loan_id:loan.id,ref_number:1,first_name:document.getElementById('r1fname').value.trim(),last_name:document.getElementById('r1lname').value.trim(),relationship:document.getElementById('r1rel').value,phone:document.getElementById('r1phone').value});
     await db('loan_references','POST',{loan_id:loan.id,ref_number:2,first_name:document.getElementById('r2fname').value.trim(),last_name:document.getElementById('r2lname').value.trim(),relationship:document.getElementById('r2rel').value,phone:document.getElementById('r2phone').value});
     var colItem=document.getElementById('col_item').value;
-    if(colItem)await db('collateral','POST',{loan_id:loan.id,collateral_offered:colItem,estimated_value:document.getElementById('col_val').value||null,description:document.getElementById('col_desc').value||null});
+    if(colItem)await db('collateral','POST',{loan_id:loan.id,collateral_offered:colItem,estimated_value:document.getElementById('col_val').value?parseFloat(document.getElementById('col_val').value.replace(/,/g,'')):null,description:document.getElementById('col_desc').value||null});
     hideLoading();
     document.getElementById('main-form').classList.add('hidden');
     document.getElementById('apply-success').classList.remove('hidden');
