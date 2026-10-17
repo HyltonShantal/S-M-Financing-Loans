@@ -525,7 +525,7 @@ const LOAN_AMOUNTS=[10000,15000,20000,25000,30000,35000,40000,45000,50000,55000,
 let selectedAmount=0,selectedTerm='payday',currentStep=1,currentFilter='all';
 
 let allApplications=[],filteredApplications=[];
-let sigPad=null,retSigPad=null;
+let sigPad=null;
 
 // SECRET URL
 function checkSecretURL(){if(window.location.hash==='#admin-sm2025'){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-admin').classList.add('active');}}
@@ -590,11 +590,7 @@ function initSig(){
   sigPad=new SignaturePad(canvas);
   resizeCanvas(canvas,sigPad);
 }
-function initRetSig(){
-  const canvas=document.getElementById('ret-sig-canvas');
-  retSigPad=new SignaturePad(canvas);
-  resizeCanvas(canvas,retSigPad);
-}
+
 function resizeCanvas(canvas,pad){
   const ratio=Math.max(window.devicePixelRatio||1,1);
   canvas.width=canvas.offsetWidth*ratio;
@@ -603,18 +599,17 @@ function resizeCanvas(canvas,pad){
   if(pad)pad.clear();
 }
 function clearSig(){if(sigPad)sigPad.clear();document.getElementById('sig-canvas').classList.remove('signed');document.getElementById('sig-status').textContent='';}
-function clearRetSig(){if(retSigPad)retSigPad.clear();document.getElementById('ret-sig-canvas').classList.remove('signed');document.getElementById('ret-sig-status').textContent='';}
+
 function getSigDataURL(pad){return pad&&!pad.isEmpty()?pad.toDataURL():null;}
 
 // LOAN CHIPS
 function buildChips(){
-  ['loan-chips','ret-loan-chips'].forEach((gid,idx)=>{
-    const g=document.getElementById(gid);
-    LOAN_AMOUNTS.forEach(a=>{
-      const d=document.createElement('div');d.className='loan-chip';d.textContent=fmtJ(a);
-      d.onclick=idx===0?()=>selectAmount(a,d):()=>selectRetAmount(a,d);
-      g.appendChild(d);
-    });
+  const g=document.getElementById('loan-chips');
+  if(!g)return;
+  LOAN_AMOUNTS.forEach(a=>{
+    const d=document.createElement('div');d.className='loan-chip';d.textContent=fmtJ(a);
+    d.onclick=()=>selectAmount(a,d);
+    g.appendChild(d);
   });
 }
 buildChips();
@@ -633,6 +628,7 @@ function calcLoan(){
   document.getElementById('loan-summary-wrap').classList.remove('hidden');
 }
 function updateStepUI(){for(let i=1;i<=5;i++){const num=document.getElementById('sn'+i),lbl=document.getElementById('sl'+i);if(i<currentStep){num.className='step-num done';num.textContent='✓';}else if(i===currentStep){num.className='step-num active';num.textContent=i;lbl.className='step-name active';}else{num.className='step-num';num.textContent=i;lbl.className='step-name';}if(i<5){const l=document.getElementById('sl'+i+(i+1));if(l)l.className='step-line'+(i<currentStep?' done':'');}}}
+function goStep(n){if(n>currentStep&&!validateStep(currentStep))return;document.getElementById('step'+currentStep).classList.remove('active');currentStep=n;document.getElementById('step'+currentStep).classList.add('active');updateStepUI();window.scrollTo({top:0,behavior:'smooth'});if(n===5)initSig();}
 function validateStep(s){
   if(s===1){
     for(const[id,lbl]of[['f_fname','First Name'],['f_lname','Last Name'],['f_dob','Date of Birth'],['f_trn','TRN'],['f_idtype','ID Type'],['f_idnum','ID Number'],['f_address','Address'],['f_phone','Phone'],['f_email','Email']]){if(!document.getElementById(id).value.trim()){alert(lbl+' is required.');document.getElementById(id).focus();return false;}}
