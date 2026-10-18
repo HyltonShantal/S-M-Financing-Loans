@@ -144,6 +144,20 @@ tbody td{padding:12px 14px;vertical-align:middle}
 .privacy-content p{margin-bottom:12px}
 .privacy-content ul{padding-left:20px;margin-bottom:12px}
 .privacy-content ul li{margin-bottom:6px}
+.landing-page{max-width:720px;margin:0 auto;padding:48px 16px}
+.landing-hero{text-align:center;margin-bottom:40px}
+.landing-hero h1{font-size:26px;font-weight:900;color:var(--navy);margin-bottom:10px}
+.landing-hero p{font-size:14px;color:var(--muted);line-height:1.7;max-width:480px;margin:0 auto}
+.landing-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
+.landing-card{background:var(--white);border-radius:16px;padding:30px 22px;text-align:center;cursor:pointer;border:2.5px solid var(--border);transition:.25s;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.landing-card:hover{border-color:var(--gold);box-shadow:0 6px 24px rgba(201,168,76,0.18);transform:translateY(-2px)}
+.landing-card-icon{width:56px;height:56px;background:var(--navy);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.landing-card-icon svg{width:30px;height:30px;fill:var(--gold)}
+.landing-card h3{font-size:15px;font-weight:800;color:var(--navy);margin-bottom:8px}
+.landing-card p{font-size:12px;color:var(--muted);line-height:1.6}
+.landing-card .lc-btn{margin-top:18px;display:inline-block;padding:9px 20px;background:var(--navy);color:var(--gold);border-radius:8px;font-size:13px;font-weight:700}
+.back-link{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;margin-bottom:20px;padding:6px 0}
+.back-link:hover{color:var(--navy)}
 @media(max-width:540px){
   .form-grid{grid-template-columns:1fr}
   .field.span2{grid-column:span 1}
@@ -163,9 +177,49 @@ tbody td{padding:12px 14px;vertical-align:middle}
   <span class="nav-link" onclick="showPrivacy()">Privacy Policy</span>
 </nav>
 
+<!-- LANDING PAGE -->
+<div id="page-landing" class="page active">
+  <div class="landing-page">
+    <div class="landing-hero">
+      <div style="width:64px;height:64px;background:var(--navy);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px"><span style="color:var(--gold);font-weight:900;font-size:22px">S&M</span></div>
+      <h1>S&M Financing and Pawn Limited</h1>
+      <p>Welcome to our online loan application portal. Please select an option below to get started.</p>
+    </div>
+    <div class="landing-cards">
+      <div class="landing-card" onclick="startForm('new')">
+        <div class="landing-card-icon"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
+        <h3>New Customer</h3>
+        <p>First time applying? Complete our full loan application form to get started.</p>
+        <div class="lc-btn">Apply Now</div>
+      </div>
+      <div class="landing-card" onclick="startForm('returning')">
+        <div class="landing-card-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/><path d="M17 12l-5 5-5-5h3V7h4v5z"/></svg></div>
+        <h3>Returning Customer</h3>
+        <p>Previously had a loan with us? Apply again or request a top-up on your existing loan.</p>
+        <div class="lc-btn">Continue</div>
+      </div>
+      <div class="landing-card" onclick="startForm('payment')">
+        <div class="landing-card-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg></div>
+        <h3>Proof of Payment</h3>
+        <p>Submit your proof of payment for an existing loan to keep your account in good standing.</p>
+        <div class="lc-btn">Submit</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- APPLY PAGE -->
-<div id="page-apply" class="page active">
+<div id="page-apply" class="page">
   <div id="main-form">
+    <div class="back-link" onclick="goLanding()">&#8592; Back to Home</div>
+    <div id="returning-banner" class="hidden" style="background:linear-gradient(135deg,var(--navy),#1a2d42);border-radius:12px;padding:16px 20px;margin-bottom:18px;display:flex;align-items:center;gap:14px">
+      <div style="width:38px;height:38px;background:var(--gold);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:var(--navy)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg></div>
+      <div><div style="color:var(--gold);font-size:13px;font-weight:800">Returning Customer Application</div><div style="color:rgba(255,255,255,0.7);font-size:12px;margin-top:2px">Welcome back! Please complete the form below.</div></div>
+    </div>
+    <div id="topup-banner" class="hidden" style="background:linear-gradient(135deg,#065F46,#047857);border-radius:12px;padding:16px 20px;margin-bottom:18px;display:flex;align-items:center;gap:14px">
+      <div style="width:38px;height:38px;background:#6EE7B7;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:#065F46"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></div>
+      <div><div style="color:#6EE7B7;font-size:13px;font-weight:800">Loan Top-Up Application</div><div style="color:rgba(255,255,255,0.75);font-size:12px;margin-top:2px">Your top-up will be added to your existing loan balance.</div></div>
+    </div>
     <div class="steps">
       <div class="step"><div class="step-num active" id="sn1">1</div><div class="step-name active" id="sl1">Personal</div></div>
       <div class="step-line" id="sl12"></div>
@@ -213,7 +267,7 @@ tbody td{padding:12px 14px;vertical-align:middle}
           </div>
           <div class="field"><label class="field-label">Employer / Organization<span class="req">*</span></label><input type="text" id="f_employer" placeholder="Enter employer or organization name"></div>
           <div class="field"><label class="field-label">Job Title<span class="req">*</span></label><input type="text" id="f_jobtitle" placeholder="Enter your job title"></div>
-          <div class="field span2"><label class="field-label">Monthly Income (J$)<span class="req">*</span></label><input type="text" id="f_income" placeholder="e.g. 80,000.00" oninput="formatIncome(this)" onblur="formatIncomeBlur(this)" inputmode="decimal"></div>
+          <div class="field span2"><label class="field-label">Monthly Income (J$)<span class="req">*</span></label><input type="text" id="f_income" placeholder="e.g. 80000" oninput="formatIncome(this)" onkeydown="blockDotComma(event)" inputmode="numeric"></div>
         </div>
         <div class="btn-row"><button class="btn btn-primary" onclick="goStep(2)">Continue to Loan Details</button></div>
       </div>
@@ -223,6 +277,25 @@ tbody td{padding:12px 14px;vertical-align:middle}
     <div class="section-step" id="step2">
       <div class="card">
         <div class="card-header"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></div><div><div class="card-title">Loan Details</div><div class="card-sub">Section B — Select your loan amount and terms</div></div></div>
+        <div id="topup-select-wrap" class="hidden" style="margin-bottom:18px">
+          <div class="alert alert-success" style="margin-bottom:14px">You are applying for a <strong>Loan Top-Up</strong>. Select the additional amount you need. It will be added to your existing loan balance and interest will be recalculated on the new total.</div>
+          <label class="field-label">Select Top-Up Amount<span class="req">*</span></label>
+          <div class="loan-grid" id="topup-chips"></div>
+          <div id="topup-summary-wrap" class="hidden" style="margin-top:16px">
+            <div class="loan-summary">
+              <div class="loan-summary-title">Top-Up Summary</div>
+              <div class="loan-summary-grid">
+                <div class="loan-sum-item"><label>Top-Up Amount</label><div class="val gold" id="tsum-topup">—</div></div>
+                <div class="loan-sum-item"><label>Original Balance</label><div class="val" id="tsum-original">—</div></div>
+                <div class="loan-sum-item"><label>New Total Loan</label><div class="val gold" id="tsum-new">—</div></div>
+                <div class="loan-sum-item"><label>Interest Rate</label><div class="val" id="tsum-rate">—</div></div>
+                <div class="loan-sum-item"><label>New Total Repayment</label><div class="val gold" id="tsum-total">—</div></div>
+                <div class="loan-sum-item"><label>Original Due Date</label><div class="val" id="tsum-due">—</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="normal-loan-wrap">
         <div class="field" style="margin-bottom:18px"><label class="field-label">Select Loan Amount<span class="req">*</span></label><div class="loan-grid" id="loan-chips"></div></div>
         <div id="two-month-wrap" class="hidden" style="margin-bottom:16px">
           <div class="alert alert-warn">J$100,000.00 loans may be repaid on your next payday (30%) or over two months (35%).</div>
@@ -231,6 +304,7 @@ tbody td{padding:12px 14px;vertical-align:middle}
             <label class="radio-opt" onclick="selRadio(this);calcLoan()"><input type="radio" name="term100k" value="2month"> Two Month Loan — 35%</label>
           </div>
         </div>
+        </div><!-- end normal-loan-wrap -->
         <div class="field" style="margin-bottom:16px"><label class="field-label">Purpose of Loan<span class="req">*</span></label><input type="text" id="f_purpose" placeholder="e.g. Medical expenses, School fees, Home repairs"></div>
         <div class="field" style="margin-bottom:16px">
           <label class="field-label">Repayment Frequency<span class="req">*</span></label>
@@ -315,6 +389,11 @@ tbody td{padding:12px 14px;vertical-align:middle}
             <div style="font-size:12px;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">4. Proof of Address <span class="req">*</span></div>
             <div class="upload-zone" id="uz-address" onclick="document.getElementById('up-address').click()"><div class="upload-title">Upload Bank Statement or Utility Bill</div><div class="upload-sub">Must show your current address — JPG, PNG or PDF — Maximum 5MB</div><div class="upload-file-name" id="fn-address"></div></div>
             <input type="file" id="up-address" accept=".jpg,.jpeg,.png,.pdf" style="display:none" onchange="handleUpload(this,'uz-address','fn-address')">
+          </div>
+          <div id="pop-upload-wrap" class="hidden">
+            <div style="font-size:12px;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">5. Proof of Payment <span style="color:var(--muted);font-weight:600">(Optional)</span></div>
+            <div class="upload-zone" id="uz-pop-apply" onclick="document.getElementById('up-pop-apply').click()"><div class="upload-title">Upload Proof of Previous Loan Payment</div><div class="upload-sub">Receipt, bank statement or screenshot — JPG, PNG or PDF — Max 5MB</div><div class="upload-file-name" id="fn-pop-apply"></div></div>
+            <input type="file" id="up-pop-apply" accept=".jpg,.jpeg,.png,.pdf" style="display:none" onchange="handleUpload(this,'uz-pop-apply','fn-pop-apply')">
           </div>
         </div>
         <div class="btn-row"><button class="btn btn-outline" onclick="goStep(3)">Back</button><button class="btn btn-primary" onclick="goStep(5)">Continue to Sign and Submit</button></div>
@@ -414,6 +493,38 @@ tbody td{padding:12px 14px;vertical-align:middle}
   </div>
 </div>
 
+<!-- PROOF OF PAYMENT PAGE -->
+<div id="page-payment" class="page">
+  <div style="max-width:520px;margin:0 auto;padding:24px 16px 48px">
+    <div class="back-link" onclick="goLanding()">&#8592; Back to Home</div>
+    <div id="payment-form-wrap">
+      <div class="card">
+        <div class="card-header"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg></div><div><div class="card-title">Proof of Payment Submission</div><div class="card-sub">Submit your payment proof for an existing loan</div></div></div>
+        <div class="form-grid">
+          <div class="field"><label class="field-label">First Name<span class="req">*</span></label><input type="text" id="pop_fname" placeholder="Enter first name"></div>
+          <div class="field"><label class="field-label">Last Name<span class="req">*</span></label><input type="text" id="pop_lname" placeholder="Enter last name"></div>
+          <div class="field"><label class="field-label">TRN<span class="req">*</span></label><input type="text" id="pop_trn" placeholder="000-000-000" maxlength="11" oninput="formatTRN(this)"></div>
+          <div class="field"><label class="field-label">Telephone Number<span class="req">*</span></label><input type="text" id="pop_phone" placeholder="876-000-0000" maxlength="12" oninput="formatPhone(this)"></div>
+          <div class="field span2">
+            <label class="field-label">Proof of Payment<span class="req">*</span></label>
+            <div class="upload-zone" id="uz-pop-proof" onclick="document.getElementById('up-pop-proof').click()"><div class="upload-title">Upload Proof of Payment</div><div class="upload-sub">Receipt, bank statement or screenshot — JPG, PNG or PDF — Max 5MB</div><div class="upload-file-name" id="fn-pop-proof"></div></div>
+            <input type="file" id="up-pop-proof" accept=".jpg,.jpeg,.png,.pdf" style="display:none" onchange="handleUpload(this,'uz-pop-proof','fn-pop-proof')">
+          </div>
+        </div>
+        <div class="btn-row"><button id="pop-submit-btn" class="btn btn-primary" onclick="submitPaymentProof()">Submit Proof of Payment</button></div>
+      </div>
+    </div>
+    <div id="payment-success" class="hidden">
+      <div class="card"><div class="success-screen">
+        <svg viewBox="0 0 24 24" style="width:64px;height:64px;fill:var(--green);margin-bottom:16px"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        <div class="success-title">Proof of Payment Submitted</div>
+        <div class="success-sub">Thank you. Your proof of payment has been received and will be reviewed by our team shortly.</div>
+        <br><button class="btn btn-outline" onclick="goLanding()">Back to Home</button>
+      </div></div>
+    </div>
+  </div>
+</div>
+
 <!-- ADMIN PAGE -->
 <div id="page-admin" class="page">
   <div id="admin-login">
@@ -508,6 +619,12 @@ const LOAN_AMOUNTS=[10000,15000,20000,25000,30000,35000,40000,45000,50000,55000,
 let selectedAmount=0,selectedTerm='payday',currentStep=1,currentFilter='all';
 let allApplications=[],filteredApplications=[];
 let sigPad=null;
+let appMode='new'; // 'new' | 'returning' | 'topup'
+let existingLoanData=null; // stores the existing loan found by TRN for top-up
+let selectedTopupAmount=0;
+const TOPUP_AMOUNTS=[5000,10000,15000,20000,25000,30000];
+
+function blockDotComma(e){if(e.key==='.'||e.key===','){e.preventDefault();}}
 
 // SECRET ADMIN URL
 function checkSecretURL(){
@@ -518,6 +635,89 @@ function checkSecretURL(){
 }
 window.addEventListener('hashchange',checkSecretURL);
 checkSecretURL();
+
+function goLanding(){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('page-landing').classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function startForm(mode){
+  appMode=mode;
+  existingLoanData=null;
+  selectedTopupAmount=0;
+  if(mode==='payment'){
+    document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+    document.getElementById('page-payment').classList.add('active');
+    document.getElementById('payment-form-wrap').classList.remove('hidden');
+    document.getElementById('payment-success').classList.add('hidden');
+    window.scrollTo({top:0,behavior:'smooth'});
+    return;
+  }
+  // Reset and show apply page
+  resetAll();
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('page-apply').classList.add('active');
+  // Show/hide returning banners
+  document.getElementById('returning-banner').classList.toggle('hidden', mode==='new');
+  document.getElementById('topup-banner').classList.add('hidden');
+  // Returning customer: hide ID and email fields, show top-up option
+  var idTypeField=document.getElementById('f_idtype').closest('.field');
+  var idNumField=document.getElementById('f_idnum').closest('.field');
+  var emailField=document.getElementById('f_email').closest('.field');
+  var govIdWrap=document.getElementById('uz-govid')?document.getElementById('uz-govid').closest('div[style]')||document.getElementById('uz-govid').parentElement:null;
+  var govIdSection=document.getElementById('gov-id-label')?document.getElementById('gov-id-label').parentElement:null;
+  var popUploadWrap=document.getElementById('pop-upload-wrap');
+  if(mode==='returning'){
+    idTypeField.classList.add('hidden');
+    idNumField.classList.add('hidden');
+    emailField.classList.add('hidden');
+    // Hide gov ID upload, show optional POP upload
+    if(govIdSection)govIdSection.classList.add('hidden');
+    if(popUploadWrap)popUploadWrap.classList.remove('hidden');
+    // Add top-up option above step 2 content if not already there
+    showTopupOption();
+  } else {
+    idTypeField.classList.remove('hidden');
+    idNumField.classList.remove('hidden');
+    emailField.classList.remove('hidden');
+    // Show gov ID upload, hide POP upload
+    if(govIdSection)govIdSection.classList.remove('hidden');
+    if(popUploadWrap)popUploadWrap.classList.add('hidden');
+    var existOpt=document.getElementById('topup-option-wrap');
+    if(existOpt)existOpt.classList.add('hidden');
+    document.getElementById('topup-select-wrap').classList.add('hidden');
+    document.getElementById('normal-loan-wrap').classList.remove('hidden');
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function showTopupOption(){
+  var wrap=document.getElementById('topup-option-wrap');
+  if(!wrap){
+    wrap=document.createElement('div');
+    wrap.id='topup-option-wrap';
+    wrap.style.cssText='margin-bottom:18px';
+    wrap.innerHTML='<div class="alert alert-warn" style="margin-bottom:10px"><strong>Are you requesting a loan top-up?</strong><br>Select Yes to add extra funds to your existing loan.</div>'+
+      '<div class="radio-group">'+
+      '<label class="radio-opt" onclick="selRadio(this);setTopupMode(false)"><input type="radio" name="is_topup" value="no"> No — New Loan Application</label>'+
+      '<label class="radio-opt" onclick="selRadio(this);setTopupMode(true)"><input type="radio" name="is_topup" value="yes"> Yes — Loan Top-Up</label>'+
+      '</div>';
+    // Insert before the step2 card content
+    var step2=document.getElementById('step2').querySelector('.card');
+    step2.insertBefore(wrap, step2.querySelector('.card-header').nextSibling);
+  }
+  wrap.classList.remove('hidden');
+}
+
+function setTopupMode(isTopup){
+  appMode=isTopup?'topup':'returning';
+  document.getElementById('topup-select-wrap').classList.toggle('hidden',!isTopup);
+  document.getElementById('normal-loan-wrap').classList.toggle('hidden',isTopup);
+  document.getElementById('topup-banner').classList.toggle('hidden',!isTopup);
+  document.getElementById('returning-banner').classList.toggle('hidden',isTopup);
+  if(isTopup && !document.getElementById('topup-chips').children.length) buildTopupChips();
+}
 
 // DB HELPERS
 async function db(path,method,body){
@@ -566,7 +766,7 @@ async function openDocument(path){
         '<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#0D1B2A;border-bottom:2px solid #C9A84C">'+
           '<span style="color:#C9A84C;font-weight:700;font-size:14px">'+filename+'</span>'+
           '<div style="display:flex;gap:10px;align-items:center">'+
-            '<a href="'+signedUrl+'" download="'+filename+'" style="background:#C9A84C;color:#0D1B2A;padding:7px 16px;border-radius:7px;font-size:12px;font-weight:700;text-decoration:none">Download</a>'+
+            '<button onclick="forceDownload(\''+signedUrl+'\',\''+filename+'\')" style="background:#C9A84C;color:#0D1B2A;padding:7px 16px;border-radius:7px;font-size:12px;font-weight:700;border:none;cursor:pointer">Download</button>'+
             '<button onclick="document.getElementById(\'doc-viewer-modal\').remove()" style="background:none;border:none;color:rgba(255,255,255,0.6);font-size:24px;cursor:pointer;line-height:1">&times;</button>'+
           '</div>'+
         '</div>'+
@@ -581,12 +781,16 @@ async function openDocument(path){
   }catch(e){hideLoading();alert('Could not open document: '+e.message);}
 }
 
+function forceDownload(url,filename){
+  /* Open the signed URL in a new tab — browser will show the file with its own save/download option */
+  window.open(url,'_blank');
+}
+
 // FORMAT HELPERS
 function fmtJ(n){return'J$'+Number(n||0).toLocaleString('en-JM',{minimumFractionDigits:2,maximumFractionDigits:2});}
 function formatTRN(el){var v=el.value.replace(/\D/g,'');if(v.length>3)v=v.slice(0,3)+'-'+v.slice(3);if(v.length>7)v=v.slice(0,7)+'-'+v.slice(7);el.value=v.slice(0,11);}
 function formatPhone(el){var v=el.value.replace(/\D/g,'');if(v.length>3)v=v.slice(0,3)+'-'+v.slice(3);if(v.length>7)v=v.slice(0,7)+'-'+v.slice(7);el.value=v.slice(0,12);}
-function formatIncome(el){var raw=el.value.replace(/[^0-9.]/g,'');var parts=raw.split('.');var intPart=parts[0].replace(/\B(?=(\d{3})+(?!\d))/g,',');var decPart=parts.length>1?'.'+parts[1].slice(0,2):'';el.value=intPart+decPart;}
-function formatIncomeBlur(el){var raw=el.value.replace(/[^0-9.]/g,'');if(!raw)return;var num=parseFloat(raw.replace(/,/g,''));if(!isNaN(num)){var intPart=Math.floor(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');var decPart=(num%1).toFixed(2).slice(1);el.value=intPart+decPart;}}
+function formatIncome(el){var raw=el.value.replace(/[^0-9]/g,'');el.value=raw.replace(/\B(?=(\d{3})+(?!\d))/g,',');}
 
 // PAGE NAV
 function showPrivacy(){document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});document.getElementById('page-privacy').classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
@@ -646,6 +850,62 @@ function buildChips(){
 }
 buildChips();
 
+function buildTopupChips(){
+  var g=document.getElementById('topup-chips');
+  if(!g)return;
+  g.innerHTML='';
+  TOPUP_AMOUNTS.forEach(function(a){
+    var d=document.createElement('div');
+    d.className='loan-chip';
+    d.textContent=fmtJ(a);
+    d.onclick=function(){selectTopupAmount(a,d);};
+    g.appendChild(d);
+  });
+}
+
+function selectTopupAmount(amt,el){
+  document.querySelectorAll('#topup-chips .loan-chip').forEach(function(c){c.classList.remove('selected');});
+  el.classList.add('selected');
+  selectedTopupAmount=amt;
+  calcTopup();
+}
+
+async function calcTopup(){
+  if(!selectedTopupAmount)return;
+  // Find existing active loan by TRN
+  var trn=document.getElementById('f_trn').value.trim();
+  if(!trn){document.getElementById('topup-summary-wrap').classList.add('hidden');return;}
+  try{
+    var loans=await db('loans?select=*,applicants(*)&applicants.trn=eq.'+encodeURIComponent(trn)+'&status=in.(approved,overdue)&order=created_at.desc&limit=1');
+    // fallback: query via applicants
+    if(!loans||!loans.length){
+      var apps=await db('applicants?trn=eq.'+encodeURIComponent(trn)+'&select=id');
+      if(apps&&apps.length){
+        loans=await db('loans?applicant_id=eq.'+apps[0].id+'&status=in.(approved,overdue)&order=created_at.desc&limit=1');
+      }
+    }
+    if(!loans||!loans.length){
+      document.getElementById('tsum-original').textContent='No active loan found';
+      document.getElementById('topup-summary-wrap').classList.remove('hidden');
+      existingLoanData=null;
+      return;
+    }
+    existingLoanData=loans[0];
+    var origAmount=Number(existingLoanData.loan_amount);
+    var newTotal=origAmount+selectedTopupAmount;
+    var rate=Number(existingLoanData.interest_rate)||30;
+    var newInterest=Math.round(newTotal*rate/100);
+    var newRepayment=newTotal+newInterest;
+    document.getElementById('tsum-topup').textContent=fmtJ(selectedTopupAmount);
+    document.getElementById('tsum-original').textContent=fmtJ(origAmount);
+    document.getElementById('tsum-new').textContent=fmtJ(newTotal);
+    document.getElementById('tsum-rate').textContent=rate+'%';
+    document.getElementById('tsum-total').textContent=fmtJ(newRepayment);
+    document.getElementById('tsum-due').textContent=existingLoanData.due_date||'—';
+    document.getElementById('topup-summary-wrap').classList.remove('hidden');
+  }catch(e){console.error(e);}
+}
+
 function selectAmount(amt,el){
   document.querySelectorAll('#loan-chips .loan-chip').forEach(function(c){c.classList.remove('selected');});
   el.classList.add('selected');
@@ -694,7 +954,12 @@ function goStep(n){
 
 function validateStep(s){
   if(s===1){
-    var fields=[['f_fname','First Name'],['f_lname','Last Name'],['f_dob','Date of Birth'],['f_trn','TRN'],['f_idtype','ID Type'],['f_idnum','ID Number'],['f_address','Address'],['f_phone','Phone'],['f_email','Email'],['f_employer','Employer / Organization'],['f_jobtitle','Job Title'],['f_income','Monthly Income']];
+    var fields=[['f_fname','First Name'],['f_lname','Last Name'],['f_dob','Date of Birth'],['f_trn','TRN'],['f_address','Address'],['f_phone','Phone'],['f_employer','Employer / Organization'],['f_jobtitle','Job Title'],['f_income','Monthly Income']];
+    // Add ID and email only for new customers
+    if(appMode==='new'){
+      fields.splice(4,0,['f_idtype','ID Type'],['f_idnum','ID Number']);
+      fields.splice(8,0,['f_email','Email']);
+    }
     for(var i=0;i<fields.length;i++){
       if(!document.getElementById(fields[i][0]).value.trim()){
         alert(fields[i][1]+' is required.');
@@ -711,10 +976,15 @@ function validateStep(s){
     }
   }
   if(s===2){
-    if(!selectedAmount){alert('Please select a loan amount.');return false;}
-    if(selectedAmount===100000&&!document.querySelector('input[name="term100k"]:checked')){alert('Please select your repayment term.');return false;}
+    if(appMode==='topup'){
+      if(!selectedTopupAmount){alert('Please select a top-up amount.');return false;}
+      if(!existingLoanData){alert('No active loan found for your TRN. Please check your TRN and try again.');return false;}
+    } else {
+      if(!selectedAmount){alert('Please select a loan amount.');return false;}
+      if(selectedAmount===100000&&!document.querySelector('input[name="term100k"]:checked')){alert('Please select your repayment term.');return false;}
+    }
     if(!document.getElementById('f_purpose').value.trim()){alert('Please enter the purpose of the loan.');return false;}
-    if(!document.querySelector('input[name="repfreq"]:checked')){alert('Please select repayment frequency.');return false;}
+    if(appMode!=='topup'&&!document.querySelector('input[name="repfreq"]:checked')){alert('Please select repayment frequency.');return false;}
   }
   if(s===3){
     var refs=[['r1fname','Ref 1 First Name'],['r1lname','Ref 1 Last Name'],['r1rel','Ref 1 Relationship'],['r1phone','Ref 1 Phone'],['r2fname','Ref 2 First Name'],['r2lname','Ref 2 Last Name'],['r2rel','Ref 2 Relationship'],['r2phone','Ref 2 Phone']];
@@ -725,7 +995,9 @@ function validateStep(s){
   if(s===4){
     if(!document.getElementById('up-payslip').files[0]){alert('Please upload your payslip.');return false;}
     if(!document.getElementById('up-workid').files[0]){alert('Please upload your work ID.');return false;}
-    if(!document.getElementById('up-govid').files[0]){var t2=document.getElementById('f_idtype').value||'government ID';alert('Please upload your '+t2+'.');return false;}
+    if(appMode==='new'){
+      if(!document.getElementById('up-govid').files[0]){var t2=document.getElementById('f_idtype').value||'government ID';alert('Please upload your '+t2+'.');return false;}
+    }
     if(!document.getElementById('up-address').files[0]){alert('Please upload proof of address.');return false;}
   }
   return true;
@@ -747,61 +1019,126 @@ async function submitApplication(){
   btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Submitting...';
   showLoading('Uploading documents...');
   try{
-    var rate=(selectedAmount>=150000||(selectedAmount===100000&&selectedTerm==='2month'))?35:30;
-    var interest=Math.round(selectedAmount*rate/100),total=selectedAmount+interest;
-    var today=new Date(),dueDate=new Date(today.getTime()+(selectedTerm==='2month'?60:14)*86400000);
-    var ref='SM'+String(Math.floor(1000+Math.random()*9000));
+    var fname=document.getElementById('f_fname').value.trim(),lname=document.getElementById('f_lname').value.trim();
+    var trn=document.getElementById('f_trn').value.trim();
     var custType=document.querySelector('input[name="custtype"]:checked')?document.querySelector('input[name="custtype"]:checked').value:'';
     var ts=Date.now();
+    var ref='SM'+String(Math.floor(1000+Math.random()*9000));
+
+    // Upload documents
     var payslipFile=document.getElementById('up-payslip').files[0];
     var workidFile=document.getElementById('up-workid').files[0];
-    var govidFile=document.getElementById('up-govid').files[0];
     var addressFile=document.getElementById('up-address').files[0];
     var payslipPath=await uploadFile(payslipFile,ref+'/payslip_'+ts+'.'+payslipFile.name.split('.').pop());
     var workidPath=await uploadFile(workidFile,ref+'/workid_'+ts+'.'+workidFile.name.split('.').pop());
-    var govidPath=await uploadFile(govidFile,ref+'/govid_'+ts+'.'+govidFile.name.split('.').pop());
     var addressPath=await uploadFile(addressFile,ref+'/address_'+ts+'.'+addressFile.name.split('.').pop());
+    var govidPath=null;
+    if(appMode==='new'){
+      var govidFile=document.getElementById('up-govid').files[0];
+      if(govidFile)govidPath=await uploadFile(govidFile,ref+'/govid_'+ts+'.'+govidFile.name.split('.').pop());
+    }
+    // Proof of payment optional for returning/topup
+    var popFile=document.getElementById('up-pop-apply')?document.getElementById('up-pop-apply').files[0]:null;
+    var popPath=null;
+    if(popFile)popPath=await uploadFile(popFile,ref+'/pop_'+ts+'.'+popFile.name.split('.').pop());
     var sigDataUrl=sigPad.toDataURL();
+
     showLoading('Saving your application...');
-    var fname=document.getElementById('f_fname').value.trim(),lname=document.getElementById('f_lname').value.trim();
-    var appResult=await db('applicants','POST',{
-      full_name:(fname+' '+lname).trim(),
-      first_name:fname,
-      last_name:lname,
-      date_of_birth:document.getElementById('f_dob').value,
-      trn:document.getElementById('f_trn').value,
-      id_type:document.getElementById('f_idtype').value,
-      id_number:document.getElementById('f_idnum').value,
-      address:document.getElementById('f_address').value,
-      phone:document.getElementById('f_phone').value,
-      email:document.getElementById('f_email').value,
+
+    // === TOP-UP MODE ===
+    if(appMode==='topup'&&existingLoanData){
+      var origLoan=existingLoanData;
+      var newLoanAmt=origLoan.loan_amount+selectedTopupAmount;
+      var rate=origLoan.interest_rate||30;
+      var newInterest=Math.round(newLoanAmt*rate/100);
+      var newTotal=newLoanAmt+newInterest;
+      // PATCH existing loan with updated amounts
+      await fetch(SURL+'loans?id=eq.'+origLoan.id,{
+        method:'PATCH',
+        headers:{'Content-Type':'application/json','apikey':SKEY,'Authorization':'Bearer '+SKEY,'Prefer':'return=minimal'},
+        body:JSON.stringify({loan_amount:newLoanAmt,interest_amount:newInterest,total_repayment:newTotal,topup_amount:selectedTopupAmount,topup_reference:ref,topup_date:new Date().toISOString().split('T')[0]})
+      });
+      // Create new applicant record for this topup submission (linked by TRN)
+      var appResult=await db('applicants','POST',{
+        full_name:(fname+' '+lname).trim(),first_name:fname,last_name:lname,
+        date_of_birth:document.getElementById('f_dob').value,trn:trn,
+        address:document.getElementById('f_address').value,phone:document.getElementById('f_phone').value,
+        employment_status:document.querySelector('input[name="empstatus"]:checked')?document.querySelector('input[name="empstatus"]:checked').value:null,
+        employer:document.getElementById('f_employer').value||null,job_title:document.getElementById('f_jobtitle').value||null,
+        monthly_income:document.getElementById('f_income').value?parseFloat(document.getElementById('f_income').value.replace(/,/g,'').replace(/[^0-9]/g,'')):null
+      });
+      var applicant=appResult[0];
+      // Create a new loan record as the topup record
+      var loanResult=await db('loans','POST',{
+        applicant_id:applicant.id,reference_number:ref,
+        loan_amount:selectedTopupAmount,interest_rate:rate,
+        interest_amount:Math.round(selectedTopupAmount*rate/100),
+        total_repayment:selectedTopupAmount+Math.round(selectedTopupAmount*rate/100),
+        purpose:document.getElementById('f_purpose').value,
+        loan_term:'topup',issued_date:new Date().toISOString().split('T')[0],
+        due_date:origLoan.due_date,status:'pending',
+        customer_type:custType,is_topup:true,parent_loan_id:origLoan.id,trn_link:trn,
+        rod_date:custType==='JDF Soldier'?document.getElementById('f_rod').value:null,
+        regimental_number:custType==='JDF Soldier'?document.getElementById('f_reg_num').value:null,
+        doc_payslip:payslipPath,doc_workid:workidPath,doc_address:addressPath,doc_proof_payment:popPath,
+        signature_data:sigDataUrl
+      });
+      var loan=loanResult[0];
+      var r1f=document.getElementById('r1fname').value.trim(),r1l=document.getElementById('r1lname').value.trim();
+      var r2f=document.getElementById('r2fname').value.trim(),r2l=document.getElementById('r2lname').value.trim();
+      await db('loan_references','POST',{loan_id:loan.id,ref_number:1,full_name:(r1f+' '+r1l).trim(),first_name:r1f,last_name:r1l,relationship:document.getElementById('r1rel').value,phone:document.getElementById('r1phone').value});
+      await db('loan_references','POST',{loan_id:loan.id,ref_number:2,full_name:(r2f+' '+r2l).trim(),first_name:r2f,last_name:r2l,relationship:document.getElementById('r2rel').value,phone:document.getElementById('r2phone').value});
+      hideLoading();
+      document.getElementById('main-form').classList.add('hidden');
+      document.getElementById('apply-success').classList.remove('hidden');
+      document.getElementById('success-ref').textContent='Top-Up Reference: '+ref;
+      return;
+    }
+
+    // === NEW or RETURNING CUSTOMER ===
+    var rate,interest,total,dueDate;
+    if(appMode==='returning'){
+      rate=30;
+      interest=Math.round(selectedAmount*rate/100);
+      total=selectedAmount+interest;
+      var today=new Date();
+      dueDate=new Date(today.getTime()+14*86400000);
+    } else {
+      rate=(selectedAmount>=150000||(selectedAmount===100000&&selectedTerm==='2month'))?35:30;
+      interest=Math.round(selectedAmount*rate/100);total=selectedAmount+interest;
+      var today=new Date();
+      dueDate=new Date(today.getTime()+(selectedTerm==='2month'?60:14)*86400000);
+    }
+    var appPayload={
+      full_name:(fname+' '+lname).trim(),first_name:fname,last_name:lname,
+      date_of_birth:document.getElementById('f_dob').value,trn:trn,
+      address:document.getElementById('f_address').value,phone:document.getElementById('f_phone').value,
       employment_status:document.querySelector('input[name="empstatus"]:checked')?document.querySelector('input[name="empstatus"]:checked').value:null,
-      employer:document.getElementById('f_employer').value||null,
-      job_title:document.getElementById('f_jobtitle').value||null,
-      monthly_income:document.getElementById('f_income').value?parseFloat(document.getElementById('f_income').value.replace(/,/g,'').replace(/[^0-9.]/g,'')):null
-    });
+      employer:document.getElementById('f_employer').value||null,job_title:document.getElementById('f_jobtitle').value||null,
+      monthly_income:document.getElementById('f_income').value?parseFloat(document.getElementById('f_income').value.replace(/,/g,'').replace(/[^0-9]/g,'')):null
+    };
+    if(appMode==='new'){
+      appPayload.id_type=document.getElementById('f_idtype').value;
+      appPayload.id_number=document.getElementById('f_idnum').value;
+      appPayload.email=document.getElementById('f_email').value;
+    }
+    var appResult=await db('applicants','POST',appPayload);
     var applicant=appResult[0];
     var loanResult=await db('loans','POST',{
-      applicant_id:applicant.id,
-      reference_number:ref,
-      loan_amount:selectedAmount,
-      interest_rate:rate,
-      interest_amount:interest,
-      total_repayment:total,
+      applicant_id:applicant.id,reference_number:ref,
+      loan_amount:selectedAmount,interest_rate:rate,
+      interest_amount:interest,total_repayment:total,
       purpose:document.getElementById('f_purpose').value,
       repayment_frequency:document.querySelector('input[name="repfreq"]:checked')?document.querySelector('input[name="repfreq"]:checked').value:null,
-      loan_term:selectedTerm,
-      issued_date:today.toISOString().split('T')[0],
+      loan_term:selectedTerm||'payday',
+      issued_date:new Date().toISOString().split('T')[0],
       due_date:dueDate.toISOString().split('T')[0],
-      status:'pending',
-      customer_type:custType,
+      status:'pending',customer_type:custType,
+      is_returning:appMode==='returning',
       rod_date:custType==='JDF Soldier'?document.getElementById('f_rod').value:null,
       regimental_number:custType==='JDF Soldier'?document.getElementById('f_reg_num').value:null,
-      doc_payslip:payslipPath,
-      doc_workid:workidPath,
-      doc_govid:govidPath,
-      doc_address:addressPath,
-      signature_data:sigDataUrl
+      doc_payslip:payslipPath,doc_workid:workidPath,doc_govid:govidPath,doc_address:addressPath,
+      doc_proof_payment:popPath,signature_data:sigDataUrl
     });
     var loan=loanResult[0];
     var r1f=document.getElementById('r1fname').value.trim(),r1l=document.getElementById('r1lname').value.trim();
@@ -814,7 +1151,7 @@ async function submitApplication(){
     document.getElementById('main-form').classList.add('hidden');
     document.getElementById('apply-success').classList.remove('hidden');
     document.getElementById('success-ref').textContent='Reference Number: '+ref;
-    sendConfirmEmail(document.getElementById('f_email').value,(document.getElementById('f_fname').value+' '+document.getElementById('f_lname').value).trim(),ref);
+    if(appMode==='new'){sendConfirmEmail(document.getElementById('f_email').value,(fname+' '+lname).trim(),ref);}
   }catch(e){
     hideLoading();
     btn.disabled=false;
@@ -823,7 +1160,49 @@ async function submitApplication(){
   }
 }
 
+async function submitPaymentProof(){
+  var btn=document.getElementById('pop-submit-btn');
+  var fname=document.getElementById('pop_fname').value.trim();
+  var lname=document.getElementById('pop_lname').value.trim();
+  var trn=document.getElementById('pop_trn').value.trim();
+  var phone=document.getElementById('pop_phone').value.trim();
+  if(!fname){alert('First name is required.');document.getElementById('pop_fname').focus();return;}
+  if(!lname){alert('Last name is required.');document.getElementById('pop_lname').focus();return;}
+  if(!trn){alert('TRN is required.');document.getElementById('pop_trn').focus();return;}
+  if(!phone){alert('Phone number is required.');document.getElementById('pop_phone').focus();return;}
+  var popFile=document.getElementById('up-pop-proof').files[0];
+  if(!popFile){alert('Please upload your proof of payment.');return;}
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Uploading...';
+  showLoading('Uploading proof of payment...');
+  try{
+    var ts=Date.now();
+    var filePath='proof-of-payment/'+trn+'_'+ts+'.'+popFile.name.split('.').pop();
+    var uploadedPath=await uploadFile(popFile,filePath);
+    showLoading('Saving submission...');
+    await db('payment_submissions','POST',{
+      first_name:fname,last_name:lname,
+      full_name:(fname+' '+lname).trim(),
+      trn:trn,phone:phone,
+      doc_proof:uploadedPath,
+      submitted_at:new Date().toISOString()
+    });
+    hideLoading();
+    document.getElementById('payment-form-wrap').classList.add('hidden');
+    document.getElementById('payment-success').classList.remove('hidden');
+  }catch(e){
+    hideLoading();
+    btn.disabled=false;
+    btn.innerHTML='Submit Proof of Payment';
+    alert('Submission failed: '+e.message);
+  }
+}
+
 function resetAll(){
+  // Reset state vars
+  appMode='new';
+  existingLoanData=null;
+  selectedTopupAmount=0;
+  // Reset form
   document.getElementById('main-form').classList.remove('hidden');
   document.getElementById('apply-success').classList.add('hidden');
   document.getElementById('main-form').querySelectorAll('input[type=text],input[type=email],input[type=date],input[type=number],input[type=password],select,textarea').forEach(function(el){el.value='';});
@@ -836,6 +1215,29 @@ function resetAll(){
   document.getElementById('loan-summary-wrap').classList.add('hidden');
   document.getElementById('loan-chips').querySelectorAll('.loan-chip').forEach(function(c){c.classList.remove('selected');});
   selectedAmount=0;selectedTerm='payday';
+  // Reset banners
+  document.getElementById('returning-banner').classList.add('hidden');
+  document.getElementById('topup-banner').classList.add('hidden');
+  // Reset topup UI
+  document.getElementById('topup-select-wrap').classList.add('hidden');
+  document.getElementById('normal-loan-wrap').classList.remove('hidden');
+  document.getElementById('topup-chips').innerHTML='';
+  document.getElementById('topup-summary-wrap').classList.add('hidden');
+  // Remove dynamically-injected topup option
+  var existingOpt=document.getElementById('topup-option-wrap');
+  if(existingOpt)existingOpt.remove();
+  // Restore hidden fields (ID, email) for new customer
+  var idTypeField=document.getElementById('f_idtype').closest('.field');
+  var idNumField=document.getElementById('f_idnum').closest('.field');
+  var emailField=document.getElementById('f_email').closest('.field');
+  if(idTypeField)idTypeField.classList.remove('hidden');
+  if(idNumField)idNumField.classList.remove('hidden');
+  if(emailField)emailField.classList.remove('hidden');
+  // Restore gov ID upload, hide optional POP upload
+  var govIdSection=document.getElementById('gov-id-label')?document.getElementById('gov-id-label').parentElement:null;
+  var popUploadWrap=document.getElementById('pop-upload-wrap');
+  if(govIdSection)govIdSection.classList.remove('hidden');
+  if(popUploadWrap)popUploadWrap.classList.add('hidden');
   currentStep=1;
   document.querySelectorAll('.section-step').forEach(function(el){el.classList.remove('active');});
   document.getElementById('step1').classList.add('active');
