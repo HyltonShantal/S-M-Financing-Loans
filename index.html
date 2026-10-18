@@ -391,11 +391,6 @@ tbody td{padding:12px 14px;vertical-align:middle}
             <div class="upload-zone" id="uz-address" onclick="document.getElementById('up-address').click()"><div class="upload-title">Upload Bank Statement or Utility Bill</div><div class="upload-sub">Must show your current address — JPG, PNG or PDF — Maximum 5MB</div><div class="upload-file-name" id="fn-address"></div></div>
             <input type="file" id="up-address" accept=".jpg,.jpeg,.png,.pdf" style="display:none" onchange="handleUpload(this,'uz-address','fn-address')">
           </div>
-          <div id="pop-upload-wrap" class="hidden">
-            <div style="font-size:12px;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">5. Proof of Payment <span style="color:var(--muted);font-weight:600">(Optional)</span></div>
-            <div class="upload-zone" id="uz-pop-apply" onclick="document.getElementById('up-pop-apply').click()"><div class="upload-title">Upload Proof of Previous Loan Payment</div><div class="upload-sub">Receipt, bank statement or screenshot — JPG, PNG or PDF — Max 5MB</div><div class="upload-file-name" id="fn-pop-apply"></div></div>
-            <input type="file" id="up-pop-apply" accept=".jpg,.jpeg,.png,.pdf" style="display:none" onchange="handleUpload(this,'uz-pop-apply','fn-pop-apply')">
-          </div>
         </div>
         <div class="btn-row"><button class="btn btn-outline" onclick="goStep(3)">Back</button><button class="btn btn-primary" onclick="goStep(5)">Continue to Sign and Submit</button></div>
       </div>
@@ -589,7 +584,7 @@ tbody td{padding:12px 14px;vertical-align:middle}
     <div id="tab-payment" class="hidden">
       <div class="card">
         <div class="card-header"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg></div><div><div class="card-title">Proof of Payment Submissions</div></div></div>
-        <div class="table-wrap"><table><thead><tr><th>Reference</th><th>Name</th><th>Amount Due</th><th>Document</th><th>Notes</th></tr></thead><tbody id="payment-tbody"></tbody></table></div>
+        <div class="table-wrap"><table><thead><tr><th>Name / TRN</th><th>Phone</th><th>Date Submitted</th><th>Document</th></tr></thead><tbody id="payment-tbody"></tbody></table></div>
       </div>
     </div>
     <div id="tab-rod" class="hidden">
@@ -669,21 +664,19 @@ function startForm(mode){
   var emailField=document.getElementById('f_email').closest('.field');
   var govIdWrap=document.getElementById('uz-govid')?document.getElementById('uz-govid').closest('div[style]')||document.getElementById('uz-govid').parentElement:null;
   var govIdSection=document.getElementById('gov-id-label')?document.getElementById('gov-id-label').parentElement:null;
-  var popUploadWrap=document.getElementById('pop-upload-wrap');
   if(mode==='returning'){
     idTypeField.classList.add('hidden');
     idNumField.classList.add('hidden');
     emailField.classList.add('hidden');
-    // Hide gov ID upload, show optional POP upload
+    // Hide gov ID upload
     if(govIdSection)govIdSection.classList.add('hidden');
-    if(popUploadWrap)popUploadWrap.classList.remove('hidden');
     // Add top-up option above step 2 content if not already there
     showTopupOption();
   } else {
     idTypeField.classList.remove('hidden');
     idNumField.classList.remove('hidden');
     emailField.classList.remove('hidden');
-    // Show gov ID upload, hide POP upload
+    // Show gov ID upload
     if(govIdSection)govIdSection.classList.remove('hidden');
     if(popUploadWrap)popUploadWrap.classList.add('hidden');
     var existOpt=document.getElementById('topup-option-wrap');
@@ -789,7 +782,7 @@ function forceDownload(url,filename){
 }
 
 // FORMAT HELPERS
-function fmtJ(n){return'J$'+Number(n||0).toLocaleString('en-JM',{minimumFractionDigits:0,maximumFractionDigits:0});}
+function fmtJ(n){return'J$'+Number(n||0).toLocaleString('en-JM',{minimumFractionDigits:2,maximumFractionDigits:2});}
 function formatTRN(el){var v=el.value.replace(/\D/g,'');if(v.length>3)v=v.slice(0,3)+'-'+v.slice(3);if(v.length>7)v=v.slice(0,7)+'-'+v.slice(7);el.value=v.slice(0,11);}
 function formatPhone(el){var v=el.value.replace(/\D/g,'');if(v.length>3)v=v.slice(0,3)+'-'+v.slice(3);if(v.length>7)v=v.slice(0,7)+'-'+v.slice(7);el.value=v.slice(0,12);}
 function formatIncome(el){var raw=el.value.replace(/[^0-9]/g,'');el.value=raw.replace(/\B(?=(\d{3})+(?!\d))/g,',');}
@@ -829,6 +822,7 @@ function hideLoading(){document.getElementById('loading-overlay').style.display=
 // SIGNATURE
 function initSig(){
   var canvas=document.getElementById('sig-canvas');
+  if(sigPad)return; // already initialised — don't recreate
   sigPad=new SignaturePad(canvas);
   var ratio=Math.max(window.devicePixelRatio||1,1);
   canvas.width=canvas.offsetWidth*ratio;
@@ -1235,11 +1229,9 @@ function resetAll(){
   if(idTypeField)idTypeField.classList.remove('hidden');
   if(idNumField)idNumField.classList.remove('hidden');
   if(emailField)emailField.classList.remove('hidden');
-  // Restore gov ID upload, hide optional POP upload
+  // Restore gov ID upload
   var govIdSection=document.getElementById('gov-id-label')?document.getElementById('gov-id-label').parentElement:null;
-  var popUploadWrap=document.getElementById('pop-upload-wrap');
   if(govIdSection)govIdSection.classList.remove('hidden');
-  if(popUploadWrap)popUploadWrap.classList.add('hidden');
   currentStep=1;
   document.querySelectorAll('.section-step').forEach(function(el){el.classList.remove('active');});
   document.getElementById('step1').classList.add('active');
@@ -1307,7 +1299,7 @@ async function loadDashboard(){
     checkOverdue();
     renderStats();
     filteredApplications=allApplications.slice();
-    renderTable();renderDelinquent();renderPayments();renderROD();
+    renderTable();renderDelinquent();renderROD();renderPayments();
   }catch(e){alert('Failed to load: '+e.message);}
   finally{hideLoading();}
 }
@@ -1401,19 +1393,25 @@ function renderDelinquent(){
   }).join('');
 }
 
-function renderPayments(){
-  var list=allApplications.filter(function(a){return a.proof_of_payment;});
+async function renderPayments(){
   var tbody=document.getElementById('payment-tbody');
-  if(!list.length){tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--muted)">No proof of payment submissions</td></tr>';return;}
-  tbody.innerHTML=list.map(function(a){
-    return'<tr>'+
-      '<td><strong style="color:var(--gold-dark)">'+a.reference_number+'</strong></td>'+
-      '<td>'+getName(a.applicants)+'</td>'+
-      '<td>'+fmtJ(a.total_repayment)+'</td>'+
-      '<td><button class="doc-link" onclick="openDocument(\''+a.proof_of_payment+'\')">View Document</button></td>'+
-      '<td><button class="btn btn-sm btn-outline" onclick="openModal(\''+a.id+'\')">Notes</button></td>'+
-      '</tr>';
-  }).join('');
+  tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:32px;color:var(--muted)">Loading...</td></tr>';
+  try{
+    var list=await db('payment_submissions?order=submitted_at.desc');
+    if(!list||!list.length){tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:32px;color:var(--muted)">No proof of payment submissions yet</td></tr>';return;}
+    tbody.innerHTML=list.map(function(p){
+      var date=p.submitted_at?new Date(p.submitted_at).toLocaleDateString('en-JM'):'—';
+      return'<tr>'+
+        '<td><strong>'+p.full_name+'</strong><br><small style="color:var(--muted)">TRN: '+p.trn+'</small></td>'+
+        '<td>'+p.phone+'</td>'+
+        '<td>'+date+'</td>'+
+        '<td>'+
+          '<button class="doc-link" onclick="openDocument(\''+p.doc_proof+'\')">View</button> '+
+          '<a class="btn btn-sm btn-outline" href="https://sboxupqcpswdzclnxdbm.supabase.co/storage/v1/object/public/loan-documents/'+p.doc_proof+'" download target="_blank">Download</a>'+
+        '</td>'+
+        '</tr>';
+    }).join('');
+  }catch(e){tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:32px;color:var(--red)">Error loading: '+e.message+'</td></tr>';}
 }
 
 function renderROD(){
