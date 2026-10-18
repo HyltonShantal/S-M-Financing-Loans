@@ -776,6 +776,25 @@ async function openDocument(path){
   }catch(e){hideLoading();alert('Could not open document: '+e.message);}
 }
 
+async function downloadDocument(path){
+  try{
+    var encodedPath=path.split('/').map(function(s){return encodeURIComponent(s);}).join('/');
+    var res=await fetch('https://sboxupqcpswdzclnxdbm.supabase.co/storage/v1/object/sign/loan-documents/'+encodedPath,{
+      method:'POST',headers:{'apikey':SKEY,'Authorization':'Bearer '+SKEY,'Content-Type':'application/json'},
+      body:JSON.stringify({expiresIn:60})
+    });
+    var data=JSON.parse(await res.text());
+    var signedUrl='https://sboxupqcpswdzclnxdbm.supabase.co/storage/v1'+data.signedURL;
+    var a=document.createElement('a');
+    a.href=signedUrl;
+    a.download=path.split('/').pop();
+    a.target='_blank';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }catch(e){alert('Could not download document: '+e.message);}
+}
+
 function forceDownload(url,filename){
   /* Open the signed URL in a new tab — browser will show the file with its own save/download option */
   window.open(url,'_blank');
@@ -1442,7 +1461,7 @@ async function renderPayments(){
         '<td>'+date+'</td>'+
         '<td>'+
           '<button class="doc-link" onclick="openDocument(\''+p.doc_proof+'\')">View</button> '+
-          '<a class="btn btn-sm btn-outline" href="https://sboxupqcpswdzclnxdbm.supabase.co/storage/v1/object/public/loan-documents/'+p.doc_proof+'" download target="_blank">Download</a>'+
+          '<button class="btn btn-sm btn-outline" onclick="downloadDocument(\''+p.doc_proof+'\')">Download</button>'+
         '</td>'+
         '</tr>';
     }).join('');
