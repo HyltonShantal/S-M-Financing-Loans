@@ -241,7 +241,7 @@ tbody td{padding:12px 14px;vertical-align:middle}
           <div class="field"><label class="field-label">First Name<span class="req">*</span></label><input type="text" id="f_fname" placeholder="Enter first name"></div>
           <div class="field"><label class="field-label">Last Name<span class="req">*</span></label><input type="text" id="f_lname" placeholder="Enter last name"></div>
           <div class="field"><label class="field-label">Date of Birth<span class="req">*</span></label><input type="date" id="f_dob" onchange="validateAge(this)"></div>
-          <div class="field"><label class="field-label">TRN<span class="req">*</span></label><input type="text" id="f_trn" placeholder="000-000-000" maxlength="11" oninput="formatTRN(this)"></div>
+          <div class="field"><label class="field-label">TRN<span class="req">*</span></label><input type="text" id="f_trn" placeholder="000-000-000" maxlength="11" oninput="formatTRN(this)" onblur="validateTRNField()"><div id="trn-status" style="font-size:12px;margin-top:4px;display:none"></div></div>
           <div class="field"><label class="field-label">ID Type<span class="req">*</span></label><select id="f_idtype" onchange="updateIDLabel()"><option value="">Select ID type</option><option>National ID</option><option>Driver's Licence</option><option>Passport</option></select></div>
           <div class="field"><label class="field-label">ID Number<span class="req">*</span></label><input type="text" id="f_idnum" placeholder="Enter ID number"></div>
           <div class="field span2"><label class="field-label">Residential Address<span class="req">*</span></label><input type="text" id="f_address" placeholder="Street, Community, Parish"></div>
@@ -783,7 +783,27 @@ function forceDownload(url,filename){
 
 // FORMAT HELPERS
 function fmtJ(n){return'J$'+Number(n||0).toLocaleString('en-JM',{minimumFractionDigits:2,maximumFractionDigits:2});}
-function formatTRN(el){var v=el.value.replace(/\D/g,'');if(v.length>3)v=v.slice(0,3)+'-'+v.slice(3);if(v.length>7)v=v.slice(0,7)+'-'+v.slice(7);el.value=v.slice(0,11);}
+function formatTRN(el){var v=el.value.replace(/\D/g,'');if(v.length>3)v=v.slice(0,3)+'-'+v.slice(3);if(v.length>7)v=v.slice(0,7)+'-'+v.slice(7);el.value=v.slice(0,11);document.getElementById('trn-status').style.display='none';}
+
+async function validateTRNField(){
+  if(appMode==='new')return; // no validation for new customers
+  var trn=document.getElementById('f_trn').value.trim();
+  var statusEl=document.getElementById('trn-status');
+  if(!trn||trn.length<11){statusEl.style.display='none';return;}
+  statusEl.style.display='block';
+  statusEl.style.color='var(--muted)';
+  statusEl.textContent='Checking TRN...';
+  try{
+    var results=await db('applicants?trn=eq.'+encodeURIComponent(trn)+'&select=id,first_name,last_name&limit=1');
+    if(results&&results.length>0){
+      statusEl.style.color='var(--green)';
+      statusEl.textContent='✓ TRN verified — '+results[0].first_name+' '+results[0].last_name;
+    } else {
+      statusEl.style.color='var(--red)';
+      statusEl.textContent='✗ TRN not found. Returning customers must have an existing loan with us.';
+    }
+  }catch(e){statusEl.style.display='none';}
+}
 function formatPhone(el){var v=el.value.replace(/\D/g,'');if(v.length>3)v=v.slice(0,3)+'-'+v.slice(3);if(v.length>7)v=v.slice(0,7)+'-'+v.slice(7);el.value=v.slice(0,12);}
 function formatIncome(el){var raw=el.value.replace(/[^0-9]/g,'');el.value=raw.replace(/\B(?=(\d{3})+(?!\d))/g,',');}
 
@@ -972,6 +992,15 @@ function validateStep(s){
     if(ct==='JDF Soldier'){
       if(!document.getElementById('f_reg_num').value.trim()){alert('Regimental number is required for JDF Soldiers.');return false;}
       if(!document.getElementById('f_rod').value){alert('Run Out Date is required for JDF Soldiers.');return false;}
+    }
+    // TRN validation for returning/topup customers
+    if(appMode==='returning'||appMode==='topup'){
+      var trnStatus=document.getElementById('trn-status');
+      if(!trnStatus||!trnStatus.textContent.startsWith('✓')){
+        alert('Please enter your TRN and wait for it to be verified before continuing. Your TRN must match our records.');
+        document.getElementById('f_trn').focus();
+        return false;
+      }
     }
   }
   if(s===2){
