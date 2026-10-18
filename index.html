@@ -822,7 +822,10 @@ function hideLoading(){document.getElementById('loading-overlay').style.display=
 // SIGNATURE
 function initSig(){
   var canvas=document.getElementById('sig-canvas');
-  if(sigPad)return; // already initialised — don't recreate
+  // Reset submit button every time step 5 is entered
+  var btn=document.getElementById('submit-btn');
+  if(btn){btn.disabled=false;btn.innerHTML='Submit Application';}
+  if(sigPad){sigPad.clear();return;} // already initialised — just clear it
   sigPad=new SignaturePad(canvas);
   var ratio=Math.max(window.devicePixelRatio||1,1);
   canvas.width=canvas.offsetWidth*ratio;
@@ -1198,6 +1201,9 @@ function resetAll(){
   appMode='new';
   existingLoanData=null;
   selectedTopupAmount=0;
+  sigPad=null; // force signature pad to reinitialise on next step 5
+  var btn=document.getElementById('submit-btn');
+  if(btn){btn.disabled=false;btn.innerHTML='Submit Application';}
   // Reset form
   document.getElementById('main-form').classList.remove('hidden');
   document.getElementById('apply-success').classList.add('hidden');
