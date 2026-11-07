@@ -1176,15 +1176,16 @@ async function submitApplication(){
     // === TOP-UP MODE ===
     if(appMode==='topup'&&existingLoanData){
       var origLoan=existingLoanData;
-      var newLoanAmt=origLoan.loan_amount+selectedTopupAmount;
+      var origLoanAmt=Number(origLoan.loan_amount); // original amount — never changed
+      var newLoanAmt=origLoanAmt+selectedTopupAmount; // combined total for interest calc
       var rate=origLoan.interest_rate||30;
       var newInterest=Math.round(newLoanAmt*rate/100);
       var newTotal=newLoanAmt+newInterest;
-      // PATCH existing loan with updated amounts
+      // PATCH existing loan — store topup info but DO NOT change loan_amount (preserve original)
       await fetch(SURL+'loans?id=eq.'+origLoan.id,{
         method:'PATCH',
         headers:{'Content-Type':'application/json','apikey':SKEY,'Authorization':'Bearer '+SKEY,'Prefer':'return=minimal'},
-        body:JSON.stringify({loan_amount:newLoanAmt,interest_amount:newInterest,total_repayment:newTotal,topup_amount:selectedTopupAmount,topup_reference:ref,topup_date:new Date().toISOString().split('T')[0]})
+        body:JSON.stringify({topup_amount:selectedTopupAmount,topup_reference:ref,topup_date:new Date().toISOString().split('T')[0]})
       });
       // Create new applicant record for this topup submission (linked by TRN)
       var appResult=await db('applicants','POST',{
@@ -1196,12 +1197,12 @@ async function submitApplication(){
         monthly_income:document.getElementById('f_income').value?parseFloat(document.getElementById('f_income').value.replace(/,/g,'').replace(/[^0-9]/g,'')):null
       });
       var applicant=appResult[0];
-      // Create a new loan record as the topup record
+      // Create a new loan record as the topup record (stores full combined amounts)
       var loanResult=await db('loans','POST',{
         applicant_id:applicant.id,reference_number:ref,
-        loan_amount:selectedTopupAmount,interest_rate:rate,
-        interest_amount:Math.round(selectedTopupAmount*rate/100),
-        total_repayment:selectedTopupAmount+Math.round(selectedTopupAmount*rate/100),
+        loan_amount:newLoanAmt,interest_rate:rate,
+        interest_amount:newInterest,
+        total_repayment:newTotal,
         purpose:document.getElementById('f_purpose').value,
         loan_term:'topup',issued_date:new Date().toISOString().split('T')[0],
         due_date:origLoan.due_date,status:'pending',
