@@ -393,12 +393,11 @@ tbody td{padding:12px 14px;vertical-align:middle}
           </div>
           <div id="uniform-photo-wrap">
             <div style="font-size:12px;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">5. Uniform Photo <span class="req">*</span></div>
-            <div style="font-size:11px;color:var(--muted);margin-bottom:10px">Head-to-shoulder passport-style photo in your work uniform. You may take a live photo using your camera or upload an existing one.</div>
+            <div style="font-size:11px;color:var(--muted);margin-bottom:10px">Head-to-shoulder passport-style photo in your work uniform. You must take a live photo using your camera.</div>
             <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px">
               <button type="button" class="btn btn-outline btn-sm" onclick="openUniformCamera()">📷 Take Photo Now</button>
-              <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('up-uniform').click()">📁 Upload Photo</button>
             </div>
-            <input type="file" id="up-uniform" accept="image/*" style="display:none" onchange="handleUpload(this,'uz-uniform','fn-uniform')">
+            <input type="file" id="up-uniform" accept="image/*" style="display:none">
             <div class="upload-zone" id="uz-uniform" style="display:none"><div class="upload-title">Uniform Photo</div><div class="upload-file-name" id="fn-uniform"></div></div>
             <!-- Camera modal -->
             <div id="uniform-camera-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:300;align-items:center;justify-content:center;flex-direction:column;gap:16px">
