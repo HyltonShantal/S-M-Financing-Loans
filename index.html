@@ -286,12 +286,12 @@ tbody td{padding:12px 14px;vertical-align:middle}
             <div class="loan-summary">
               <div class="loan-summary-title">Top-Up Summary</div>
               <div class="loan-summary-grid">
+                <div class="loan-sum-item"><label>Original Loan</label><div class="val" id="tsum-original">—</div></div>
+                <div class="loan-sum-item"><label>Original Repayment</label><div class="val" id="tsum-orig-repayment">—</div></div>
                 <div class="loan-sum-item"><label>Top-Up Amount</label><div class="val gold" id="tsum-topup">—</div></div>
-                <div class="loan-sum-item"><label>Original Balance</label><div class="val" id="tsum-original">—</div></div>
-                <div class="loan-sum-item"><label>New Total Loan</label><div class="val gold" id="tsum-new">—</div></div>
-                <div class="loan-sum-item"><label>Interest Rate</label><div class="val" id="tsum-rate">—</div></div>
+                <div class="loan-sum-item"><label>New Loan Total</label><div class="val gold" id="tsum-new">—</div></div>
+                <div class="loan-sum-item"><label>Interest (30%)</label><div class="val" id="tsum-rate">—</div></div>
                 <div class="loan-sum-item"><label>New Total Repayment</label><div class="val gold" id="tsum-total">—</div></div>
-                <div class="loan-sum-item"><label>Original Due Date</label><div class="val" id="tsum-due">—</div></div>
               </div>
             </div>
           </div>
@@ -980,22 +980,28 @@ async function calcTopup(){
     }
     if(!loans||!loans.length){
       document.getElementById('tsum-original').textContent='No active loan found';
+      document.getElementById('tsum-orig-repayment').textContent='—';
+      document.getElementById('tsum-topup').textContent='—';
+      document.getElementById('tsum-new').textContent='—';
+      document.getElementById('tsum-rate').textContent='—';
+      document.getElementById('tsum-total').textContent='—';
       document.getElementById('topup-summary-wrap').classList.remove('hidden');
       existingLoanData=null;
       return;
     }
     existingLoanData=loans[0];
     var origAmount=Number(existingLoanData.loan_amount);
-    var newTotal=origAmount+selectedTopupAmount;
     var rate=Number(existingLoanData.interest_rate)||30;
-    var newInterest=Math.round(newTotal*rate/100);
-    var newRepayment=newTotal+newInterest;
-    document.getElementById('tsum-topup').textContent=fmtJ(selectedTopupAmount);
+    var origRepayment=Number(existingLoanData.total_repayment)||Math.round(origAmount+(origAmount*rate/100));
+    var newLoanTotal=origAmount+selectedTopupAmount;
+    var newInterest=Math.round(newLoanTotal*rate/100);
+    var newRepayment=newLoanTotal+newInterest;
     document.getElementById('tsum-original').textContent=fmtJ(origAmount);
-    document.getElementById('tsum-new').textContent=fmtJ(newTotal);
-    document.getElementById('tsum-rate').textContent=rate+'%';
+    document.getElementById('tsum-orig-repayment').textContent=fmtJ(origRepayment);
+    document.getElementById('tsum-topup').textContent=fmtJ(selectedTopupAmount);
+    document.getElementById('tsum-new').textContent=fmtJ(newLoanTotal);
+    document.getElementById('tsum-rate').textContent=fmtJ(newInterest);
     document.getElementById('tsum-total').textContent=fmtJ(newRepayment);
-    document.getElementById('tsum-due').textContent=existingLoanData.due_date||'—';
     document.getElementById('topup-summary-wrap').classList.remove('hidden');
   }catch(e){console.error(e);}
 }
