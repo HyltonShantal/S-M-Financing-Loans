@@ -391,6 +391,26 @@ tbody td{padding:12px 14px;vertical-align:middle}
             <div class="upload-zone" id="uz-address" onclick="document.getElementById('up-address').click()"><div class="upload-title">Upload Bank Statement or Utility Bill</div><div class="upload-sub">Must show your current address — JPG, PNG or PDF — Maximum 5MB</div><div class="upload-file-name" id="fn-address"></div></div>
             <input type="file" id="up-address" accept=".jpg,.jpeg,.png,.pdf" style="display:none" onchange="handleUpload(this,'uz-address','fn-address')">
           </div>
+          <div id="uniform-photo-wrap">
+            <div style="font-size:12px;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">5. Uniform Photo <span class="req">*</span></div>
+            <div style="font-size:11px;color:var(--muted);margin-bottom:10px">Head-to-shoulder passport-style photo in your work uniform. You may take a live photo using your camera or upload an existing one.</div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px">
+              <button type="button" class="btn btn-outline btn-sm" onclick="openUniformCamera()">📷 Take Photo Now</button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('up-uniform').click()">📁 Upload Photo</button>
+            </div>
+            <input type="file" id="up-uniform" accept="image/*" style="display:none" onchange="handleUpload(this,'uz-uniform','fn-uniform')">
+            <div class="upload-zone" id="uz-uniform" style="display:none"><div class="upload-title">Uniform Photo</div><div class="upload-file-name" id="fn-uniform"></div></div>
+            <!-- Camera modal -->
+            <div id="uniform-camera-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:300;align-items:center;justify-content:center;flex-direction:column;gap:16px">
+              <div style="color:#fff;font-size:14px;font-weight:700;text-align:center">Position yourself head-to-shoulder, in uniform<br><span style="font-size:12px;opacity:.7">Click Capture when ready</span></div>
+              <video id="uniform-video" autoplay playsinline style="width:280px;height:280px;object-fit:cover;border-radius:12px;border:3px solid #FF006E"></video>
+              <canvas id="uniform-canvas" style="display:none"></canvas>
+              <div style="display:flex;gap:12px">
+                <button class="btn btn-primary" onclick="captureUniformPhoto()">Capture</button>
+                <button class="btn btn-outline" style="color:#fff;border-color:#fff" onclick="closeUniformCamera()">Cancel</button>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="btn-row"><button class="btn btn-outline" onclick="goStep(3)">Back</button><button class="btn btn-primary" onclick="goStep(5)">Continue to Sign and Submit</button></div>
       </div>
@@ -578,7 +598,7 @@ tbody td{padding:12px 14px;vertical-align:middle}
       <div class="delinquent-banner">Delinquent Customers — These customers have not made payment and require immediate follow-up.</div>
       <div class="card">
         <div class="card-header"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg></div><div><div class="card-title">Delinquent Customer List</div></div></div>
-        <div class="table-wrap"><table><thead><tr><th>Reference</th><th>Name</th><th>Phone</th><th>Email</th><th>Amount Owed</th><th>Days Overdue</th><th>Late Fee</th><th>Notes</th></tr></thead><tbody id="delinquent-tbody"></tbody></table></div>
+        <div class="table-wrap"><table><thead><tr><th>Reference</th><th>Name</th><th>Phone</th><th>Total Due</th><th>Paid So Far</th><th>Balance Owed</th><th>Days Overdue</th><th>Action</th></tr></thead><tbody id="delinquent-tbody"></tbody></table></div>
       </div>
     </div>
     <div id="tab-payment" class="hidden">
@@ -589,7 +609,7 @@ tbody td{padding:12px 14px;vertical-align:middle}
     </div>
     <div id="tab-rod" class="hidden">
       <div class="card">
-        <div class="card-header"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg></div><div><div class="card-title">JDF Soldier ROD Alerts</div><div class="card-sub">Soldiers whose Run Out Date is within 3 months</div></div></div>
+        <div class="card-header"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg></div><div><div class="card-title">JDF Soldier ROD Alerts</div><div class="card-sub">Soldiers whose Run Out Date is within 6 months</div></div></div>
         <div class="table-wrap"><table><thead><tr><th>Reference</th><th>Name</th><th>Phone</th><th>Regimental No.</th><th>ROD Date</th><th>Days Remaining</th><th>Alert</th></tr></thead><tbody id="rod-tbody"></tbody></table></div>
       </div>
     </div>
@@ -618,7 +638,7 @@ let sigPad=null;
 let appMode='new'; // 'new' | 'returning' | 'topup'
 let existingLoanData=null; // stores the existing loan found by TRN for top-up
 let selectedTopupAmount=0;
-const TOPUP_AMOUNTS=[5000,10000,15000,20000,25000,30000];
+const TOPUP_AMOUNTS=[5000,10000,15000,20000,25000,30000,35000,40000,45000,50000];
 
 function blockDotComma(e){if(e.key==='.'||e.key===','){e.preventDefault();}}
 
@@ -712,6 +732,13 @@ function setTopupMode(isTopup){
   document.getElementById('topup-banner').classList.toggle('hidden',!isTopup);
   document.getElementById('returning-banner').classList.toggle('hidden',isTopup);
   if(isTopup && !document.getElementById('topup-chips').children.length) buildTopupChips();
+  // For top-up: hide work ID, address, gov ID uploads — only payslip needed
+  var workidWrap=document.getElementById('uz-workid')?document.getElementById('uz-workid').closest('div'):null;
+  var addressWrap=document.getElementById('uz-address')?document.getElementById('uz-address').closest('div'):null;
+  var govIdWrap2=document.getElementById('gov-id-label')?document.getElementById('gov-id-label').parentElement:null;
+  if(workidWrap)workidWrap.style.display=isTopup?'none':'';
+  if(addressWrap)addressWrap.style.display=isTopup?'none':'';
+  if(govIdWrap2)govIdWrap2.style.display=isTopup?'none':'';
 }
 
 // DB HELPERS
@@ -873,6 +900,36 @@ function initSig(){
   sigPad.clear();
 }
 function clearSig(){if(sigPad)sigPad.clear();document.getElementById('sig-canvas').classList.remove('signed');document.getElementById('sig-status').textContent='';}
+
+// UNIFORM CAMERA
+var uniformStream=null;
+function openUniformCamera(){
+  var modal=document.getElementById('uniform-camera-modal');
+  modal.style.display='flex';
+  navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false})
+    .then(function(stream){uniformStream=stream;document.getElementById('uniform-video').srcObject=stream;})
+    .catch(function(){alert('Camera not available. Please upload a photo instead.');modal.style.display='none';});
+}
+function closeUniformCamera(){
+  if(uniformStream){uniformStream.getTracks().forEach(function(t){t.stop();});uniformStream=null;}
+  document.getElementById('uniform-camera-modal').style.display='none';
+}
+function captureUniformPhoto(){
+  var video=document.getElementById('uniform-video');
+  var canvas=document.getElementById('uniform-canvas');
+  canvas.width=video.videoWidth;canvas.height=video.videoHeight;
+  canvas.getContext('2d').drawImage(video,0,0);
+  canvas.toBlob(function(blob){
+    var file=new File([blob],'uniform_photo_'+Date.now()+'.jpg',{type:'image/jpeg'});
+    var dt=new DataTransfer();dt.items.add(file);
+    var input=document.getElementById('up-uniform');
+    input.files=dt.files;
+    document.getElementById('uz-uniform').style.display='block';
+    document.getElementById('uz-uniform').classList.add('has-file');
+    document.getElementById('fn-uniform').textContent='Photo captured ✓';
+    closeUniformCamera();
+  },'image/jpeg',0.9);
+}
 
 // LOAN CHIPS
 function buildChips(){
@@ -1041,21 +1098,47 @@ function validateStep(s){
   }
   if(s===4){
     if(!document.getElementById('up-payslip').files[0]){alert('Please upload your payslip.');return false;}
-    if(!document.getElementById('up-workid').files[0]){alert('Please upload your work ID.');return false;}
-    if(appMode==='new'){
-      if(!document.getElementById('up-govid').files[0]){var t2=document.getElementById('f_idtype').value||'government ID';alert('Please upload your '+t2+'.');return false;}
+    if(appMode!=='topup'){
+      // Work ID, gov ID, proof of address not required for top-up
+      if(!document.getElementById('up-workid').files[0]){alert('Please upload your work ID.');return false;}
+      if(appMode==='new'){
+        if(!document.getElementById('up-govid').files[0]){var t2=document.getElementById('f_idtype').value||'government ID';alert('Please upload your '+t2+'.');return false;}
+      }
+      if(!document.getElementById('up-address').files[0]){alert('Please upload proof of address.');return false;}
     }
-    if(!document.getElementById('up-address').files[0]){alert('Please upload proof of address.');return false;}
+    if(!document.getElementById('up-uniform').files[0]){alert('Please provide your uniform photo.');return false;}
   }
   return true;
 }
 
 function buildReview(){
-  var rate=(selectedAmount>=150000||(selectedAmount===100000&&selectedTerm==='2month'))?35:30;
-  var interest=Math.round(selectedAmount*rate/100),total=selectedAmount+interest;
   var name=(document.getElementById('f_fname').value+' '+document.getElementById('f_lname').value).trim();
   document.getElementById('decl-name').textContent=name||'the applicant';
-  document.getElementById('review-summary').innerHTML='<div style="background:var(--off);border-radius:10px;padding:18px;margin-bottom:16px"><div style="font-size:11px;font-weight:800;color:var(--gold-dark);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">Application Summary</div><div class="info-row"><span class="ik">Applicant</span><span class="iv">'+name+'</span></div><div class="info-row"><span class="ik">Phone</span><span class="iv">'+document.getElementById('f_phone').value+'</span></div><div class="info-row"><span class="ik">Loan Amount</span><span class="iv">'+fmtJ(selectedAmount)+'</span></div><div class="info-row"><span class="ik">Interest ('+rate+'%)</span><span class="iv">'+fmtJ(interest)+'</span></div><div class="info-row"><span class="ik">Total Repayment</span><span class="iv" style="color:var(--gold-dark)">'+fmtJ(total)+'</span></div><div class="info-row"><span class="ik">Frequency</span><span class="iv">'+(document.querySelector('input[name="repfreq"]:checked')?document.querySelector('input[name="repfreq"]:checked').value:'—')+'</span></div><div class="info-row"><span class="ik">Purpose</span><span class="iv">'+document.getElementById('f_purpose').value+'</span></div></div>';
+  var html='<div style="background:var(--off);border-radius:10px;padding:18px;margin-bottom:16px"><div style="font-size:11px;font-weight:800;color:var(--gold-dark);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">Application Summary</div>';
+  html+='<div class="info-row"><span class="ik">Applicant</span><span class="iv">'+name+'</span></div>';
+  html+='<div class="info-row"><span class="ik">Phone</span><span class="iv">'+document.getElementById('f_phone').value+'</span></div>';
+  html+='<div class="info-row"><span class="ik">TRN</span><span class="iv">'+document.getElementById('f_trn').value+'</span></div>';
+  if(appMode==='topup'&&existingLoanData){
+    var origAmt=existingLoanData.loan_amount||0;
+    var newAmt=origAmt+selectedTopupAmount;
+    var rate2=existingLoanData.interest_rate||30;
+    var newInterest=Math.round(newAmt*rate2/100);
+    var newTotal=newAmt+newInterest;
+    html+='<div class="info-row"><span class="ik">Top-Up Amount</span><span class="iv">'+fmtJ(selectedTopupAmount)+'</span></div>';
+    html+='<div class="info-row"><span class="ik">New Loan Amount</span><span class="iv">'+fmtJ(newAmt)+'</span></div>';
+    html+='<div class="info-row"><span class="ik">Interest ('+rate2+'%)</span><span class="iv">'+fmtJ(newInterest)+'</span></div>';
+    html+='<div class="info-row"><span class="ik">New Total Repayment</span><span class="iv" style="color:var(--gold-dark);font-weight:800">'+fmtJ(newTotal)+'</span></div>';
+  } else {
+    var rate=(selectedAmount>=150000||(selectedAmount===100000&&selectedTerm==='2month'))?35:30;
+    var interest=Math.round(selectedAmount*rate/100),total=selectedAmount+interest;
+    html+='<div class="info-row"><span class="ik">Loan Amount</span><span class="iv" style="font-weight:800">'+fmtJ(selectedAmount)+'</span></div>';
+    html+='<div class="info-row"><span class="ik">Interest ('+rate+'%)</span><span class="iv">'+fmtJ(interest)+'</span></div>';
+    html+='<div class="info-row"><span class="ik">Total Repayment</span><span class="iv" style="color:var(--gold-dark);font-weight:800">'+fmtJ(total)+'</span></div>';
+    html+='<div class="info-row"><span class="ik">Loan Term</span><span class="iv">'+(selectedTerm==='2month'?'Two Month':'Payday')+'</span></div>';
+  }
+  html+='<div class="info-row"><span class="ik">Purpose</span><span class="iv">'+document.getElementById('f_purpose').value+'</span></div>';
+  html+='</div>';
+  document.getElementById('review-summary').innerHTML=html;
 }
 
 // SUBMIT APPLICATION
@@ -1084,10 +1167,9 @@ async function submitApplication(){
       var govidFile=document.getElementById('up-govid').files[0];
       if(govidFile)govidPath=await uploadFile(govidFile,ref+'/govid_'+ts+'.'+govidFile.name.split('.').pop());
     }
-    // Proof of payment optional for returning/topup
-    var popFile=document.getElementById('up-pop-apply')?document.getElementById('up-pop-apply').files[0]:null;
-    var popPath=null;
-    if(popFile)popPath=await uploadFile(popFile,ref+'/pop_'+ts+'.'+popFile.name.split('.').pop());
+    // Uniform photo (required for all)
+    var uniformFile=document.getElementById('up-uniform').files[0];
+    var uniformPath=uniformFile?await uploadFile(uniformFile,ref+'/uniform_'+ts+'.'+uniformFile.name.split('.').pop()):null;
     var sigDataUrl=sigPad.toDataURL();
 
     showLoading('Saving your application...');
@@ -1127,7 +1209,7 @@ async function submitApplication(){
         customer_type:custType,is_topup:true,parent_loan_id:origLoan.id,trn_link:trn,
         rod_date:custType==='JDF Soldier'?document.getElementById('f_rod').value:null,
         regimental_number:custType==='JDF Soldier'?document.getElementById('f_reg_num').value:null,
-        doc_payslip:payslipPath,doc_workid:workidPath,doc_address:addressPath,doc_proof_payment:popPath,
+        doc_payslip:payslipPath,doc_workid:workidPath,doc_address:addressPath,doc_uniform:uniformPath,
         signature_data:sigDataUrl
       });
       var loan=loanResult[0];
@@ -1185,7 +1267,7 @@ async function submitApplication(){
       rod_date:custType==='JDF Soldier'?document.getElementById('f_rod').value:null,
       regimental_number:custType==='JDF Soldier'?document.getElementById('f_reg_num').value:null,
       doc_payslip:payslipPath,doc_workid:workidPath,doc_govid:govidPath,doc_address:addressPath,
-      doc_proof_payment:popPath,signature_data:sigDataUrl
+      doc_uniform:uniformPath,signature_data:sigDataUrl
     });
     var loan=loanResult[0];
     var r1f=document.getElementById('r1fname').value.trim(),r1l=document.getElementById('r1lname').value.trim();
@@ -1433,18 +1515,48 @@ function renderDelinquent(){
   tbody.innerHTML=list.map(function(a){
     var app=a.applicants||{};
     var daysLate=Math.max(0,Math.floor((new Date()-new Date(a.due_date))/86400000));
-    var lateFee=daysLate*500,penalty=daysLate>10?Math.round(Number(a.total_repayment)*0.30):0;
+    var totalDue=Number(a.total_repayment)||0;
+    var paidSoFar=Number(a.amount_paid)||0;
+    var balance=Math.max(0,totalDue-paidSoFar);
+    var interestOnBalance=Math.round(balance*(Number(a.interest_rate)||30)/100);
     return'<tr>'+
       '<td><strong style="color:var(--gold-dark)">'+a.reference_number+'</strong></td>'+
-      '<td><strong>'+getName(app)+'</strong></td>'+
-      '<td><strong style="color:var(--red)">'+( app.phone||'—')+'</strong></td>'+
-      '<td>'+(app.email||'—')+'</td>'+
-      '<td>'+fmtJ(Number(a.total_repayment)+penalty)+'</td>'+
+      '<td><strong>'+getName(app)+'</strong><br><small style="color:var(--muted)">'+(app.phone||'—')+'</small></td>'+
+      '<td>'+(app.phone||'—')+'</td>'+
+      '<td>'+fmtJ(totalDue)+'</td>'+
+      '<td style="color:var(--green);font-weight:700">'+fmtJ(paidSoFar)+'</td>'+
+      '<td style="color:var(--red);font-weight:700">'+fmtJ(balance)+'<br><small>+'+fmtJ(interestOnBalance)+' interest</small></td>'+
       '<td><span style="color:var(--red);font-weight:700">'+daysLate+' days</span></td>'+
-      '<td>'+fmtJ(lateFee)+(penalty?'<br><small style="color:var(--red)">+'+fmtJ(penalty)+'</small>':'')+'</td>'+
-      '<td><button class="btn btn-sm btn-outline" onclick="openModal(\''+a.id+'\')">Notes</button></td>'+
+      '<td style="display:flex;flex-direction:column;gap:6px">'+
+        '<button class="btn btn-sm btn-success" onclick="recordDelinquentPayment(\''+a.id+'\','+totalDue+','+paidSoFar+',\''+a.reference_number+'\')">Record Payment</button>'+
+        '<button class="btn btn-sm btn-outline" onclick="openModal(\''+a.id+'\')">Details</button>'+
+      '</td>'+
       '</tr>';
   }).join('');
+}
+
+async function recordDelinquentPayment(loanId, totalDue, paidSoFar, ref){
+  var amtStr=prompt('Record payment for '+ref+'\n\nTotal Due: '+fmtJ(totalDue)+'\nPaid So Far: '+fmtJ(paidSoFar)+'\nBalance: '+fmtJ(Math.max(0,totalDue-paidSoFar))+'\n\nEnter amount paid now (numbers only):');
+  if(!amtStr)return;
+  var amt=parseFloat(amtStr.replace(/[^0-9.]/g,''));
+  if(!amt||amt<=0){alert('Please enter a valid amount.');return;}
+  var newPaid=paidSoFar+amt;
+  var newBalance=Math.max(0,totalDue-newPaid);
+  var paymentHistory=(allApplications.find(function(a){return a.id===loanId;})||{}).payment_history||[];
+  if(typeof paymentHistory==='string'){try{paymentHistory=JSON.parse(paymentHistory);}catch(e){paymentHistory=[];}}
+  paymentHistory.push({amount:amt,date:new Date().toISOString(),balance_after:newBalance});
+  var newStatus=newBalance<=0?'paid':'delinquent';
+  try{
+    showLoading('Saving payment...');
+    await fetch(SURL+'loans?id=eq.'+loanId,{
+      method:'PATCH',
+      headers:{'apikey':SKEY,'Authorization':'Bearer '+SKEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify({amount_paid:newPaid,payment_history:JSON.stringify(paymentHistory),status:newStatus})
+    });
+    hideLoading();
+    alert('Payment of '+fmtJ(amt)+' recorded.\nNew balance: '+fmtJ(newBalance)+(newBalance<=0?' — FULLY PAID!':''));
+    await loadDashboard();
+  }catch(e){hideLoading();alert('Failed to save: '+e.message);}
 }
 
 async function renderPayments(){
@@ -1473,14 +1585,14 @@ function renderROD(){
   var list=allApplications.filter(function(a){
     if(!a.rod_date)return false;
     var rod=new Date(a.rod_date),days=Math.floor((rod-today)/86400000);
-    return days<=90&&days>=0;
+    return days<=180&&days>=0;
   });
   var tbody=document.getElementById('rod-tbody');
-  if(!list.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted)">No soldiers with ROD within 3 months</td></tr>';return;}
+  if(!list.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted)">No soldiers with ROD within 6 months</td></tr>';return;}
   tbody.innerHTML=list.map(function(a){
     var app=a.applicants||{};
     var days=Math.floor((new Date(a.rod_date)-today)/86400000);
-    var urgency=days<=30?'color:var(--red);font-weight:700':days<=60?'color:var(--amber);font-weight:700':'color:var(--navy)';
+    var urgency=days<=60?'color:var(--red);font-weight:700':days<=120?'color:var(--amber);font-weight:700':'color:var(--navy)';
     return'<tr>'+
       '<td><strong style="color:var(--gold-dark)">'+a.reference_number+'</strong></td>'+
       '<td><strong>'+getName(app)+'</strong></td>'+
@@ -1562,7 +1674,23 @@ function openModal(id){
   html+='<div style="display:flex;flex-wrap:wrap;gap:8px">';
   if(a.status==='pending')html+='<button class="btn btn-success btn-sm" onclick="approveLoan(\''+a.id+'\',\''+( app.email||'')+'\',\''+clientName+'\',\''+a.reference_number+'\','+a.total_repayment+')">Approve Loan</button><button class="btn btn-danger btn-sm" onclick="rejectLoan(\''+a.id+'\',\''+( app.email||'')+'\',\''+clientName+'\',\''+a.reference_number+'\')">Reject Application</button>';
   if(a.status==='approved'||a.status==='overdue')html+='<button class="btn btn-success btn-sm" onclick="updateStatus(\''+a.id+'\',\'paid\')">Payment Received</button><button class="btn btn-danger btn-sm" onclick="updateStatus(\''+a.id+'\',\'delinquent\')">No Payment Made</button>';
-  if(a.status==='delinquent')html+='<button class="btn btn-success btn-sm" onclick="updateStatus(\''+a.id+'\',\'paid\')">Mark as Paid</button>';
+  if(a.status==='delinquent'){
+    var paidSoFar2=Number(a.amount_paid)||0;
+    var balance2=Math.max(0,Number(a.total_repayment)-paidSoFar2);
+    var ph=a.payment_history||[];if(typeof ph==='string'){try{ph=JSON.parse(ph);}catch(e){ph=[];}}
+    html+='<div style="background:#FEF2F2;border-radius:8px;padding:14px;margin-bottom:12px">';
+    html+='<div style="font-size:11px;font-weight:800;color:var(--red);text-transform:uppercase;margin-bottom:8px">Payment Tracker</div>';
+    html+='<div class="info-row"><span class="ik">Total Due</span><span class="iv">'+fmtJ(a.total_repayment)+'</span></div>';
+    html+='<div class="info-row"><span class="ik">Paid So Far</span><span class="iv" style="color:var(--green);font-weight:700">'+fmtJ(paidSoFar2)+'</span></div>';
+    html+='<div class="info-row"><span class="ik">Balance Remaining</span><span class="iv" style="color:var(--red);font-weight:700">'+fmtJ(balance2)+'</span></div>';
+    if(ph.length){
+      html+='<div style="margin-top:10px;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:6px">Payment History</div>';
+      html+=ph.map(function(p){return'<div style="font-size:12px;padding:4px 0;border-bottom:1px solid var(--border)">'+new Date(p.date).toLocaleDateString('en-JM')+' — Paid: '+fmtJ(p.amount)+' — Balance after: '+fmtJ(p.balance_after)+'</div>';}).join('');
+    }
+    html+='</div>';
+    html+='<button class="btn btn-success btn-sm" onclick="recordDelinquentPayment(\''+a.id+'\','+a.total_repayment+','+paidSoFar2+',\''+a.reference_number+'\')">Record Payment</button> ';
+    html+='<button class="btn btn-outline btn-sm" onclick="updateStatus(\''+a.id+'\',\'paid\')">Mark as Fully Paid</button>';
+  }
   html+='</div>';
   document.getElementById('modal-body').innerHTML=html;
   document.getElementById('client-modal').classList.add('open');
